@@ -1,12 +1,32 @@
 #include "Tile.h"
 
-Tile::Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize): GameObject(tileType, ren, initXPos, initYPos, tileSize)
+Tile::Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize): GameObject(ren, initXPos, initYPos, tileSize)
 {
 	switch (tileType)
 	{
 		case TileType::PLAIN: 
 		{
-			objTexture = TextureManager::LoadTextureByType(LoadTextureType::PLAIN_TILE, ren);
+			objTexture = TextureManager::LoadTextureByType(LoadTextureType::TILE_PLAIN, ren);
+			break;
+		}
+		case TileType::BUSH_BERRY:
+		{
+			objTexture = TextureManager::LoadTextureByType(LoadTextureType::TILE_BUSH_BERRY, ren);
+			break;
+		}
+		case TileType::BUSH_FIBER:
+		{
+			objTexture = TextureManager::LoadTextureByType(LoadTextureType::TILE_BUSH_FIBER, ren);
+			break;
+		}
+		case TileType::ROCK:
+		{
+			objTexture = TextureManager::LoadTextureByType(LoadTextureType::TILE_ROCK, ren);
+			break;
+		}
+		case TileType::TREE:
+		{
+			objTexture = TextureManager::LoadTextureByType(LoadTextureType::TILE_TREE, ren);
 			break;
 		}
 
@@ -50,13 +70,6 @@ void Tile::Update() {
 		else
 			available = true;
 	}
-}
-
-void Tile::Render()
-{
-	destRect.x = xpos;
-	destRect.y = ypos;
-	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }
 
 

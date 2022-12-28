@@ -9,7 +9,6 @@ public:
 	~HumanAgentBase();
 
 	void Update() override;
-	void Render() override;
 private:
 	unsigned short hunger = 100;
 	unsigned short thirst = 100;

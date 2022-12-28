@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Camera.h"
 
 GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
 {
@@ -14,21 +15,10 @@ GameObject::GameObject(SDL_Texture* texture, SDL_Renderer* ren, int initXPos, in
 	ConstructorHelper(ren, initXPos, initYPos, tileSize);
 }
 
-GameObject::GameObject(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
+// Constructor for already defined textures in child class.
+GameObject::GameObject(SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
 {
 	ConstructorHelper(ren, initXPos, initYPos, tileSize);
-
-	switch (tileType) 
-	{
-		case TileType::PLAIN: 
-		{
-			objTexture = TextureManager::LoadTexture("Textures/TempGrassTile.png", ren);
-			break;
-		}
-
-		default:
-			throw std::logic_error("Not Implemeneted");
-	}
 }
 
 
@@ -51,4 +41,11 @@ void GameObject::ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos
 GameObject::~GameObject()
 {
 
+}
+
+void GameObject::Render()
+{
+	destRect.x = xpos - Camera::xPos;
+	destRect.y = ypos - Camera::yPos;
+	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }

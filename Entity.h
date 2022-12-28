@@ -9,7 +9,6 @@ public:
 	~Entity();
 
 	virtual void Update() override = 0;
-	virtual void Render() override = 0;
 
 protected:
 	unsigned short health = 100;

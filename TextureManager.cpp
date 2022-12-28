@@ -14,9 +14,25 @@ SDL_Texture* TextureManager::LoadTextureByType(LoadTextureType loadTextureType, 
 {
 	switch (loadTextureType) 
 	{
-		case LoadTextureType::PLAIN_TILE: 
+		case LoadTextureType::TILE_PLAIN: 
 		{
-			return LoadTexture("Textures/TempGrassTile.png", ren);
+			return LoadTexture("Textures/GrassTilePlain.png", ren);
+		}
+		case LoadTextureType::TILE_BUSH_BERRY:
+		{
+			return LoadTexture("Textures/GrassTileWithBushBerry.png", ren);
+		}
+		case LoadTextureType::TILE_BUSH_FIBER:
+		{
+			return LoadTexture("Textures/GrassTileWithBushFiber.png", ren);
+		}
+		case LoadTextureType::TILE_ROCK:
+		{
+			return LoadTexture("Textures/GrassTileWithRock.png", ren);
+		}
+		case LoadTextureType::TILE_TREE:
+		{
+			return LoadTexture("Textures/GrassTileWithTree.png", ren);
 		}
 
 		default:

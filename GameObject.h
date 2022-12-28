@@ -9,12 +9,12 @@ class GameObject
 public:
 	GameObject(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
 	GameObject(SDL_Texture* texture, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
-	GameObject(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
+	GameObject(SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
 	void ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
 	~GameObject();
 
 	virtual void Update() = 0;
-	virtual void Render() = 0;
+	virtual void Render();
 
 protected:
 	int xpos = 0;

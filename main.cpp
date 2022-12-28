@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
 	game = new Game();
 
-	game->Init("Primitive Survival Environment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 640, false);
+	game->Init("Primitive Survival Environment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 900, false);
 
 	while (game->Running()) 
 	{

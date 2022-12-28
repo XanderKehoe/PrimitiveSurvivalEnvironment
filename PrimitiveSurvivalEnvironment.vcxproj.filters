@@ -51,6 +51,9 @@
     <ClCompile Include="MapGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -74,30 +77,18 @@
     <ClInclude Include="MapGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\TempAnimal.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Textures\TempBushBerry.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Textures\TempBushFiber.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\TempCliffTile.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\TempDoorTile.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Textures\TempGrassTile.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Textures\TempGrassTileWithBoulder.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Textures\TempGrassTileWithTree.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\TempHuman.png">
@@ -107,6 +98,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\TempWaterTile.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithTree.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithRock.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\Downloads\GrassTilePlain.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithBushBerry.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithBushFiber.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

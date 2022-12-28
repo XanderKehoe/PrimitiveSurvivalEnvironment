@@ -2,8 +2,13 @@
 #include "HumanAgentBase.h"
 #include "Tile.h"
 #include "MapGenerator.h"
+#include "Camera.h"
+
+SDL_Event Game::event;
 
 GameObject* player1;
+
+unsigned short cameraSpeed = 4;
 
 Game::Game()
 {
@@ -26,6 +31,8 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		std::cout << "Subsystems Initialied!..." << std::endl;
+
+		Camera::Init(width, height, TILE_SIZE, MAP_SIZE);
 
 		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		if (window)
@@ -55,12 +62,64 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 
 void Game::HandleEvents()
 {
-	SDL_Event event;
+	
 	SDL_PollEvent(&event);
 	switch (event.type) {
 		case SDL_QUIT:
+		{
 			isRunning = false;
 			break;
+		}
+
+		case SDL_KEYDOWN: 
+		{
+			switch (Game::event.key.keysym.sym) 
+			{
+				case SDLK_w: 
+				{
+					//std::cout << "W" << std::endl;
+					Camera::Move(0, -1 * cameraSpeed);
+					break;
+				}
+				case SDLK_a:
+				{
+					//std::cout << "A" << std::endl;
+					Camera::Move(-1 * cameraSpeed, 0);
+					break;
+				}
+				case SDLK_s:
+				{
+					//std::cout << "S" << std::endl;
+					Camera::Move(0, 1 * cameraSpeed);
+					break;
+				}
+				case SDLK_d:
+				{
+					//std::cout << "D" << std::endl;
+					Camera::Move(1 * cameraSpeed, 0);
+					break;
+				}
+			}
+			break;
+		}
+
+		case SDL_MOUSEWHEEL:
+		{
+			// control camera speed
+			if (Game::event.wheel.y < 0) // scrolled down
+			{
+				cameraSpeed /= 2;
+			}
+			else { // scrolled up
+				if (cameraSpeed < 128) // prevent overflow
+					cameraSpeed *= 2;
+			}
+
+			if (cameraSpeed < 1)
+				cameraSpeed = 1;
+
+			break;
+		}
 
 		default:
 			break;

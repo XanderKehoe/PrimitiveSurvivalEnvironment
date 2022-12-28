@@ -15,10 +15,3 @@ void HumanAgentBase::Update()
 	// not implemented 
 }
 
-void HumanAgentBase::Render() 
-{
-	destRect.x = xpos;
-	destRect.y = ypos;
-	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
-}
-

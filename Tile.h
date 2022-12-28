@@ -9,18 +9,12 @@ public:
 
 	Entity *containedEntity = nullptr;
 
-	static SDL_Texture* textureSheetBushBerry;
-	static SDL_Texture* textureSheetBushFiber;
-	static SDL_Texture* textureSheetRock;
-	static SDL_Texture* textureSheetTree;
-
 	bool HumanInteractionAvailable(); // is this tile interactable by humans?
 	bool HumanInteract(class HumanAgentBase* humanAgent); // attempts human interaction of this tile, returns true for success, returns false otherwise. // forward declaration required here
 
 	void Update() override;
-	void Render() override;
 
-	TileType tileResourceType = TileType::PLAIN;
+	TileType tileResourceType;
 	bool available = true;
 	unsigned short currentResourceCount = 5;
 	const unsigned short STARTING_RESOURCE_COUNT = 5;
