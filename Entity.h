@@ -1,11 +1,6 @@
 #pragma once
 
-class Entity;
-class GameObject;
-
 #include "GameObject.h"
-//#include "Tile.h"
-
 
 class Entity : public GameObject
 {

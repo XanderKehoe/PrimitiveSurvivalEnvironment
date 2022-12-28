@@ -37,7 +37,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "Renderer created!" << std::endl;
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-			LoadTextures();
+			Tile::LoadTextures(renderer);
 		}
 		else
 			std::cout << "FAILED to create Renderer" << std::endl;
@@ -85,14 +85,4 @@ void Game::Clean()
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 	std::cout << "Game cleaned" << std::endl;
-}
-
-void Game::LoadTextures() 
-{
-	/*
-	Tile::textureSheetBushBerry = TextureManager::LoadTexture("Textures/TempBushBerry.png", renderer);
-	Tile::textureSheetBushFiber = TextureManager::LoadTexture("Textures/TempBushFiber.png", renderer);
-	Tile::textureSheetRock = TextureManager::LoadTexture("Textures/TempGrassTileWithBoulder.png", renderer);
-	Tile::textureSheetTree = TextureManager::LoadTexture("Textures/TempGrassTileWithTree.png", renderer);
-	*/
 }

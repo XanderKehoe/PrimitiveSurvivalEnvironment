@@ -1,7 +1,5 @@
 #pragma once
 
-class HumanBaseAgent;
-
 #include "SDL.h"
 #include "SDL_image.h"
 #include "TextureManager.h"
@@ -18,7 +16,7 @@ public:
 
 	const static unsigned int TILE_SIZE = 64;
 	const static unsigned int MAP_SIZE = 32; // MAP_SIZE x MAP_SIZE will be the total size of the map in tiles.
-	class Tile* map[MAP_SIZE][MAP_SIZE];
+	class Tile* map[MAP_SIZE][MAP_SIZE]; // forward declaration example here
 
 	void Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
 	
@@ -26,8 +24,6 @@ public:
 	void Update();
 	void Render();
 	void Clean();
-
-	void LoadTextures();
 
 	bool Running() { return isRunning; }
 

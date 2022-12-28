@@ -42,4 +42,14 @@ void Tile::Update() {
 	}
 }
 
+void Tile::LoadTextures(SDL_Renderer* renderer)
+{
+	/*
+	textureSheetBushBerry = TextureManager::LoadTexture("Textures/TempBushBerry.png", renderer);
+	textureSheetBushFiber = TextureManager::LoadTexture("Textures/TempBushFiber.png", renderer);
+	textureSheetRock = TextureManager::LoadTexture("Textures/TempGrassTileWithBoulder.png", renderer);
+	textureSheetTree = TextureManager::LoadTexture("Textures/TempGrassTileWithTree.png", renderer);
+	*/
+}
+
 

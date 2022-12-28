@@ -1,10 +1,6 @@
 #pragma once
 
-class Entity;
-class GameObject;
-
 #include "Entity.h"
-//include "SDL.h"
 
 class HumanAgentBase : public Entity
 {

@@ -1,4 +1,3 @@
-/*
 #include "MapGenerator.h"
 
 void MapGenerator::GenerateMap(Tile* map[Game::MAP_SIZE][Game::MAP_SIZE], SDL_Renderer* ren)
@@ -11,5 +10,4 @@ void MapGenerator::GenerateMap(Tile* map[Game::MAP_SIZE][Game::MAP_SIZE], SDL_Re
 		}
 	}
 }
-*/
 

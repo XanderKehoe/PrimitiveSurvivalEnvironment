@@ -15,9 +15,11 @@ public:
 	static SDL_Texture* textureSheetTree;
 
 	bool HumanInteractionAvailable(); // is this tile interactable by humans?
-	bool HumanInteract(class HumanAgentBase* humanAgent); // attempts human interaction of this tile, returns true for success, returns false otherwise.
+	bool HumanInteract(class HumanAgentBase* humanAgent); // attempts human interaction of this tile, returns true for success, returns false otherwise. // forward declaration required here
 
 	void Update() override;
+
+	static void LoadTextures(SDL_Renderer* renderer);
 
 	TileType tileResourceType = TileType::PLAIN;
 	bool available = true;
