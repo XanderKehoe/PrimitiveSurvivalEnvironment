@@ -4,7 +4,7 @@
 class Tile : public GameObject
 {
 public:
-	Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos);
+	Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
 	~Tile();
 
 	Entity *containedEntity = nullptr;
@@ -18,8 +18,7 @@ public:
 	bool HumanInteract(class HumanAgentBase* humanAgent); // attempts human interaction of this tile, returns true for success, returns false otherwise. // forward declaration required here
 
 	void Update() override;
-
-	static void LoadTextures(SDL_Renderer* renderer);
+	void Render() override;
 
 	TileType tileResourceType = TileType::PLAIN;
 	bool available = true;

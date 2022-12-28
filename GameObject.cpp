@@ -1,37 +1,38 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos)
+GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
 {
 	objTexture = TextureManager::LoadTexture(texturesheet, ren);
 
-	ConstructorHelper(ren, initXPos, initYPos);
+	ConstructorHelper(ren, initXPos, initYPos, tileSize);
 }
 
-GameObject::GameObject(SDL_Texture* texture, SDL_Renderer* ren, int initXPos, int initYPos)
+GameObject::GameObject(SDL_Texture* texture, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
 {
 	objTexture = texture;
 
-	ConstructorHelper(ren, initXPos, initYPos);
+	ConstructorHelper(ren, initXPos, initYPos, tileSize);
 }
 
-GameObject::GameObject(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos)
+GameObject::GameObject(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
 {
+	ConstructorHelper(ren, initXPos, initYPos, tileSize);
+
 	switch (tileType) 
 	{
 		case TileType::PLAIN: 
 		{
 			objTexture = TextureManager::LoadTexture("Textures/TempGrassTile.png", ren);
+			break;
 		}
 
 		default:
 			throw std::logic_error("Not Implemeneted");
 	}
-
-	ConstructorHelper(ren, initXPos, initYPos);
 }
 
 
-void GameObject::ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos)
+void GameObject::ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos, int tileSize)
 {
 	renderer = ren;
 
@@ -40,8 +41,8 @@ void GameObject::ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos
 	srcRect.x = 0;
 	srcRect.y = 0;
 
-	destRect.h = 64;
-	destRect.w = 64;
+	destRect.h = tileSize;
+	destRect.w = tileSize;
 
 	xpos = initXPos;
 	ypos = initYPos;
@@ -49,11 +50,5 @@ void GameObject::ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos
 
 GameObject::~GameObject()
 {
-}
 
-void GameObject::Render()
-{
-	destRect.x = xpos;
-	destRect.y = ypos;
-	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }

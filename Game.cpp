@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "HumanAgentBase.h"
 #include "Tile.h"
+#include "MapGenerator.h"
 
 GameObject* player1;
 
@@ -37,7 +38,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "Renderer created!" << std::endl;
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-			Tile::LoadTextures(renderer);
+			MapGenerator::GenerateMap(map, renderer, TILE_SIZE);
 		}
 		else
 			std::cout << "FAILED to create Renderer" << std::endl;
@@ -49,7 +50,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	player1 = new HumanAgentBase("Textures/TempHuman.png", renderer, 5, 5);
+	player1 = new HumanAgentBase("Textures/TempHuman.png", renderer, 5, 5, TILE_SIZE);
 }
 
 void Game::HandleEvents()
@@ -69,13 +70,31 @@ void Game::HandleEvents()
 void Game::Update() 
 {
 	player1->Update();
+
+	for (unsigned int i = 0; i < MAP_SIZE; ++i)
+	{
+		for (unsigned int j = 0; j < MAP_SIZE; ++j) 
+		{
+			map[i][j]->Update();
+		}
+	}
 }
 
 void Game::Render()
 {
 	SDL_RenderClear(renderer);
 	// add stuff to render here
+
+	for (unsigned int i = 0; i < MAP_SIZE; ++i)
+	{
+		for (unsigned int j = 0; j < MAP_SIZE; ++j)
+		{
+			map[i][j]->Render();
+		}
+	}
+
 	player1->Render();
+
 	SDL_RenderPresent(renderer);
 }
 

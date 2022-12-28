@@ -1,8 +1,18 @@
 #include "Tile.h"
 
-Tile::Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos): GameObject(tileType, ren, initXPos, initYPos)
+Tile::Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize): GameObject(tileType, ren, initXPos, initYPos, tileSize)
 {
+	switch (tileType)
+	{
+		case TileType::PLAIN: 
+		{
+			objTexture = TextureManager::LoadTextureByType(LoadTextureType::PLAIN_TILE, ren);
+			break;
+		}
 
+		default:
+			throw std::logic_error("Not Implemented");
+	}
 }
 
 bool Tile::HumanInteractionAvailable()
@@ -42,14 +52,11 @@ void Tile::Update() {
 	}
 }
 
-void Tile::LoadTextures(SDL_Renderer* renderer)
+void Tile::Render()
 {
-	/*
-	textureSheetBushBerry = TextureManager::LoadTexture("Textures/TempBushBerry.png", renderer);
-	textureSheetBushFiber = TextureManager::LoadTexture("Textures/TempBushFiber.png", renderer);
-	textureSheetRock = TextureManager::LoadTexture("Textures/TempGrassTileWithBoulder.png", renderer);
-	textureSheetTree = TextureManager::LoadTexture("Textures/TempGrassTileWithTree.png", renderer);
-	*/
+	destRect.x = xpos;
+	destRect.y = ypos;
+	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }
 
 

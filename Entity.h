@@ -5,10 +5,11 @@
 class Entity : public GameObject
 {
 public:
-	Entity(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos);
+	Entity(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
 	~Entity();
 
 	virtual void Update() override = 0;
+	virtual void Render() override = 0;
 
 protected:
 	unsigned short health = 100;

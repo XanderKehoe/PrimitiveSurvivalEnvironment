@@ -9,3 +9,17 @@ SDL_Texture* TextureManager::LoadTexture(const char* texture, SDL_Renderer* ren)
 
 	return tex;
 }
+
+SDL_Texture* TextureManager::LoadTextureByType(LoadTextureType loadTextureType, SDL_Renderer* ren)
+{
+	switch (loadTextureType) 
+	{
+		case LoadTextureType::PLAIN_TILE: 
+		{
+			return LoadTexture("Textures/TempGrassTile.png", ren);
+		}
+
+		default:
+			throw std::logic_error("Not Implemented");
+	}
+}
