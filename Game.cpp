@@ -57,7 +57,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	player1 = new HumanAgentBase("Textures/TempHuman.png", renderer, 5, 5, TILE_SIZE);
+	player1 = new HumanAgentBase("Textures/TempHuman.png", renderer, 4000, 4000, TILE_SIZE);
 }
 
 void Game::HandleEvents()
@@ -97,6 +97,22 @@ void Game::HandleEvents()
 				{
 					//std::cout << "D" << std::endl;
 					Camera::Move(1 * cameraSpeed, 0);
+					break;
+				}
+				case SDLK_j:
+				{
+					Camera::AdjustZoom(true);
+
+					std::cout << "Zoom: " << Camera::zoom << std::endl;
+
+					break;
+				}
+				case SDLK_k: 
+				{
+					Camera::AdjustZoom(false);
+
+					std::cout << "Zoom: " << Camera::zoom << std::endl;
+
 					break;
 				}
 			}

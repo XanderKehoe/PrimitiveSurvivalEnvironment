@@ -7,18 +7,20 @@ enum class TileType { PLAIN, CLIFF, WATER, BUSH_BERRY, BUSH_FIBER, TREE, ROCK, D
 class GameObject
 {
 public:
-	GameObject(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
-	GameObject(SDL_Texture* texture, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
-	GameObject(SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
-	void ConstructorHelper(SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
+	GameObject(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
+	GameObject(SDL_Texture* texture, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
+	GameObject(SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
+	void ConstructorHelper(SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
 	~GameObject();
 
 	virtual void Update() = 0;
 	virtual void Render();
 
 protected:
-	int xpos = 0;
-	int ypos = 0;
+	unsigned long int xpos = 0;
+	unsigned long int ypos = 0;
+
+	int originalTileSize;
 
 	SDL_Rect destRect;
 	SDL_Rect srcRect;

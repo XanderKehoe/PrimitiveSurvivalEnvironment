@@ -5,7 +5,7 @@
 class HumanAgentBase : public Entity
 {
 public:
-	HumanAgentBase(const char* texturesheet, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
+	HumanAgentBase(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
 	~HumanAgentBase();
 
 	void Update() override;
