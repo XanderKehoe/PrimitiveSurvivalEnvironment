@@ -36,8 +36,8 @@ void GameObject::ConstructorHelper(SDL_Renderer* ren, unsigned long int initXPos
 
 	originalTileSize = tileSize;
 
-	xpos = initXPos;
-	ypos = initYPos;
+	gridXPos = initXPos;
+	gridYPos = initYPos;
 }
 
 GameObject::~GameObject()
@@ -49,7 +49,27 @@ void GameObject::Render()
 {
 	destRect.h = originalTileSize / Camera::zoom;
 	destRect.w = originalTileSize / Camera::zoom;
-	destRect.x = (xpos / Camera::zoom) - Camera::xPos;
-	destRect.y = (ypos / Camera::zoom) - Camera::yPos;
+	destRect.x = ((gridXPos * originalTileSize) / Camera::zoom) - Camera::xPos;
+	destRect.y = ((gridYPos * originalTileSize) / Camera::zoom) - Camera::yPos;
 	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
+}
+
+void GameObject::Move(int x, int y) 
+{
+	gridXPos += x;
+	gridYPos += y;
+
+	if (gridXPos < 0)
+		gridXPos = 0;
+
+	if (gridYPos < 0)
+		gridYPos = 0;
+
+	if (gridXPos > Game::MAP_SIZE - 1)
+		gridXPos = Game::MAP_SIZE - 1;
+
+	if (gridYPos > Game::MAP_SIZE - 1)
+		gridYPos = Game::MAP_SIZE - 1;
+
+	std::cout << "Moving to [" << gridXPos << "][" << gridYPos << "]" << std::endl;
 }

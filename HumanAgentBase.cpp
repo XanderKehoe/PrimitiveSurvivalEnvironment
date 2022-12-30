@@ -9,9 +9,9 @@ HumanAgentBase::~HumanAgentBase()
 {
 }
 
-void HumanAgentBase::Update() 
+void HumanAgentBase::Update()
 {
-	// xpos += 1;
+	Move(0, 1);
 	// not implemented 
 }
 

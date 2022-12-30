@@ -14,9 +14,9 @@ public:
 	Game();
 	~Game();
 
-	const static unsigned int TILE_SIZE = 64;
-	const static unsigned int MAP_SIZE = 128; // MAP_SIZE x MAP_SIZE will be the total size of the map in tiles.
-	class Tile* map[MAP_SIZE][MAP_SIZE]; // forward declaration example here
+	const static unsigned int TILE_SIZE = 64; // the size of each tile
+	const static unsigned int MAP_SIZE = 32; // MAP_SIZE x MAP_SIZE will be the total size of the map in tiles.
+	class Tile* map[MAP_SIZE][MAP_SIZE]; // the 2d array containing all the tiles, creating the map. Also an example of forward declaration here.
 
 	static SDL_Event event;
 

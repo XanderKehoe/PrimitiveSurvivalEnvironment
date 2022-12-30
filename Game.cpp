@@ -57,12 +57,11 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	player1 = new HumanAgentBase("Textures/TempHuman.png", renderer, 4000, 4000, TILE_SIZE);
+	player1 = new HumanAgentBase("Textures/HumanAgent.png", renderer, 3, 3, TILE_SIZE);
 }
 
 void Game::HandleEvents()
 {
-	
 	SDL_PollEvent(&event);
 	switch (event.type) {
 		case SDL_QUIT:

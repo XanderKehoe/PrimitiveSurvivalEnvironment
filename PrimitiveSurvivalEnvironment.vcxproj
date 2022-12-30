@@ -96,13 +96,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\libs;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python38.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
@@ -114,15 +114,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\libs;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python38.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
@@ -132,13 +132,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\libs;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python38.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
@@ -150,15 +150,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Xander\AppData\Local\Programs\Python\Python38\libs;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\lib\x64;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>python38.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
@@ -170,6 +170,7 @@
     <ClCompile Include="HumanAgentBase.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapGenerator.cpp" />
+    <ClCompile Include="PythonInterface.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HumanAgentBase.h" />
     <ClInclude Include="MapGenerator.h" />
+    <ClInclude Include="PythonInterface.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>
@@ -189,10 +191,10 @@
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithBushFiber.png" />
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithRock.png" />
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithTree.png" />
+    <Image Include="Textures\HumanAgent.png" />
     <Image Include="Textures\TempAnimal.png" />
     <Image Include="Textures\TempCliffTile.png" />
     <Image Include="Textures\TempDoorTile.png" />
-    <Image Include="Textures\TempHuman.png" />
     <Image Include="Textures\TempWallTile.png" />
     <Image Include="Textures\TempWaterTile.png" />
   </ItemGroup>

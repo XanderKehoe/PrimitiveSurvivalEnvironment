@@ -16,14 +16,17 @@ public:
 	virtual void Update() = 0;
 	virtual void Render();
 
-protected:
-	unsigned long int xpos = 0;
-	unsigned long int ypos = 0;
+	void Move(int x, int y);
 
+protected:
 	int originalTileSize;
 
 	SDL_Rect destRect;
 	SDL_Rect srcRect;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Texture* objTexture = nullptr;
+
+private:
+	int gridXPos = 0;
+	int gridYPos = 0;
 };

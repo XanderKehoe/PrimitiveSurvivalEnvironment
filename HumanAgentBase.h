@@ -10,8 +10,8 @@ public:
 
 	void Update() override;
 private:
-	unsigned short hunger = 100;
-	unsigned short thirst = 100;
-	unsigned short weariness = 100;
+	unsigned short hunger = 100; // the health of the human agent, entity dies if this reaches 0.
+	unsigned short thirst = 100; // the health of the human agent, entity dies if this reaches 0.
+	unsigned short weariness = 100; // the health of the human agent, entity is forced asleep if this reaches 0.
 };
 

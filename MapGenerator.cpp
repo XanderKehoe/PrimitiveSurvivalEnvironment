@@ -9,8 +9,8 @@ void MapGenerator::GenerateMap(Tile* map[Game::MAP_SIZE][Game::MAP_SIZE], SDL_Re
 	{
 		for (int j = 0; j < Game::MAP_SIZE; j++) 
 		{
-			int initXPos = i * tileSize;
-			int initYPos = j * tileSize;
+			int initXPos = i;
+			int initYPos = j;
 
 			TileType randTileType;
 

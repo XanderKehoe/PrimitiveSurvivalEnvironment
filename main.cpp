@@ -1,15 +1,21 @@
+#include <iostream>
 #include "Game.h"
+#include "PythonInterface.h"
 
 Game* game = nullptr;
 
 int main(int argc, char *argv[])
 {
-	const int FPS = 60;
-	const int frameDelay = 1000 / FPS;
-	bool toggleFps = true;
+	PythonInterface::Initialize();
+	
+	PythonInterface::CallPython("PythonFile", "PrintSomething", PythonInterface::GetTestArgs());
 
-	Uint32 frameStart;
-	int frameTime;
+	const int FPS = 1;
+	const int frameDelay = 1000 / FPS;
+	bool training = false;
+
+	Uint32 lastUpdateTime = SDL_GetTicks();
+	int timeSinceLastUpdate;
 
 	game = new Game();
 
@@ -17,21 +23,26 @@ int main(int argc, char *argv[])
 
 	while (game->Running()) 
 	{
-		frameStart = SDL_GetTicks();
-
 		game->HandleEvents();
-		game->Update();
-		game->Render();
-
-		if (toggleFps)
+		
+		if (!training)
 		{
-			frameTime = SDL_GetTicks() - frameStart;
+			timeSinceLastUpdate = SDL_GetTicks() - lastUpdateTime;
 
-			if (frameDelay > frameTime) 
+			if (timeSinceLastUpdate > FPS * 1000) 
 			{
-				SDL_Delay(frameDelay - frameTime);
+				game->Update();
+
+				lastUpdateTime = SDL_GetTicks();
 			}
+
 		}
+		else 
+		{
+			game->Update();
+		}
+
+		game->Render();
 	}
 
 	game->Clean();

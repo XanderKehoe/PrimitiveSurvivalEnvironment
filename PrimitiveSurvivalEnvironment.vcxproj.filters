@@ -54,6 +54,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PythonInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -80,6 +83,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PythonInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\TempAnimal.png">
@@ -89,9 +95,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\TempDoorTile.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Textures\TempHuman.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\TempWallTile.png">
@@ -113,6 +116,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithBushFiber.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\HumanAgent.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

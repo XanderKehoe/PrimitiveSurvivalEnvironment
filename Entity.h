@@ -11,12 +11,11 @@ public:
 	virtual void Update() override = 0;
 
 protected:
-	unsigned short health = 100;
+	unsigned short health = 100; // the health of the entity, entity dies if this reaches 0.
 	unsigned short moveTimerMax = 1; // how long entity has to wait to move again.
 	unsigned short moveCurrentCooldown = 0; // if 0, entity can move
 
 	//Tile* currentTile = nullptr;
 
 	bool canMove() { return moveCurrentCooldown == 0; }
-	void move();
 };

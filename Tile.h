@@ -14,12 +14,12 @@ public:
 
 	void Update() override;
 
-	TileType tileResourceType;
-	bool available = true;
-	unsigned short currentResourceCount = 5;
-	const unsigned short STARTING_RESOURCE_COUNT = 5;
-	unsigned int currentRespawnTime = 0;
-	const unsigned int RESOURCE_RESPAWN_TIME = 600;
+	TileType tileType; // the type of this tile
+	bool available = true; // determines if this tile available to interact with, based on tile type.
+	unsigned short currentResourceCount = 5; // the number of resources this tile currently has, only applicable for TREE, ROCK, and BUSH types.
+	const unsigned short STARTING_RESOURCE_COUNT = 5; // the number of resources this tile starts with, only applicable for TREE, ROCK, and BUSH types.
+	unsigned int currentRespawnTime = 0; // When unavailable, this variable counts down to 0 and when it does, this tile becomes available for interaction again.
+	const unsigned int RESOURCE_RESPAWN_TIME = 600; // The value currentRespawnTime is set to when the available bool is set from true -> false.
 };
 
 
