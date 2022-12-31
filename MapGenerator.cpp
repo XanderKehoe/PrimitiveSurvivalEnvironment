@@ -1,13 +1,13 @@
 #include "MapGenerator.h"
 #include <time.h>
 
-void MapGenerator::GenerateMap(Tile* map[Game::MAP_SIZE][Game::MAP_SIZE], SDL_Renderer* ren, int tileSize)
+void MapGenerator::GenerateMap(Tile* map[Config::MAP_SIZE][Config::MAP_SIZE], SDL_Renderer* ren)
 {
 	srand((unsigned)time(NULL));
 
-	for (int i = 0; i < Game::MAP_SIZE; i++) 
+	for (int i = 0; i < Config::MAP_SIZE; i++)
 	{
-		for (int j = 0; j < Game::MAP_SIZE; j++) 
+		for (int j = 0; j < Config::MAP_SIZE; j++)
 		{
 			int initXPos = i;
 			int initYPos = j;
@@ -36,7 +36,7 @@ void MapGenerator::GenerateMap(Tile* map[Game::MAP_SIZE][Game::MAP_SIZE], SDL_Re
 				randTileType = TileType::PLAIN;
 			}
 
-			map[i][j] = new Tile(randTileType, ren, initXPos, initYPos, tileSize);
+			map[i][j] = new Tile(randTileType, ren, initXPos, initYPos);
 			//std::cout << "new tile at [" << i << "][" << j << "] created." << std::endl;
 		}
 	}

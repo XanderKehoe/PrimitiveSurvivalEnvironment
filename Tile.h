@@ -1,10 +1,11 @@
 #pragma once
 #include "HumanAgentBase.h"
+#include "Config.h"
 
 class Tile : public GameObject
 {
 public:
-	Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize);
+	Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos);
 	~Tile();
 
 	Entity *containedEntity = nullptr;

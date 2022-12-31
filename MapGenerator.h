@@ -4,7 +4,7 @@
 class MapGenerator
 {
 public:
-	static void GenerateMap(Tile* map[Game::MAP_SIZE][Game::MAP_SIZE], SDL_Renderer* ren, int tileSize); // Populates the given map
+	static void GenerateMap(Tile* map[Config::MAP_SIZE][Config::MAP_SIZE], SDL_Renderer* ren); // Populates the given map
 };
 
 

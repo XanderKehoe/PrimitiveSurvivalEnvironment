@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "TextureManager.h"
+#include "Config.h"
 //#include "GameObject.h"
 //#include "HumanAgentBase.h" //DO NOT USE //except we kinda have to use it. // no we don't, put it in the .cpp file instead! (4 Hours of my life wasted)
 //#include "Tile.h" // same here, put include in .cpp file and use forward declaration in header file (aka here)
@@ -14,9 +15,7 @@ public:
 	Game();
 	~Game();
 
-	const static unsigned int TILE_SIZE = 64; // the size of each tile
-	const static unsigned int MAP_SIZE = 32; // MAP_SIZE x MAP_SIZE will be the total size of the map in tiles.
-	class Tile* map[MAP_SIZE][MAP_SIZE]; // the 2d array containing all the tiles, creating the map. Also an example of forward declaration here.
+	class Tile* map[Config::MAP_SIZE][Config::MAP_SIZE]; // the 2d array containing all the tiles, creating the map. Also an example of forward declaration here.
 
 	static SDL_Event event;
 

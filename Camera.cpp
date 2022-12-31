@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Config.h"
 #include <iostream>
 
 // static variables are declared here to get around lnk2001 (unresolved external symbol) error.
@@ -14,17 +15,13 @@ int Camera::SCREEN_HEIGHT = 640;
 int Camera::LEVEL_WIDTH = 800;
 int Camera::LEVEL_HEIGHT = 640;
 
-int Camera::TILE_SIZE;
-
-void Camera::Init(int screenWidth, int screenHeight, int tileSize, int mapSize)
+void Camera::Init(int screenWidth, int screenHeight)
 {
 	SCREEN_WIDTH = screenWidth;
 	SCREEN_HEIGHT = screenHeight;
 
-	LEVEL_WIDTH = tileSize * mapSize;
-	LEVEL_HEIGHT = tileSize * mapSize;
-
-	TILE_SIZE = tileSize;
+	LEVEL_WIDTH = Config::TILE_SIZE * Config::MAP_SIZE;
+	LEVEL_HEIGHT = Config::TILE_SIZE * Config::MAP_SIZE;
 
 	//std::cout << "tileSize: " << tileSize << " * mapSize: " << mapSize << " = " << (tileSize * mapSize) << std::endl;
 }

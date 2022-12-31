@@ -19,11 +19,17 @@
     <Filter Include="Header Files\Tile">
       <UniqueIdentifier>{0ae98b1b-8b41-4ef5-9f9f-79bc53ae1c19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Entity">
-      <UniqueIdentifier>{2570f33d-cbe4-4751-9da1-8644b46a8fe5}</UniqueIdentifier>
+    <Filter Include="Source Files\GameObject">
+      <UniqueIdentifier>{b6da9978-0f9c-4b90-aac4-016a38abafe7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Entity">
+    <Filter Include="Source Files\GameObject\Entity">
       <UniqueIdentifier>{4db389bd-2bde-46ac-b336-8a6fba97d2c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject">
+      <UniqueIdentifier>{2c6b00fc-f25e-4b62-80d5-9cfecf1d18e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject\Entity">
+      <UniqueIdentifier>{2570f33d-cbe4-4751-9da1-8644b46a8fe5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,14 +42,11 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Entity</Filter>
+      <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
     <ClCompile Include="HumanAgentBase.cpp">
-      <Filter>Source Files\Entity</Filter>
+      <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Tile</Filter>
@@ -57,6 +60,9 @@
     <ClCompile Include="PythonInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -65,17 +71,14 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Header Files\Tile</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files\Entity</Filter>
+      <Filter>Header Files\GameObject\Entity</Filter>
     </ClInclude>
     <ClInclude Include="HumanAgentBase.h">
-      <Filter>Header Files\Entity</Filter>
+      <Filter>Header Files\GameObject\Entity</Filter>
     </ClInclude>
     <ClInclude Include="MapGenerator.h">
       <Filter>Header Files</Filter>
@@ -85,6 +88,15 @@
     </ClInclude>
     <ClInclude Include="PythonInterface.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardType.h">
+      <Filter>Header Files\GameObject\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ public:
 
 	static unsigned short zoom; // Determines how far out the camera is zoomed, higher values means camera shows more tiles.
 
-	static void Init(int screenWidth, int screenHeight, int tileSize, int mapSize); // Initializes the camera, must be called before any other use of the camera.
+	static void Init(int screenWidth, int screenHeight); // Initializes the camera, must be called before any other use of the camera.
 	static void Move(int x, int y); // Moves the camera by the given input amount
 
 	static int SCREEN_WIDTH; // The width of the window the environment is displayed on
@@ -24,7 +24,6 @@ public:
 	*/
 	static void AdjustZoom(bool increase);
 private:
-	static int TILE_SIZE; // the size of each tile in the map
 	static void CheckAndAdjustOutOfBounds(); // Checks if camera is out of bounds by looking at its current coordinates and zoom, and readjust if necessary.
 };
 

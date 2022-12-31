@@ -176,12 +176,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HumanAgentBase.h" />
     <ClInclude Include="MapGenerator.h" />
     <ClInclude Include="PythonInterface.h" />
+    <ClInclude Include="RewardType.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
   </ItemGroup>

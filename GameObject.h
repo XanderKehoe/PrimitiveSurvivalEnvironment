@@ -7,10 +7,10 @@ enum class TileType { PLAIN, CLIFF, WATER, BUSH_BERRY, BUSH_FIBER, TREE, ROCK, D
 class GameObject
 {
 public:
-	GameObject(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
-	GameObject(SDL_Texture* texture, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
-	GameObject(SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
-	void ConstructorHelper(SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
+	GameObject(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
+	GameObject(SDL_Texture* texture, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
+	GameObject(SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
+	void ConstructorHelper(SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~GameObject();
 
 	virtual void Update() = 0;

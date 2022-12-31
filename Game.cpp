@@ -32,7 +32,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	{
 		std::cout << "Subsystems Initialied!..." << std::endl;
 
-		Camera::Init(width, height, TILE_SIZE, MAP_SIZE);
+		Camera::Init(width, height);
 
 		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		if (window)
@@ -45,7 +45,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "Renderer created!" << std::endl;
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-			MapGenerator::GenerateMap(map, renderer, TILE_SIZE);
+			MapGenerator::GenerateMap(map, renderer);
 		}
 		else
 			std::cout << "FAILED to create Renderer" << std::endl;
@@ -57,7 +57,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	player1 = new HumanAgentBase("Textures/HumanAgent.png", renderer, 3, 3, TILE_SIZE);
+	player1 = new HumanAgentBase("Textures/HumanAgent.png", renderer, 3, 3);
 }
 
 void Game::HandleEvents()
@@ -145,9 +145,9 @@ void Game::Update()
 {
 	player1->Update();
 
-	for (unsigned int i = 0; i < MAP_SIZE; ++i)
+	for (unsigned int i = 0; i < Config::MAP_SIZE; ++i)
 	{
-		for (unsigned int j = 0; j < MAP_SIZE; ++j) 
+		for (unsigned int j = 0; j < Config::MAP_SIZE; ++j)
 		{
 			map[i][j]->Update();
 		}
@@ -159,9 +159,9 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 	// add stuff to render here
 
-	for (unsigned int i = 0; i < MAP_SIZE; ++i)
+	for (unsigned int i = 0; i < Config::MAP_SIZE; ++i)
 	{
-		for (unsigned int j = 0; j < MAP_SIZE; ++j)
+		for (unsigned int j = 0; j < Config::MAP_SIZE; ++j)
 		{
 			map[i][j]->Render();
 		}

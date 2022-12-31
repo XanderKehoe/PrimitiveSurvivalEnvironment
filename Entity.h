@@ -5,7 +5,7 @@
 class Entity : public GameObject
 {
 public:
-	Entity(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, unsigned int tileSize);
+	Entity(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~Entity();
 
 	virtual void Update() override = 0;

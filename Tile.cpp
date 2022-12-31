@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos, int tileSize): GameObject(ren, initXPos, initYPos, tileSize)
+Tile::Tile(TileType tileType, SDL_Renderer* ren, int initXPos, int initYPos): GameObject(ren, initXPos, initYPos)
 {
 	switch (tileType)
 	{
