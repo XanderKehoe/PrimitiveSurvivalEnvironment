@@ -1,0 +1,3 @@
+C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Debug\PrimitiveSurvivalEnvironment.vcxproj.CopyComplete
+C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Debug\PrimitiveSurvivalEnvironment.exe
+C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Debug\SDL2d.dll
