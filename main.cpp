@@ -1,15 +1,15 @@
 #include <iostream>
 #include "Game.h"
-#include "PythonInterface.h"
+//#include "PythonInterface.h"
 
 Game* game = nullptr;
 
 int main(int argc, char *argv[])
 {
-	PythonInterface::Initialize();
+	//PythonInterface::Initialize();
 	
-	PythonInterface::CallPython("PythonFile", "InitSomething", NULL);
-	PythonInterface::CallPython("PythonFile", "PrintSomething", PythonInterface::GetTestArgs());
+	//PythonInterface::CallPython("PythonFile", "InitSomething", NULL);
+	//PythonInterface::CallPython("PythonFile", "PrintSomething", PythonInterface::GetTestArgs());
 
 	const int FPS = 1;
 	const int frameDelay = 1000 / FPS;

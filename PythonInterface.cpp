@@ -1,4 +1,4 @@
-#include "PythonInterface.h"
+/*#include "PythonInterface.h"
 
 void PythonInterface::CallPython(std::string PythonModuleName, std::string PythonFunctionName, PyObject* pArgs)
 {
@@ -11,7 +11,7 @@ void PythonInterface::CallPython(std::string PythonModuleName, std::string Pytho
 	/*
 	printf("Hit any key to initialize the Python Interpreter\n");
 	system("pause");
-	*/
+	
 
 	Py_Initialize();
 
@@ -21,7 +21,7 @@ void PythonInterface::CallPython(std::string PythonModuleName, std::string Pytho
 	/*
 	printf("Hit any key to load the Python Module %ws - %s\n", cwd, modname);
 	system("pause");
-	*/
+	
 
 	PyObject* my_module = PyImport_ImportModule(modname);
 
@@ -31,7 +31,7 @@ void PythonInterface::CallPython(std::string PythonModuleName, std::string Pytho
 	/*
 	printf("Hit any key to find function %ws from Python module %ws - %s\n", funcname, cwd);
 	system("pause");
-	*/
+	
 
 	printf("Getting address of %s in Python module\n", funcname);
 	PyObject* my_function = PyObject_GetAttrString(my_module, funcname);
@@ -47,7 +47,7 @@ void PythonInterface::CallPython(std::string PythonModuleName, std::string Pytho
 	/*
 	printf("Creating test arguments and calling function\n");
 	
-	*/
+	
 
 	PyObject* my_result;
 	if (pArgs != NULL)
@@ -86,3 +86,4 @@ PyObject* PythonInterface::GetTestArgs()
 
 	return pArgs;
 }
+*/
