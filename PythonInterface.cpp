@@ -53,7 +53,7 @@ void PythonInterface::CallPython(std::string PythonModuleName, std::string Pytho
 	if (pArgs != NULL)
 		my_result = PyObject_CallFunction(my_function, "(O)", pArgs);
 	else
-		my_result = PyObject_CallFunction(my_function, NULL);
+		my_result = PyObject_CallObject(my_function, NULL);
 
 	if (my_result != NULL)
 		printf("Function result: %d\n", PyLong_AsLong(my_result));

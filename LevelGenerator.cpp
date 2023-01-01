@@ -1,13 +1,14 @@
-#include "MapGenerator.h"
 #include <time.h>
+#include "LevelGenerator.h"
+#include "Tile.h"
 
-void MapGenerator::GenerateMap(Tile* map[Config::MAP_SIZE][Config::MAP_SIZE], SDL_Renderer* ren)
+void LevelGenerator::GenerateLevel(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], SDL_Renderer* ren)
 {
 	srand((unsigned)time(NULL));
 
-	for (int i = 0; i < Config::MAP_SIZE; i++)
+	for (int i = 0; i < Config::LEVEL_SIZE; i++)
 	{
-		for (int j = 0; j < Config::MAP_SIZE; j++)
+		for (int j = 0; j < Config::LEVEL_SIZE; j++)
 		{
 			int initXPos = i;
 			int initYPos = j;
@@ -36,9 +37,11 @@ void MapGenerator::GenerateMap(Tile* map[Config::MAP_SIZE][Config::MAP_SIZE], SD
 				randTileType = TileType::PLAIN;
 			}
 
-			map[i][j] = new Tile(randTileType, ren, initXPos, initYPos);
+			level[i][j] = new Tile(randTileType, ren, initXPos, initYPos);
 			//std::cout << "new tile at [" << i << "][" << j << "] created." << std::endl;
 		}
 	}
+
+	printf("Level has been generated!\n");
 }
 

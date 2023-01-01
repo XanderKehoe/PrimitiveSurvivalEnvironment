@@ -14,8 +14,8 @@ public:
 	static int SCREEN_WIDTH; // The width of the window the environment is displayed on
 	static int SCREEN_HEIGHT; // The height of the window the environment is displayed on
 
-	static int LEVEL_WIDTH; // the width of the entire map (tile size * map size)
-	static int LEVEL_HEIGHT; // the height of the entire map (tile size * map size)
+	static int LEVEL_WIDTH; // the width of the entire level (tile size * level size)
+	static int LEVEL_HEIGHT; // the height of the entire level (tile size * level size)
 
 	/*
 	Adjusts the camera's zoom and sets boundaries to avoid buggy behavior.

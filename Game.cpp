@@ -1,14 +1,15 @@
 #include "Game.h"
-#include "HumanAgentBase.h"
+#include "HumanAgent.h"
 #include "Tile.h"
-#include "MapGenerator.h"
+#include "LevelGenerator.h"
 #include "Camera.h"
 
 SDL_Event Game::event;
 
-GameObject* player1;
+HumanAgent* player1;
 
-unsigned short cameraSpeed = 4;
+
+const bool ALLOW_PLAYER_CONTROL = true;
 
 Game::Game()
 {
@@ -45,7 +46,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "Renderer created!" << std::endl;
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-			MapGenerator::GenerateMap(map, renderer);
+			LevelGenerator::GenerateLevel(level, renderer);
 		}
 		else
 			std::cout << "FAILED to create Renderer" << std::endl;
@@ -57,7 +58,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	player1 = new HumanAgentBase("Textures/HumanAgent.png", renderer, 3, 3);
+	player1 = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 7, 7);
 }
 
 void Game::HandleEvents()
@@ -115,6 +116,33 @@ void Game::HandleEvents()
 					break;
 				}
 			}
+
+			if (ALLOW_PLAYER_CONTROL) 
+			{
+				switch (Game::event.key.keysym.sym)
+				{
+					case SDLK_DOWN:
+					{
+						player1->Move(DirectionType::DOWN, true, level);
+						break;
+					}
+					case SDLK_UP:
+					{
+						player1->Move(DirectionType::UP, true, level);
+						break;
+					}
+					case SDLK_LEFT:
+					{
+						player1->Move(DirectionType::LEFT, true, level);
+						break;
+					}
+					case SDLK_RIGHT:
+					{
+						player1->Move(DirectionType::RIGHT, true, level);
+						break;
+					}
+				}
+			}
 			break;
 		}
 
@@ -143,13 +171,13 @@ void Game::HandleEvents()
 
 void Game::Update() 
 {
-	player1->Update();
+	player1->Update(level);
 
-	for (unsigned int i = 0; i < Config::MAP_SIZE; ++i)
+	for (unsigned int i = 0; i < Config::LEVEL_SIZE; ++i)
 	{
-		for (unsigned int j = 0; j < Config::MAP_SIZE; ++j)
+		for (unsigned int j = 0; j < Config::LEVEL_SIZE; ++j)
 		{
-			map[i][j]->Update();
+			level[i][j]->Update();
 		}
 	}
 }
@@ -159,11 +187,11 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 	// add stuff to render here
 
-	for (unsigned int i = 0; i < Config::MAP_SIZE; ++i)
+	for (unsigned int i = 0; i < Config::LEVEL_SIZE; ++i)
 	{
-		for (unsigned int j = 0; j < Config::MAP_SIZE; ++j)
+		for (unsigned int j = 0; j < Config::LEVEL_SIZE; ++j)
 		{
-			map[i][j]->Render();
+			level[i][j]->Render();
 		}
 	}
 

@@ -20,10 +20,8 @@ void Camera::Init(int screenWidth, int screenHeight)
 	SCREEN_WIDTH = screenWidth;
 	SCREEN_HEIGHT = screenHeight;
 
-	LEVEL_WIDTH = Config::TILE_SIZE * Config::MAP_SIZE;
-	LEVEL_HEIGHT = Config::TILE_SIZE * Config::MAP_SIZE;
-
-	//std::cout << "tileSize: " << tileSize << " * mapSize: " << mapSize << " = " << (tileSize * mapSize) << std::endl;
+	LEVEL_WIDTH = Config::TILE_SIZE * Config::LEVEL_SIZE;
+	LEVEL_HEIGHT = Config::TILE_SIZE * Config::LEVEL_SIZE;
 }
 
 void Camera::Move(int x, int y)

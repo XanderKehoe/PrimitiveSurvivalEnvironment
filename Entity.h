@@ -1,14 +1,21 @@
 #pragma once
 
 #include "GameObject.h"
+#include "DirectionType.h"
 
 class Entity : public GameObject
 {
 public:
-	Entity(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
+	Entity(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~Entity();
 
-	virtual void Update() override = 0;
+	virtual void Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
+
+	/*
+	Attempts to move the character by x/y respectively, accounts for movement cooldown and 'blocking' (tiles that entities can't enter) tile types.
+	*/
+	virtual bool Move(DirectionType directionType, bool isHuman, class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
+	static bool GridPosOutOfBounds(int gridX, int gridY);
 
 protected:
 	unsigned short health = 100; // the health of the entity, entity dies if this reaches 0.
@@ -17,5 +24,7 @@ protected:
 
 	//Tile* currentTile = nullptr;
 
-	bool canMove() { return moveCurrentCooldown == 0; }
+	bool CanMove() { return moveCurrentCooldown == 0; }
+private:
+	static const bool OVERRIDE_MOVE_COOLDOWN = true;
 };

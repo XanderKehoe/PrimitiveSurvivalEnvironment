@@ -164,28 +164,41 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectionType.cpp" />
+    <ClCompile Include="DirectionTypeConverter.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HumanAgent.cpp" />
     <ClCompile Include="HumanAgentBase.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapGenerator.cpp" />
+    <ClCompile Include="LevelGenerator.cpp" />
     <ClCompile Include="PythonInterface.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionType.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="DirectionType.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HumanAgent.h" />
     <ClInclude Include="HumanAgentBase.h" />
-    <ClInclude Include="MapGenerator.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemType.h" />
+    <ClInclude Include="LevelGenerator.h" />
     <ClInclude Include="PythonInterface.h" />
     <ClInclude Include="RewardType.h" />
+    <ClInclude Include="TextureLoadTypes.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileType.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\..\..\Downloads\GrassTilePlain.png" />

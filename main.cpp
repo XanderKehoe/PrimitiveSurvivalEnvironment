@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
 {
 	PythonInterface::Initialize();
 	
-	//PythonInterface::CallPython("PythonFile", "PrintSomething", PythonInterface::GetTestArgs());
+	PythonInterface::CallPython("PythonFile", "InitSomething", NULL);
+	PythonInterface::CallPython("PythonFile", "PrintSomething", PythonInterface::GetTestArgs());
 
 	const int FPS = 1;
 	const int frameDelay = 1000 / FPS;

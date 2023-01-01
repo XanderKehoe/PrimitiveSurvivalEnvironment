@@ -31,6 +31,18 @@
     <Filter Include="Header Files\GameObject\Entity">
       <UniqueIdentifier>{2570f33d-cbe4-4751-9da1-8644b46a8fe5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObject\Entity\HumanAgent">
+      <UniqueIdentifier>{422f5a2b-9d5f-4654-8881-401f94df269a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject\Entity\HumanAgent">
+      <UniqueIdentifier>{131457a9-efe3-4ed3-abcf-68c5e28722c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject\Entity\Inventory">
+      <UniqueIdentifier>{d69dc8a1-5fd2-4020-9f24-55ccb9dcc4a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject\Entity\Inventory">
+      <UniqueIdentifier>{aa62a0af-0428-434a-85ec-91cd3ba299b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,13 +57,10 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="HumanAgentBase.cpp">
-      <Filter>Source Files\GameObject\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
-    <ClCompile Include="MapGenerator.cpp">
+    <ClCompile Include="LevelGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
@@ -62,6 +71,24 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanAgentBase.cpp">
+      <Filter>Source Files\GameObject\Entity\HumanAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanAgent.cpp">
+      <Filter>Source Files\GameObject\Entity\HumanAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\GameObject\Entity\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files\GameObject\Entity\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionTypeConverter.cpp">
+      <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,10 +104,7 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files\GameObject\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="HumanAgentBase.h">
-      <Filter>Header Files\GameObject\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="MapGenerator.h">
+    <ClInclude Include="LevelGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
@@ -89,14 +113,41 @@
     <ClInclude Include="PythonInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RewardType.h">
-      <Filter>Header Files\GameObject\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoadTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TileType.h">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="HumanAgentBase.h">
+      <Filter>Header Files\GameObject\Entity\HumanAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="RewardType.h">
+      <Filter>Header Files\GameObject\Entity\HumanAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionType.h">
+      <Filter>Header Files\GameObject\Entity\HumanAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="HumanAgent.h">
+      <Filter>Header Files\GameObject\Entity\HumanAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Header Files\GameObject\Entity\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\GameObject\Entity\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemType.h">
+      <Filter>Header Files\GameObject\Entity\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionType.h">
+      <Filter>Header Files\GameObject\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

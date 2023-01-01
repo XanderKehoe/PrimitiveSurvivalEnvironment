@@ -1,12 +1,14 @@
 #include "GameObject.h"
 #include "Camera.h"
 
-GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos)
+
+GameObject::GameObject(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos)
 {
-	objTexture = TextureManager::LoadTexture(texturesheet, ren);
+	objTexture = TextureManager::LoadTextureByType(textureLoadType, ren);
 
 	ConstructorHelper(ren, initXPos, initYPos);
 }
+
 
 GameObject::GameObject(SDL_Texture* texture, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos)
 {
@@ -34,8 +36,6 @@ void GameObject::ConstructorHelper(SDL_Renderer* ren, unsigned long int initXPos
 	destRect.h = Config::TILE_SIZE;
 	destRect.w = Config::TILE_SIZE;
 
-	originalTileSize = Config::TILE_SIZE;
-
 	gridXPos = initXPos;
 	gridYPos = initYPos;
 }
@@ -47,29 +47,9 @@ GameObject::~GameObject()
 
 void GameObject::Render()
 {
-	destRect.h = originalTileSize / Camera::zoom;
-	destRect.w = originalTileSize / Camera::zoom;
-	destRect.x = ((gridXPos * originalTileSize) / Camera::zoom) - Camera::xPos;
-	destRect.y = ((gridYPos * originalTileSize) / Camera::zoom) - Camera::yPos;
+	destRect.h = Config::TILE_SIZE / Camera::zoom;
+	destRect.w = Config::TILE_SIZE / Camera::zoom;
+	destRect.x = ((gridXPos * Config::TILE_SIZE) / Camera::zoom) - Camera::xPos;
+	destRect.y = ((gridYPos * Config::TILE_SIZE) / Camera::zoom) - Camera::yPos;
 	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
-}
-
-void GameObject::Move(int x, int y) 
-{
-	gridXPos += x;
-	gridYPos += y;
-
-	if (gridXPos < 0)
-		gridXPos = 0;
-
-	if (gridYPos < 0)
-		gridYPos = 0;
-
-	if (gridXPos > Config::MAP_SIZE - 1)
-		gridXPos = Config::MAP_SIZE - 1;
-
-	if (gridYPos > Config::MAP_SIZE - 1)
-		gridYPos = Config::MAP_SIZE - 1;
-
-	std::cout << "Moving to [" << gridXPos << "][" << gridYPos << "]" << std::endl;
 }

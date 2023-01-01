@@ -10,29 +10,33 @@ SDL_Texture* TextureManager::LoadTexture(const char* texture, SDL_Renderer* ren)
 	return tex;
 }
 
-SDL_Texture* TextureManager::LoadTextureByType(LoadTextureType loadTextureType, SDL_Renderer* ren)
+SDL_Texture* TextureManager::LoadTextureByType(TextureLoadType textureLoadType, SDL_Renderer* ren)
 {
-	switch (loadTextureType) 
+	switch (textureLoadType) 
 	{
-		case LoadTextureType::TILE_PLAIN: 
+		case TextureLoadType::TILE_PLAIN:
 		{
 			return LoadTexture("Textures/GrassTilePlain.png", ren);
 		}
-		case LoadTextureType::TILE_BUSH_BERRY:
+		case TextureLoadType::TILE_BUSH_BERRY:
 		{
 			return LoadTexture("Textures/GrassTileWithBushBerry.png", ren);
 		}
-		case LoadTextureType::TILE_BUSH_FIBER:
+		case TextureLoadType::TILE_BUSH_FIBER:
 		{
 			return LoadTexture("Textures/GrassTileWithBushFiber.png", ren);
 		}
-		case LoadTextureType::TILE_ROCK:
+		case TextureLoadType::TILE_ROCK:
 		{
 			return LoadTexture("Textures/GrassTileWithRock.png", ren);
 		}
-		case LoadTextureType::TILE_TREE:
+		case TextureLoadType::TILE_TREE:
 		{
 			return LoadTexture("Textures/GrassTileWithTree.png", ren);
+		}
+		case TextureLoadType::ENTITY_HUMAN: 
+		{
+			return LoadTexture("Textures/HumanAgent.png", ren);
 		}
 
 		default:

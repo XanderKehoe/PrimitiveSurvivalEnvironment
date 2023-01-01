@@ -15,7 +15,7 @@ public:
 	Game();
 	~Game();
 
-	class Tile* map[Config::MAP_SIZE][Config::MAP_SIZE]; // the 2d array containing all the tiles, creating the map. Also an example of forward declaration here.
+	class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]; // the 2d array containing all the tiles, creating the level. Also an example of forward declaration here.
 
 	static SDL_Event event;
 
@@ -30,7 +30,7 @@ public:
 
 	SDL_Renderer* GetRenderer() { return renderer; }
 private:
-	int cnt = 0;
+	unsigned short cameraSpeed = 4;
 	bool isRunning = false;
 	SDL_Window *window = nullptr;
 	SDL_Renderer* renderer = nullptr;
