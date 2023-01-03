@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\GitHub\vcpkg\installed\x86-windows\include\boost;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Xander\Documents\Coding\GitHub\vcpkg\installed\x86-windows\include\boost;C:\Users\Xander\Documents\Coding\SDL2\SDL2_image-2.0.1\include;C:\Users\Xander\Documents\Coding\SDL2\SDL2-2.26.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -176,6 +176,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="LevelGenerator.cpp" />
     <ClCompile Include="PythonInterface.cpp" />
+    <ClCompile Include="SharedMemoryManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
@@ -195,6 +196,7 @@
     <ClInclude Include="LevelGenerator.h" />
     <ClInclude Include="PythonInterface.h" />
     <ClInclude Include="RewardType.h" />
+    <ClInclude Include="SharedMemoryManager.h" />
     <ClInclude Include="TextureLoadTypes.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />

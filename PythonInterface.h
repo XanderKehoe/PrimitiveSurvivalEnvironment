@@ -1,4 +1,6 @@
-/*#pragma once
+/*
+// Decided not to use this.
+#pragma once
 #include <string>
 #include <Windows.h>
 

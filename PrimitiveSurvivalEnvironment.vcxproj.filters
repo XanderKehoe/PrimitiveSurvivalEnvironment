@@ -90,6 +90,9 @@
     <ClCompile Include="DirectionTypeConverter.cpp">
       <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="SharedMemoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="DirectionType.h">
       <Filter>Header Files\GameObject\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemoryManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
