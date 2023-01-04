@@ -87,3 +87,13 @@ void Inventory::InitializeItemInInventory(ItemType itemType, int maxAmount)
 {
 	items.insert({ itemType, new Item(itemType, maxAmount) });
 }
+
+void Inventory::PrintInventory() 
+{
+	std::map<ItemType, Item*>::iterator it;
+
+	for (it = items.begin(); it != items.end(); it++) 
+	{
+		printf("Item: %d Amount %d", it->first, GetItemTypeAmount(it->first));
+	}
+}

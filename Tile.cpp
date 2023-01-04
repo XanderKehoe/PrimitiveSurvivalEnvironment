@@ -68,6 +68,7 @@ bool Tile::HumanInteract(class HumanAgentBase* humanAgent)
 	if (available)
 	{
 		bool hasTool = false;
+		bool TESTING_OVERRIDE = true; // using for testing berry picking
 		Inventory* inventory = humanAgent->GetInventory();
 
 		// Determine if human agent has corresponding tool for resource type.
@@ -75,10 +76,11 @@ bool Tile::HumanInteract(class HumanAgentBase* humanAgent)
 		// Roll dice to determine if human agent should receive resource type.
 
 		int leftover = 0;
-		if (hasTool || (float) rand() / RAND_MAX < 0.2)
+		if (hasTool || (float) rand() / RAND_MAX < 0.2 || TESTING_OVERRIDE)
 		{
 			currentResourceCount--;
-			leftover = inventory->AddItemToInventory(GetResourceType(), 1);
+			// leftover = inventory->AddItemToInventory(GetResourceType(), 1); omitting this for testing just berry picking for now.
+			// printf("currentResourceCount: %d\n", currentResourceCount);
 		}
 
 		if (currentResourceCount == 0)

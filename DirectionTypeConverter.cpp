@@ -1,9 +1,10 @@
 #include "DirectionType.h"
 #include <stdexcept>
 
-int* DirectionTypeConverter::TypeToXY(DirectionType dirType)
+std::array<int, 2> DirectionTypeConverter::TypeToXY(DirectionType dirType)
 {
-	int ret[2];
+	std::array<int, 2> ret;
+
 	switch (dirType)
 	{
 		case DirectionType::UP:

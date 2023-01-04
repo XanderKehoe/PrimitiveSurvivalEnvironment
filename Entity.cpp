@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "TileType.h"
 #include "Tile.h"
+#include <array>
 
 Entity::Entity(TextureLoadType textureLoadType, SDL_Renderer* ren, 
 	unsigned long initXPos, unsigned long initYPos) 
@@ -25,7 +26,7 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 	if (!CanMove())
 		return false;
 
-	int* xy = DirectionTypeConverter::TypeToXY(directionType);
+	std::array<int, 2> xy = DirectionTypeConverter::TypeToXY(directionType);
 	int x = xy[0];
 	int y = xy[1];
 	

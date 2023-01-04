@@ -1,6 +1,8 @@
 #include "HumanAgentBase.h"
 #include "TileType.h"
 #include "Tile.h"
+#include <array>
+#include "RewardType.h"
 
 HumanAgentBase::HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* ren, 
 	unsigned long initXPos, unsigned long initYPos)
@@ -14,67 +16,94 @@ HumanAgentBase::~HumanAgentBase()
 
 }
 
-void HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+float HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], ActionType actionType)
 {
+	reward = 0; // resetting reward
+
 	Entity::Update(level);
 
-	if (!printedObservations) {
-		// DELETE ALL OF THIS
-		printedObservations = true;
-		std::vector<int> observations = GetObservations(level); // need to delete this dynamically allocated memory here at some point
-	}
+	this->TakeAction(actionType, level);
 
 	// Move(0, 1, true, level);
-	// not implemented 
+	// not implemented
+	return reward;
 }
 
 bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
+	bool actionWasValid;
 	// TODO
 	switch (action) 
 	{
+		case ActionType::NOTHING:
+		{
+			actionWasValid = true;
+			break;
+		}
 		case ActionType::MOVE_DOWN: 
 		{
-			return Move(DirectionType::DOWN, true, level);
+			actionWasValid = Move(DirectionType::DOWN, true, level);
+			break;
 		}
 		case ActionType::MOVE_LEFT:
 		{
-			return Move(DirectionType::LEFT, true, level);
+			actionWasValid = Move(DirectionType::LEFT, true, level);
+			break;
 		}
 		case ActionType::MOVE_UP:
 		{
-			return Move(DirectionType::UP, true, level);
+			actionWasValid = Move(DirectionType::UP, true, level);
+			break;
 		}
 		case ActionType::MOVE_RIGHT:
 		{
-			return Move(DirectionType::RIGHT, true, level);
+			actionWasValid = Move(DirectionType::RIGHT, true, level);
+			break;
 		}
 		case ActionType::INTERACT_DOWN:
 		{
-			return Interact(DirectionType::DOWN, level);
+			actionWasValid = Interact(DirectionType::DOWN, level);
+			break;
 		}
 		case ActionType::INTERACT_LEFT:
 		{
-			return Interact(DirectionType::LEFT, level);
+			actionWasValid = Interact(DirectionType::LEFT, level);
+			break;
 		}
 		case ActionType::INTERACT_UP:
 		{
-			return Interact(DirectionType::UP, level);
+			actionWasValid = Interact(DirectionType::UP, level);
+			break;
 		}
 		case ActionType::INTERACT_RIGHT:
 		{
-			return Interact(DirectionType::RIGHT, level);
+			actionWasValid = Interact(DirectionType::RIGHT, level);
+			break;
 		}
 
-		default:
+		default: 
+		{
 			throw std::logic_error("Not Implemeneted");
+		}
+	}
 
+	if (!actionWasValid)
+	{
+		//printf("Invalid Action\n");
+		reward += RewardType::INVALID_ACTION;
+		return false;
+	}
+	else 
+	{
+		//if (action != ActionType::NOTHING)
+			//printf("Valid Action\n");
+		return true;
 	}
 }
 
 bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) 
 {
-	int* xy = DirectionTypeConverter::TypeToXY(directionType);
+	std::array<int, 2> xy = DirectionTypeConverter::TypeToXY(directionType);
 	int x = xy[0];
 	int y = xy[1];
 
@@ -84,6 +113,7 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 		Tile* thisTile = level[gridXPos + x][gridYPos + y];
 		TileType tileType = thisTile->tileType;
 
+		/* correct code, but leaving this out for now to test just grabbing berries
 		// check if tile is interactable
 		if (thisTile->available && (
 			tileType == TileType::BUSH_BERRY ||
@@ -92,6 +122,14 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 			tileType == TileType::TREE))
 		{
 			thisTile->HumanInteract(this);
+			return true;
+		}
+		*/
+		if (thisTile->available && (
+			tileType == TileType::BUSH_BERRY)) 
+		{
+			thisTile->HumanInteract(this);
+			reward += RewardType::PICKUP_BERRY;
 			return true;
 		}
 		else if (thisTile->attachedEntity != NULL) // check if tile contains an entity that be be interacted with

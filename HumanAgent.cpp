@@ -18,7 +18,10 @@ HumanAgent::~HumanAgent()
 std::vector<int> HumanAgent::GetObservations(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
     int numberOfObservationsPerTile = 2;
-    std::vector<int>* ret = new std::vector<int>((OBS_VIEW_LENGTH * OBS_VIEW_LENGTH + 1) * numberOfObservationsPerTile);
+    std::vector<int> ret(((OBS_VIEW_LENGTH + 1) * (OBS_VIEW_LENGTH + 1)) * numberOfObservationsPerTile);
+
+    bool debug = true;
+    int index = 0;
 
     for (int i = -(OBS_VIEW_LENGTH / 2); i <= OBS_VIEW_LENGTH / 2; i++)
     {
@@ -45,11 +48,16 @@ std::vector<int> HumanAgent::GetObservations(Tile* level[Config::LEVEL_SIZE][Con
             }
 
             // update numberOfObservationsPerTile if adding anymore information per tile in the future
-            ret->push_back(tileType);
-            ret->push_back(available);
+            ret.at(index) = tileType;
+            ret.at(index + 1) = available;
+
+            index += 2;
         }
     }
 
-    return *ret;
+    if (debug)
+        printf("Count: %d size(): %d", index, ret.size()); // should be (OBS_VIEW_LENGTH + 1)^2
+
+    return ret;
 }
 

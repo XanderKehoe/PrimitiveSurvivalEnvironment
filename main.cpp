@@ -4,6 +4,7 @@
 //#include "PythonInterface.h"
 
 Game* game = nullptr;
+const bool TRAINING = true;
 
 int main(int argc, char *argv[])
 {
@@ -13,11 +14,11 @@ int main(int argc, char *argv[])
 	mapped_region region(smh, read_write);
 	SharedMemoryManager::Init(&smh, &region);
 
-	// Test values for shared memory, should be able to see these values in python.
+	/*// Test values for shared memory, should be able to see these values in python.
 	for (float i = 0; i < (region.get_size() / 4); i++)
 		SharedMemoryManager::AddFloatToBuffer(i / 3);
 
-	SharedMemoryManager::SetAvailability(7);
+	SharedMemoryManager::SetAvailability(7);*/
 
 	const int FPS = 1;
 	const int frameDelay = 1000 / FPS;
@@ -29,27 +30,42 @@ int main(int argc, char *argv[])
 	game = new Game();
 
 	game->Init("Primitive Survival Environment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 900, false);
+	game->Render(); // Go ahead and render once for visual que that the game has been initialized
+
+	ActionType selectedAction = ActionType::NOTHING;
 
 	while (game->Running()) 
 	{
-		game->HandleEvents();
-		
-		if (!training)
+		game->HandleEvents(!TRAINING);
+
+		timeSinceLastUpdate = SDL_GetTicks() - lastUpdateTime;
+
+		if (TRAINING) 
 		{
-			timeSinceLastUpdate = SDL_GetTicks() - lastUpdateTime;
+			float reward = game->Update(selectedAction);
 
-			if (timeSinceLastUpdate > FPS * 1000) 
-			{
-				game->Update();
+			std::vector<int> newAgentState = game->GetAgentObservations();
 
-				lastUpdateTime = SDL_GetTicks();
-			}
+			SharedMemoryManager::SendStateAndReward(reward, newAgentState);
 
+			SharedMemoryManager::WaitForAvailability();
+
+			selectedAction = SharedMemoryManager::ReadSelectedAction();
+			//printf("selectedAction received: %d\n", selectedAction);
+			SharedMemoryManager::ClearBuffer();
 		}
+		else if (timeSinceLastUpdate > FPS * 1000) 
+		{
+			game->Update(selectedAction);
+
+			lastUpdateTime = SDL_GetTicks();
+		}
+
+		/*}
 		else 
 		{
-			game->Update();
-		}
+			game->Update(SharedMemoryManager::ReadSelectedAction());
+		}*/
 
 		game->Render();
 	}

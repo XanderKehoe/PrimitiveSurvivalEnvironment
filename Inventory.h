@@ -17,4 +17,5 @@ private:
     std::map<ItemType, Item*> items;
 
     void InitializeItemInInventory(ItemType itemType, int maxAmount);
+    void PrintInventory();
 };

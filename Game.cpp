@@ -6,10 +6,7 @@
 
 SDL_Event Game::event;
 
-HumanAgent* player1;
-
-
-const bool ALLOW_PLAYER_CONTROL = true;
+HumanAgent* agent;
 
 Game::Game()
 {
@@ -58,10 +55,10 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	player1 = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 7, 7);
+	agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 7, 7);
 }
 
-void Game::HandleEvents()
+void Game::HandleEvents(bool allowPlayerControl)
 {
 	SDL_PollEvent(&event);
 	switch (event.type) {
@@ -117,28 +114,48 @@ void Game::HandleEvents()
 				}
 			}
 
-			if (ALLOW_PLAYER_CONTROL) 
+			if (allowPlayerControl)
 			{
 				switch (Game::event.key.keysym.sym)
 				{
 					case SDLK_DOWN:
 					{
-						player1->Move(DirectionType::DOWN, true, level);
+						agent->TakeAction(ActionType::MOVE_DOWN, level);
 						break;
 					}
 					case SDLK_UP:
 					{
-						player1->Move(DirectionType::UP, true, level);
+						agent->TakeAction(ActionType::MOVE_UP, level);
 						break;
 					}
 					case SDLK_LEFT:
 					{
-						player1->Move(DirectionType::LEFT, true, level);
+						agent->TakeAction(ActionType::MOVE_LEFT, level);
 						break;
 					}
 					case SDLK_RIGHT:
 					{
-						player1->Move(DirectionType::RIGHT, true, level);
+						agent->TakeAction(ActionType::MOVE_RIGHT, level);
+						break;
+					}
+					case SDLK_i:
+					{
+						agent->TakeAction(ActionType::INTERACT_UP, level);
+						break;
+					}
+					case SDLK_j:
+					{
+						agent->TakeAction(ActionType::INTERACT_LEFT, level);
+						break;
+					}
+					case SDLK_k:
+					{
+						agent->TakeAction(ActionType::INTERACT_DOWN, level);
+						break;
+					}
+					case SDLK_l:
+					{
+						agent->TakeAction(ActionType::INTERACT_RIGHT, level);
 						break;
 					}
 				}
@@ -153,7 +170,8 @@ void Game::HandleEvents()
 			{
 				cameraSpeed /= 2;
 			}
-			else { // scrolled up
+			else // scrolled up
+			{ 
 				if (cameraSpeed < 128) // prevent overflow
 					cameraSpeed *= 2;
 			}
@@ -169,9 +187,11 @@ void Game::HandleEvents()
 	}
 }
 
-void Game::Update() 
+float Game::Update(ActionType selectedAgentAction) 
 {
-	player1->Update(level);
+	// In future, update all other entities first before main agent (so hostile entites have a chance to damage agent)
+
+	float reward = agent->Update(level, selectedAgentAction);
 
 	for (unsigned int i = 0; i < Config::LEVEL_SIZE; ++i)
 	{
@@ -180,6 +200,13 @@ void Game::Update()
 			level[i][j]->Update();
 		}
 	}
+
+	return reward;
+}
+
+std::vector<int> Game::GetAgentObservations() 
+{
+	return agent->GetObservations(level);
 }
 
 void Game::Render()
@@ -195,7 +222,7 @@ void Game::Render()
 		}
 	}
 
-	player1->Render();
+	agent->Render();
 
 	SDL_RenderPresent(renderer);
 }

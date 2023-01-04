@@ -10,7 +10,7 @@ public:
 	HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~HumanAgentBase();
 
-	void Update(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
+	float Update(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], ActionType actionType); // returns the reward gained in this step
 	virtual std::vector<int> GetObservations(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) = 0;
 	bool TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]); // returns true if action was successfully taken, false otherwise.
 
@@ -25,5 +25,7 @@ private:
 	bool Interact(DirectionType directionType, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
 
 	bool printedObservations = false; // DELETE ME
+
+	float reward = 0;
 };
 

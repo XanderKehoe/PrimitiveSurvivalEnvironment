@@ -1,4 +1,7 @@
 #pragma once
+
+#include <array>
+
 enum class DirectionType 
 {
 	UP,
@@ -10,5 +13,5 @@ enum class DirectionType
 class DirectionTypeConverter 
 {
 public:
-	static int* TypeToXY(DirectionType dirType);
+	static std::array<int, 2> TypeToXY(DirectionType dirType);
 };
