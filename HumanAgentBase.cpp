@@ -1,8 +1,9 @@
+#include <array>
 #include "HumanAgentBase.h"
 #include "TileType.h"
 #include "Tile.h"
-#include <array>
 #include "RewardType.h"
+#include "Crafting.h"
 
 HumanAgentBase::HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* ren, 
 	unsigned long initXPos, unsigned long initYPos)
@@ -89,6 +90,43 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 		case ActionType::INTERACT_RIGHT:
 		{
 			actionWasValid = Interact(DirectionType::RIGHT, level);
+			break;
+		}
+		case ActionType::CRAFT_SACK:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::SACK, inventory);
+			if (actionWasValid)
+				inventory->PerformSackUpgrade();
+			break;
+		}
+		case ActionType::CRAFT_SPEAR:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::SPEAR, inventory);
+			break;
+		}
+		case ActionType::CRAFT_BOW:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::BOW, inventory);
+			break;
+		}
+		case ActionType::CRAFT_ARROW:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::ARROW, inventory);
+			break;
+		}
+		case ActionType::CRAFT_AXE:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::AXE, inventory);
+			break;
+		}
+		case ActionType::CRAFT_HAMMER:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::HAMMER, inventory);
+			break;
+		}
+		case ActionType::CRAFT_WALL:
+		{
+			actionWasValid = Crafting::CraftItem(ItemType::WALL, inventory);
 			break;
 		}
 

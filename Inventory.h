@@ -14,9 +14,10 @@ public:
     int RemoveItemFromInventory(ItemType itemType, int amount); // Removes item from inventory, returns number of items that were NOT removed (less than 0).
     int GetItemTypeAmount(ItemType itemType); // returns the current amount of this item type in the inventory.
     bool IsFullOfItemType(ItemType itemType); // returns true is inventory is full of this item type
+    void PerformSackUpgrade();
 private:
     std::map<ItemType, Item*> items;
 
-    void InitializeItemInInventory(ItemType itemType, int maxAmount);
+    void InitializeItemInInventory(ItemType itemType, int maxAmount, int maxAmountSackUpgrade);
     void PrintInventory();
 };

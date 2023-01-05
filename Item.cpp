@@ -1,9 +1,10 @@
 #include "Item.h"
 
-Item::Item(ItemType itemType, int maxAmount)
+Item::Item(ItemType itemType, int maxAmount, int maxAmountSackUpgrade)
 {
 	this->itemType = itemType;
 	this->maxAmount = maxAmount;
+	this->maxAmountSackUpgrade = maxAmountSackUpgrade;
 }
 
 Item::~Item()

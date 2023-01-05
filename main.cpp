@@ -7,6 +7,11 @@
 Game* game = nullptr;
 const bool TRAINING = false;
 
+// TODO
+	// Test crafting
+	// Implement Item Functionality (axe, hammer, sack, etc.)
+	// Implement animals
+
 int main(int argc, char *argv[])
 {
 	// According to ChatGPT (and testing confirms), shared memory needs to be declared before static classes used I guess?
@@ -14,12 +19,6 @@ int main(int argc, char *argv[])
 	windows_shared_memory smh(open_or_create, "PSEMem", read_write, 1000u);
 	mapped_region region(smh, read_write);
 	SharedMemoryManager::Init(&smh, &region);
-
-	/*// Test values for shared memory, should be able to see these values in python.
-	for (float i = 0; i < (region.get_size() / 4); i++)
-		SharedMemoryManager::AddFloatToBuffer(i / 3);
-
-	SharedMemoryManager::SetAvailability(7);*/
 
 	const int FPS = 1;
 	const int frameDelay = 1000 / FPS;

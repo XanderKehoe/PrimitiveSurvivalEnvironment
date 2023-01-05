@@ -3,7 +3,7 @@
 
 bool Crafting::CraftItem(ItemType itemType, Inventory* inventory)
 {
-    if (CanCraftItem(itemType, inventory)) 
+    if (CanCraftItem(itemType, inventory) && !inventory->IsFullOfItemType(itemType)) 
     {
         std::map<ItemType, int> craftingRecipe = GetCraftingRecipe(itemType);
 
@@ -17,6 +17,7 @@ bool Crafting::CraftItem(ItemType itemType, Inventory* inventory)
         }
 
         inventory->AddItemToInventory(itemType, 1);
+        return true;
     }
     else
         return false;

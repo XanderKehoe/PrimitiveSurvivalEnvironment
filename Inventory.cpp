@@ -3,18 +3,18 @@
 
 Inventory::Inventory()
 {
-	InitializeItemInInventory(ItemType::SACK, 1);
-	InitializeItemInInventory(ItemType::SPEAR, 1);
-	InitializeItemInInventory(ItemType::BOW, 1);
-	InitializeItemInInventory(ItemType::ARROW, 10);
+	InitializeItemInInventory(ItemType::SACK, 1, 1);
+	InitializeItemInInventory(ItemType::SPEAR, 1, 1);
+	InitializeItemInInventory(ItemType::BOW, 1, 1);
+	InitializeItemInInventory(ItemType::ARROW, 10, 20);
 	InitializeItemInInventory(ItemType::AXE, 1);
 	InitializeItemInInventory(ItemType::HAMMER, 1);
-	InitializeItemInInventory(ItemType::BERRY, 20);
-	InitializeItemInInventory(ItemType::FIBER, 20);
-	InitializeItemInInventory(ItemType::MEAT, 5);
-	InitializeItemInInventory(ItemType::WOOD, 5);
-	InitializeItemInInventory(ItemType::ROCK, 5);
-	InitializeItemInInventory(ItemType::WALL, 1);
+	InitializeItemInInventory(ItemType::BERRY, 20, 50);
+	InitializeItemInInventory(ItemType::FIBER, 20, 50);
+	InitializeItemInInventory(ItemType::MEAT, 5, 10);
+	InitializeItemInInventory(ItemType::WOOD, 5, 10);
+	InitializeItemInInventory(ItemType::ROCK, 5, 10);
+	InitializeItemInInventory(ItemType::WALL, 1, 1);
 }
 
 Inventory::~Inventory()
@@ -95,9 +95,19 @@ bool Inventory::IsFullOfItemType(ItemType itemType)
 	}
 }
 
-void Inventory::InitializeItemInInventory(ItemType itemType, int maxAmount)
+void Inventory::PerformSackUpgrade()
 {
-	items.insert({ itemType, new Item(itemType, maxAmount) });
+	std::map<ItemType, Item*>::iterator it;
+
+	for (it = items.begin(); it != items.end(); it++)
+	{
+		it->second->maxAmount = it->second->maxAmountSackUpgrade;
+	}
+}
+
+void Inventory::InitializeItemInInventory(ItemType itemType, int maxAmount, int maxAmountSackUpgrade)
+{
+	items.insert({ itemType, new Item(itemType, maxAmount, maxAmountSackUpgrade) });
 }
 
 void Inventory::PrintInventory() 

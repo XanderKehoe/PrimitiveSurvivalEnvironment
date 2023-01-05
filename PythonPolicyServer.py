@@ -172,7 +172,7 @@ if __name__ == "__main__":
         # TODO: (sven) make these settings unnecessary and get the information
         #  about the env spaces from the client.
         "observation_space": gym.spaces.Box(float("-inf"), float("inf"), (539,)), # TODO find dynamic way to set this value
-        "action_space": gym.spaces.Discrete(9), # TODO find dynamic way to set this value
+        "action_space": gym.spaces.Discrete(16), # TODO find dynamic way to set this value
         # Use the `PolicyServerInput` to generate experiences.
         "input": _input,
         # Use n worker processes to listen on different ports.
