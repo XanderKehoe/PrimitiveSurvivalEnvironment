@@ -1,0 +1,13 @@
+#pragma once
+enum class ActionType
+{
+	NOTHING = 0,
+	MOVE_UP,
+	MOVE_LEFT,
+	MOVE_DOWN,
+	MOVE_RIGHT,
+	INTERACT_UP,
+	INTERACT_LEFT,
+	INTERACT_DOWN,
+	INTERACT_RIGHT
+};

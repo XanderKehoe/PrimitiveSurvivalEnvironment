@@ -1,0 +1,18 @@
+﻿  Camera.cpp
+  DirectionType.cpp
+  DirectionTypeConverter.cpp
+  Entity.cpp
+  Game.cpp
+  GameObject.cpp
+  HumanAgent.cpp
+  HumanAgentBase.cpp
+  Inventory.cpp
+  Item.cpp
+  main.cpp
+  LevelGenerator.cpp
+  PythonInterface.cpp
+  TextureManager.cpp
+  Tile.cpp
+  Generating Code...
+C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\DirectionTypeConverter.cpp(41): warning C4172: returning address of local variable or temporary: ret
+  PrimitiveSurvivalEnvironment.vcxproj -> C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\x64\Debug\PrimitiveSurvivalEnvironment.exe
