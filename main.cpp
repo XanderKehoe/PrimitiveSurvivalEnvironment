@@ -1,16 +1,8 @@
 #include <iostream>
 #include "Game.h"
 #include "SharedMemoryManager.h"
+#include "UpdateResult.h"
 //#include "PythonInterface.h"
-
-//TODO
-	
-	// Water and Cliff Generation
-	// Water, Cliff, Wall, and Door tile display 
-	// Crafting
-	// Animals
-	// Health, hunger, thirst, weariness
-	// Multiple policy client and environments at the same time
 
 Game* game = nullptr;
 const bool TRAINING = false;
