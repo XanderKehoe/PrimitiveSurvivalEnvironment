@@ -17,4 +17,5 @@ enum class ActionType
 	CRAFT_AXE,
 	CRAFT_HAMMER,
 	CRAFT_WALL,
+	TOGGLE_SNEAK,
 };

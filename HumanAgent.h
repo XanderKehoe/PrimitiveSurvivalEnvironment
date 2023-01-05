@@ -9,7 +9,9 @@ public:
 	HumanAgent(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~HumanAgent();
 
-	std::vector<int> GetObservations(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
+	std::vector<float> GetObservationsFloat(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
+
+	std::vector<int> GetObservationsInt(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
 private:
 	static const int OBS_VIEW_LENGTH = 6; // how many tiles the agent can see out from where it is standing, should be an even number.
 };

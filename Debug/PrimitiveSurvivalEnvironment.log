@@ -1,19 +1,2 @@
-﻿  Camera.cpp
-  Crafting.cpp
-  DirectionTypeConverter.cpp
-  Entity.cpp
-  Game.cpp
-  GameObject.cpp
-  HumanAgent.cpp
-  HumanAgentBase.cpp
-  Inventory.cpp
-  Item.cpp
-  main.cpp
-  LevelGenerator.cpp
-  PythonInterface.cpp
-  SharedMemoryManager.cpp
-  TextureManager.cpp
-  Tile.cpp
-  Generating Code...
-C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Crafting.cpp(23): warning C4715: 'Crafting::CraftItem': not all control paths return a value
+﻿  HumanAgentBase.cpp
   PrimitiveSurvivalEnvironment.vcxproj -> C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Debug\PrimitiveSurvivalEnvironment.exe

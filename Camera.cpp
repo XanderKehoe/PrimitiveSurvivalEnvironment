@@ -59,12 +59,12 @@ bool Camera::IsCoordOutsideCamView(int x, int y, int offset)
 		x > (xPos * zoom) + (SCREEN_WIDTH * zoom) - offset ||
 		y > (yPos * zoom) + (SCREEN_HEIGHT * zoom) - offset)
 	{
-		printf("\tTrue!\n");
+		//printf("\tTrue!\n");
 		return true;
 	}
 	else 
 	{
-		printf("\tFalse!\n");
+		//printf("\tFalse!\n");
 		return false;
 	}
 }

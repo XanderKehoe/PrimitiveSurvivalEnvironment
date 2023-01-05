@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animal.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Crafting.cpp" />
     <ClCompile Include="DirectionTypeConverter.cpp" />
@@ -182,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActionType.h" />
+    <ClInclude Include="Animal.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Crafting.h" />

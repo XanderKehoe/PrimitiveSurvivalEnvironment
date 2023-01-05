@@ -7,8 +7,8 @@ Inventory::Inventory()
 	InitializeItemInInventory(ItemType::SPEAR, 1, 1);
 	InitializeItemInInventory(ItemType::BOW, 1, 1);
 	InitializeItemInInventory(ItemType::ARROW, 10, 20);
-	InitializeItemInInventory(ItemType::AXE, 1);
-	InitializeItemInInventory(ItemType::HAMMER, 1);
+	InitializeItemInInventory(ItemType::AXE, 1, 1);
+	InitializeItemInInventory(ItemType::HAMMER, 1, 1);
 	InitializeItemInInventory(ItemType::BERRY, 20, 50);
 	InitializeItemInInventory(ItemType::FIBER, 20, 50);
 	InitializeItemInInventory(ItemType::MEAT, 5, 10);

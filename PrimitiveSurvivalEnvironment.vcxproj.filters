@@ -57,9 +57,6 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Tile</Filter>
-    </ClCompile>
     <ClCompile Include="LevelGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -92,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="Crafting.cpp">
       <Filter>Source Files\GameObject\Entity\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animal.cpp">
+      <Filter>Source Files\GameObject\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="Crafting.h">
       <Filter>Header Files\GameObject\Entity\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="Animal.h">
+      <Filter>Header Files\GameObject\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

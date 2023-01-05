@@ -15,6 +15,8 @@ public:
     int GetItemTypeAmount(ItemType itemType); // returns the current amount of this item type in the inventory.
     bool IsFullOfItemType(ItemType itemType); // returns true is inventory is full of this item type
     void PerformSackUpgrade();
+
+    std::map<ItemType, Item*> GetItems() { return items; }
 private:
     std::map<ItemType, Item*> items;
 

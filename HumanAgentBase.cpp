@@ -44,7 +44,7 @@ UpdateResult HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVE
 bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
 	bool actionWasValid;
-	// TODO
+
 	switch (action) 
 	{
 		case ActionType::NOTHING:
@@ -129,6 +129,12 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 			actionWasValid = Crafting::CraftItem(ItemType::WALL, inventory);
 			break;
 		}
+		case ActionType::TOGGLE_SNEAK: 
+		{
+			actionWasValid = true;
+			sneaking = !sneaking;
+			break;
+		}
 
 		default: 
 		{
@@ -162,7 +168,6 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 		Tile* thisTile = level[gridXPos + x][gridYPos + y];
 		TileType tileType = thisTile->tileType;
 
-		/* correct code, but leaving this out for now to test just grabbing berries
 		// check if tile is interactable
 		if (thisTile->available && (
 			tileType == TileType::BUSH_BERRY ||
@@ -170,15 +175,16 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 			tileType == TileType::ROCK ||
 			tileType == TileType::TREE))
 		{
-			thisTile->HumanInteract(this);
-			return true;
-		}
-		*/
-		if (thisTile->available && (
-			tileType == TileType::BUSH_BERRY)) 
-		{
-			thisTile->HumanInteract(this);
-			reward += RewardType::PICKUP_BERRY;
+			bool success = thisTile->HumanInteract(this); // returns false if inventory is full for this item type
+
+			if (success)
+			{
+				if (tileType == TileType::BUSH_BERRY)
+					reward += RewardType::PICKUP_BERRY;
+				else
+					reward += RewardType::PICKUP_RESOURCE;
+			}
+
 			return true;
 		}
 		else if (thisTile->attachedEntity != NULL) // check if tile contains an entity that be be interacted with

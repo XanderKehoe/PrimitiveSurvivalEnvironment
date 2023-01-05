@@ -17,10 +17,14 @@ bool Crafting::CraftItem(ItemType itemType, Inventory* inventory)
         }
 
         inventory->AddItemToInventory(itemType, 1);
+        printf("Successfully crafted itemType: %d\n", itemType);
         return true;
     }
-    else
+    else 
+    {
+        printf("Failed to craft itemType: %d\n", itemType);
         return false;
+    }
 }
 
 bool Crafting::CanCraftItem(ItemType itemType, Inventory* inventory)

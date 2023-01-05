@@ -9,8 +9,10 @@ const bool TRAINING = false;
 
 // TODO
 	// Test crafting
-	// Implement Item Functionality (axe, hammer, sack, etc.)
 	// Implement animals
+	// Implement bow
+	// Implement water and cliff generation
+	// Implement water, cliff, and wall texture loading
 
 int main(int argc, char *argv[])
 {
@@ -44,9 +46,10 @@ int main(int argc, char *argv[])
 		{
 			UpdateResult updateResult = game->Update(selectedAction);
 
-			std::vector<int> newAgentState = game->GetAgentObservations();
+			std::vector<int> agentNewStateInt = game->GetAgentObservationsInt();
+			std::vector<float> agentNewStateFloat = game->GetAgentObservationsFloat();
 
-			SharedMemoryManager::SendStateRewardDone(updateResult.reward, updateResult.done, newAgentState);
+			SharedMemoryManager::SendStateRewardDone(updateResult.reward, updateResult.done, agentNewStateInt);
 
 			SharedMemoryManager::WaitForAvailability();
 

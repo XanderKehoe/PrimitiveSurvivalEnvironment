@@ -19,6 +19,7 @@ public:
 
 protected:
 	unsigned short health = 100; // the health of the entity, entity dies if this reaches 0.
+	unsigned const short MAX_HEALTH = 100; // the max health of the entity, health will slowly regenerate over time up to a max of this value.
 	unsigned short moveTimerMax = 1; // how long entity has to wait to move again.
 	unsigned short moveCurrentCooldown = 0; // if 0, entity can move
 

@@ -32,7 +32,8 @@ public:
 	bool Running() { return isRunning; }
 
 	SDL_Renderer* GetRenderer() { return renderer; }
-	std::vector<int> GetAgentObservations();
+	std::vector<int> GetAgentObservationsInt();
+	std::vector<float> GetAgentObservationsFloat();
 private:
 	unsigned short cameraSpeed = 4;
 	bool isRunning = false;

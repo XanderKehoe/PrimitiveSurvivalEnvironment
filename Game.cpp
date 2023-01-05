@@ -138,24 +138,44 @@ void Game::HandleEvents(bool allowPlayerControl)
 						agent->TakeAction(ActionType::MOVE_RIGHT, level);
 						break;
 					}
-					case SDLK_i:
+					case SDLK_t:
 					{
 						agent->TakeAction(ActionType::INTERACT_UP, level);
 						break;
 					}
-					case SDLK_j:
+					case SDLK_f:
 					{
 						agent->TakeAction(ActionType::INTERACT_LEFT, level);
 						break;
 					}
-					case SDLK_k:
+					case SDLK_g:
 					{
 						agent->TakeAction(ActionType::INTERACT_DOWN, level);
 						break;
 					}
-					case SDLK_l:
+					case SDLK_h:
 					{
 						agent->TakeAction(ActionType::INTERACT_RIGHT, level);
+						break;
+					}
+					case SDLK_1:
+					{
+						agent->TakeAction(ActionType::CRAFT_SPEAR, level);
+						break;
+					}
+					case SDLK_2:
+					{
+						agent->TakeAction(ActionType::CRAFT_AXE, level);
+						break;
+					}
+					case SDLK_3:
+					{
+						agent->TakeAction(ActionType::CRAFT_HAMMER, level);
+						break;
+					}
+					case SDLK_4:
+					{
+						agent->TakeAction(ActionType::CRAFT_SACK, level);
 						break;
 					}
 				}
@@ -204,9 +224,14 @@ UpdateResult Game::Update(ActionType selectedAgentAction)
 	return updateResult;
 }
 
-std::vector<int> Game::GetAgentObservations() 
+std::vector<int> Game::GetAgentObservationsInt() 
 {
-	return agent->GetObservations(level);
+	return agent->GetObservationsInt(level);
+}
+
+std::vector<float> Game::GetAgentObservationsFloat()
+{
+	return agent->GetObservationsFloat(level);
 }
 
 void Game::Render()
