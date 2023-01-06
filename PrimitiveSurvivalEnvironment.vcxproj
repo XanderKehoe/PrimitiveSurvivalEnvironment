@@ -164,6 +164,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animal.cpp" />
+    <ClCompile Include="AnimalStateAttack.cpp" />
+    <ClCompile Include="AnimalStateFlee.cpp" />
+    <ClCompile Include="AnimalStateManager.cpp" />
+    <ClCompile Include="AnimalStateWander.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Crafting.cpp" />
     <ClCompile Include="DirectionTypeConverter.cpp" />
@@ -184,6 +188,11 @@
   <ItemGroup>
     <ClInclude Include="ActionType.h" />
     <ClInclude Include="Animal.h" />
+    <ClInclude Include="AnimalStateAttack.h" />
+    <ClInclude Include="AnimalStateBase.h" />
+    <ClInclude Include="AnimalStateFlee.h" />
+    <ClInclude Include="AnimalStateManager.h" />
+    <ClInclude Include="AnimalStateWander.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Crafting.h" />

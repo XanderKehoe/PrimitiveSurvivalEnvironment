@@ -18,10 +18,10 @@ std::vector<float> HumanAgent::GetObservationsFloat(Tile* level[Config::LEVEL_SI
 {
     // Preprocessing these observations here as its simpler to do it here
     std::vector<float> ret(4 + inventory->GetItems().size());
-    ret.at(0) = health / MAX_HEALTH;
-    ret.at(1) = hunger / MAX_HUNGER;
-    ret.at(2) = thirst / MAX_THIRST;
-    ret.at(3) = weariness / MAX_WEARINESS;
+    ret.at(0) = (float) health / (float) MAX_HEALTH;
+    ret.at(1) = (float) hunger / (float) MAX_HUNGER;
+    ret.at(2) = (float) thirst / (float) MAX_THIRST;
+    ret.at(3) = (float) weariness / (float) MAX_WEARINESS;
     
     int index = 4;
 
@@ -30,7 +30,7 @@ std::vector<float> HumanAgent::GetObservationsFloat(Tile* level[Config::LEVEL_SI
 
     for (it = inventory->GetItems().begin(); it != inventory->GetItems().end(); it++)
     {
-        ret.at(index) = it->second->currentAmount / it->second->maxAmountSackUpgrade;
+        ret.at(index) = (float) it->second->currentAmount / (float) it->second->maxAmountSackUpgrade;
         index++;
     }
 

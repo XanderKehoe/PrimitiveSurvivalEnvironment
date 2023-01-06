@@ -12,6 +12,7 @@ public:
 	~HumanAgentBase();
 
 	UpdateResult Update(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], ActionType actionType); // returns the reward gained in this step
+	virtual std::vector<float> GetObservationsFloat(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) = 0;
 	virtual std::vector<int> GetObservationsInt(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) = 0;
 	bool TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]); // returns true if action was successfully taken, false otherwise.
 

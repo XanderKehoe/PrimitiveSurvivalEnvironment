@@ -9,7 +9,7 @@ public:
 	HumanAgent(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~HumanAgent();
 
-	std::vector<float> GetObservationsFloat(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
+	std::vector<float> GetObservationsFloat(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
 
 	std::vector<int> GetObservationsInt(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
 private:

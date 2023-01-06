@@ -43,6 +43,18 @@
     <Filter Include="Header Files\GameObject\Entity\Inventory">
       <UniqueIdentifier>{aa62a0af-0428-434a-85ec-91cd3ba299b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameObject\Entity\Animal">
+      <UniqueIdentifier>{8cec4e15-d711-487c-a1ca-2468dc2d0215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameObject\Entity\Animal\AnimalStateMachine">
+      <UniqueIdentifier>{6f3ec45c-ea8d-4780-8cab-829b4d042fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject\Entity\Animal">
+      <UniqueIdentifier>{4ce77da5-9a96-4638-ab61-a44f818cef84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameObject\Entity\Animal\AnimalStateMachine">
+      <UniqueIdentifier>{272e446f-e189-449c-a93f-3bf27572f7d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,7 +106,19 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Animal.cpp">
-      <Filter>Source Files\GameObject\Entity</Filter>
+      <Filter>Source Files\GameObject\Entity\Animal</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimalStateWander.cpp">
+      <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimalStateManager.cpp">
+      <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimalStateAttack.cpp">
+      <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimalStateFlee.cpp">
+      <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +189,22 @@
       <Filter>Header Files\GameObject\Entity\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="Animal.h">
-      <Filter>Header Files\GameObject\Entity</Filter>
+      <Filter>Header Files\GameObject\Entity\Animal</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimalStateBase.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimalStateWander.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimalStateManager.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimalStateAttack.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimalStateFlee.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
