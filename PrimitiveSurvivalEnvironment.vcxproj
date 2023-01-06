@@ -193,6 +193,7 @@
     <ClInclude Include="AnimalStateFlee.h" />
     <ClInclude Include="AnimalStateManager.h" />
     <ClInclude Include="AnimalStateWander.h" />
+    <ClInclude Include="AnimalType.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Crafting.h" />
@@ -221,6 +222,7 @@
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithBushFiber.png" />
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithRock.png" />
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithTree.png" />
+    <Image Include="Textures\GrassTileWithTreeStump.png" />
     <Image Include="Textures\HumanAgent.png" />
     <Image Include="Textures\TempAnimal.png" />
     <Image Include="Textures\TempCliffTile.png" />

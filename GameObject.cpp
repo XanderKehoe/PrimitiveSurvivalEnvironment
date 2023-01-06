@@ -4,15 +4,7 @@
 
 GameObject::GameObject(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos)
 {
-	objTexture = TextureManager::LoadTextureByType(textureLoadType, ren);
-
-	ConstructorHelper(ren, initXPos, initYPos);
-}
-
-
-GameObject::GameObject(SDL_Texture* texture, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos)
-{
-	objTexture = texture;
+	objTexture = TextureManager::LoadTextureByType(textureLoadType);
 
 	ConstructorHelper(ren, initXPos, initYPos);
 }

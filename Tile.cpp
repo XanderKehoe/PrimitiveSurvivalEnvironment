@@ -7,31 +7,31 @@ Tile::Tile(TileType tileType, SDL_Renderer* ren, int gridXPos, int gridYPos)
 	{
 		case TileType::PLAIN: 
 		{
-			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN, ren);
+			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN);
 			break;
 		}
 		case TileType::BUSH_BERRY:
 		{
-			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_BUSH_BERRY, ren);
-			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN, ren);
+			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_BUSH_BERRY);
+			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN);
 			break;
 		}
 		case TileType::BUSH_FIBER:
 		{
-			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_BUSH_FIBER, ren);
-			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN, ren);
+			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_BUSH_FIBER);
+			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN);
 			break;
 		}
 		case TileType::ROCK:
 		{
-			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_ROCK, ren);
-			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN, ren);
+			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_ROCK);
+			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_ROCK_DEMOLISHED);
 			break;
 		}
 		case TileType::TREE:
 		{
-			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_TREE, ren);
-			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_PLAIN, ren);
+			tileTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_TREE);
+			tileDepletedTexture = TextureManager::LoadTextureByType(TextureLoadType::TILE_TREE_STUMP);
 			break;
 		}
 

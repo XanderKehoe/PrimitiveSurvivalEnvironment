@@ -43,6 +43,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 			std::cout << "Renderer created!" << std::endl;
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
+			TextureManager::InitializeTextures(renderer);
 			LevelGenerator::GenerateLevel(level, renderer);
 		}
 		else

@@ -102,9 +102,6 @@
     <ClCompile Include="Crafting.cpp">
       <Filter>Source Files\GameObject\Entity\Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Animal.cpp">
       <Filter>Source Files\GameObject\Entity\Animal</Filter>
     </ClCompile>
@@ -119,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="AnimalStateFlee.cpp">
       <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Tile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +206,9 @@
     <ClInclude Include="AnimalStateFlee.h">
       <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
     </ClInclude>
+    <ClInclude Include="AnimalType.h">
+      <Filter>Header Files\GameObject\Entity\Animal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\TempAnimal.png">
@@ -239,6 +242,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\HumanAgent.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\GrassTileWithTreeStump.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
