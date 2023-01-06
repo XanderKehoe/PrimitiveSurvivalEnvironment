@@ -30,7 +30,6 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 	std::array<int, 2> xy = DirectionTypeConverter::TypeToXY(directionType);
 	int x = xy[0];
 	int y = xy[1];
-	
 
 	// check if movement leads GameObject off level
 	if (!GridPosOutOfBounds(gridXPos + x, gridYPos + y))

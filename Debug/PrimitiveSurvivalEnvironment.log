@@ -1,2 +1,5 @@
-﻿  AnimalStateWander.cpp
+﻿  AnimalStateAttack.cpp
+  AnimalStateFlee.cpp
+  AnimalStateWander.cpp
+  Generating Code...
   PrimitiveSurvivalEnvironment.vcxproj -> C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Debug\PrimitiveSurvivalEnvironment.exe

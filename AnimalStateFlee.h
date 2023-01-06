@@ -7,6 +7,6 @@ public:
 	AnimalStateFlee();
 	~AnimalStateFlee();
 
-	void EnterState(AnimalStateManager* manager) override;
-	void Update(AnimalStateManager* manager) override;
+	void EnterState(AnimalStateManager* manager, Entity* target = nullptr) override;
+	void Update(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
 };

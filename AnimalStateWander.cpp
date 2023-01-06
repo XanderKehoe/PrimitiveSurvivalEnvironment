@@ -9,38 +9,61 @@ AnimalStateWander::~AnimalStateWander()
 {
 }
 
-void AnimalStateWander::EnterState(AnimalStateManager* manager)
+void AnimalStateWander::EnterState(AnimalStateManager* manager, Entity* target)
 {
-
+	GenerateWanderPath();
 }
 
-void AnimalStateWander::Update(AnimalStateManager* manager)
+void AnimalStateWander::Update(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
+	FollowWanderPath(manager, level);
+
 	bool seeHuman = false; // PLACEHOLDER
 	if (seeHuman)
 	{
 		if (manager->animal->IsHostile())
 		{
-			// manager->ChangeState(manager->attackState);
+			manager->ChangeState(manager->attackState);
 			// figure out best way to pass target info here
 		}
-		else {
-
+		else 
+		{
+			manager->ChangeState(manager->fleeState);
+			// figure out best way to pass target info here
 		}
 	}
 }
 
-void AnimalStateWander::FollowWanderPath(AnimalStateManager* manager)
+void AnimalStateWander::FollowWanderPath(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
-	if (wanderPathX == 0 && wanderPathY == 0) 
+	if (wanderPathX == 0 && wanderPathY == 0) // Reached 'destination', generate a new path to follow
 	{
 		GenerateWanderPath();
 	}
-	else if (wanderPathX != 0) 
+	else if (wanderPathX == 0) // only need to move in y direction
 	{
-		if (wanderPathX < 0) 
+		if (wanderPathY < 0) 
 		{
-
+			manager->animal->Move(DirectionType::DOWN, false, level);
+			wanderPathY++;
+		}
+		else 
+		{
+			manager->animal->Move(DirectionType::UP, false, level);
+			wanderPathY--;
+		}
+	}
+	else if (wanderPathY == 0) // only need to move in x direction
+	{
+		if (wanderPathX < 0)
+		{
+			manager->animal->Move(DirectionType::RIGHT, false, level);
+			wanderPathX++;
+		}
+		else
+		{
+			manager->animal->Move(DirectionType::LEFT, false, level);
+			wanderPathX--;
 		}
 	}
 }
