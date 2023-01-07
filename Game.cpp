@@ -1,12 +1,13 @@
+#include <random>
 #include "Game.h"
 #include "HumanAgent.h"
+#include "Animal.h"
 #include "Tile.h"
 #include "LevelGenerator.h"
 #include "Camera.h"
 
-SDL_Event Game::event;
 
-HumanAgent* agent;
+SDL_Event Game::event;
 
 Game::Game()
 {
@@ -56,7 +57,7 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;
 	}
 
-	agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 7, 7);
+	InitEntities();
 }
 
 void Game::HandleEvents(bool allowPlayerControl)
@@ -179,6 +180,11 @@ void Game::HandleEvents(bool allowPlayerControl)
 						agent->TakeAction(ActionType::CRAFT_SACK, level);
 						break;
 					}
+					case SDLK_F1:
+					{
+						agent->TakeAction(ActionType::TOGGLE_SNEAK, level);
+						break;
+					}
 				}
 			}
 			break;
@@ -209,8 +215,13 @@ void Game::HandleEvents(bool allowPlayerControl)
 }
 
 UpdateResult Game::Update(ActionType selectedAgentAction) 
-{
-	// In future, update all other entities first before main agent (so hostile entites have a chance to damage agent)
+{	
+	for (Animal* a : animalList) 
+	{
+		a->Update(level, agent);
+		
+		//printf("Animal | xPos: %d yPos: %d\n", a.GetGridXPos(), a.GetGridYPos());
+	}
 
 	UpdateResult updateResult = agent->Update(level, selectedAgentAction);
 
@@ -235,6 +246,55 @@ std::vector<float> Game::GetAgentObservationsFloat()
 	return agent->GetObservationsFloat(level);
 }
 
+void Game::InitEntities()
+{
+	std::random_device rd; // obtain a random number from hardware
+	std::mt19937 gen(rd()); // seed the generator
+	std::uniform_int_distribution<> distr(0, Config::LEVEL_SIZE - 1); // define the range
+
+	//agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, distr(gen), distr(gen));
+
+	agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 20, 20);
+	Animal* testAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, 21, 20);
+	animalList.push_back(testAnimal);
+
+	for (int i = 0; i < Config::NUM_RABBITS; i++) 
+	{
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, distr(gen), distr(gen));
+		animalList.push_back(newAnimal);
+	}
+
+	for (int i = 0; i < Config::NUM_DEER; i++)
+	{
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_DEER, renderer, distr(gen), distr(gen));
+		animalList.push_back(newAnimal);
+	}
+
+	for (int i = 0; i < Config::NUM_ELK; i++)
+	{
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_ELK, renderer, distr(gen), distr(gen));
+		animalList.push_back(newAnimal);
+	}
+
+	for (int i = 0; i < Config::NUM_GOOSE; i++)
+	{
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_GOOSE, renderer, distr(gen), distr(gen));
+		animalList.push_back(newAnimal);
+	}
+
+	for (int i = 0; i < Config::NUM_WOLF; i++)
+	{
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_WOLF, renderer, distr(gen), distr(gen));
+		animalList.push_back(newAnimal);
+	}
+
+	for (int i = 0; i < Config::NUM_BEAR; i++)
+	{
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_BEAR, renderer, distr(gen), distr(gen));
+		animalList.push_back(newAnimal);
+	}
+}
+
 void Game::Render()
 {
 	SDL_RenderClear(renderer);
@@ -246,6 +306,11 @@ void Game::Render()
 		{
 			level[i][j]->Render();
 		}
+	}
+
+	for (Animal* e : animalList)
+	{
+		e->Render();
 	}
 
 	agent->Render();

@@ -8,9 +8,12 @@ Game* game = nullptr;
 const bool TRAINING = false;
 
 // TODO
-	// Test crafting
 	// Implement animals
+		// Implement sight (factor in sneak and temp visability shield)
+		// Implement attack state
+		// Implement flee state
 	// Implement bow
+	// Implement traps
 	// Implement water and cliff generation
 	// Implement water, cliff, and wall texture loading
 
@@ -31,7 +34,7 @@ int main(int argc, char *argv[])
 
 	game = new Game();
 
-	game->Init("Primitive Survival Environment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 900, false);
+	game->Init("Primitive Survival Environment", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 1000, false);
 	game->Render(); // Go ahead and render once for visual que that the game has been initialized
 
 	ActionType selectedAction = ActionType::NOTHING;
@@ -64,13 +67,7 @@ int main(int argc, char *argv[])
 			lastUpdateTime = SDL_GetTicks();
 		}
 
-		/*}
-		else 
-		{
-			game->Update(SharedMemoryManager::ReadSelectedAction());
-		}*/
-
-		game->Render();
+		game->Render();		
 	}
 
 	game->Clean();

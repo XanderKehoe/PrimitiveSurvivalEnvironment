@@ -7,8 +7,10 @@
 class Inventory
 {
 public:
-    Inventory();
+    Inventory(bool isHuman);
     ~Inventory();
+
+    bool isHuman; // if false, allows AddItemToInventory to ignore max item amount;
 
     int AddItemToInventory(ItemType itemType, int amount); // Adds item to inventory, returns number of items that were NOT added (max inventory amount).
     int RemoveItemFromInventory(ItemType itemType, int amount); // Removes item from inventory, returns number of items that were NOT removed (less than 0).

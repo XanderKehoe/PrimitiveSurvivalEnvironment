@@ -8,6 +8,7 @@
 HumanAgent::HumanAgent(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos)
     : HumanAgentBase(textureLoadType, ren, initXPos, initYPos)
 {
+    //moveTimerMax = 3;
 }
 
 HumanAgent::~HumanAgent()
@@ -17,13 +18,14 @@ HumanAgent::~HumanAgent()
 std::vector<float> HumanAgent::GetObservationsFloat(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
     // Preprocessing these observations here as its simpler to do it here
-    std::vector<float> ret(4 + inventory->GetItems().size());
-    ret.at(0) = (float) health / (float) MAX_HEALTH;
-    ret.at(1) = (float) hunger / (float) MAX_HUNGER;
-    ret.at(2) = (float) thirst / (float) MAX_THIRST;
-    ret.at(3) = (float) weariness / (float) MAX_WEARINESS;
+    std::vector<float> ret(5 + inventory->GetItems().size());
+    ret.at(0) = health / MAX_HEALTH;
+    ret.at(1) = hunger / MAX_HUNGER;
+    ret.at(2) = thirst / MAX_THIRST;
+    ret.at(3) = weariness / MAX_WEARINESS;
+    ret.at(4) = (float) moveCurrentCooldown / (float) moveTimerMax;
     
-    int index = 4;
+    int index = 5;
 
     std::map<ItemType, Item*>::iterator it;
 

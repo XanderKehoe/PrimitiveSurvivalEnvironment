@@ -41,7 +41,7 @@ void GameObject::Render()
 {
 	destRect.h = Config::TILE_SIZE / Camera::zoom;
 	destRect.w = Config::TILE_SIZE / Camera::zoom;
-	destRect.x = ((gridXPos * Config::TILE_SIZE) / Camera::zoom) - Camera::xPos;
-	destRect.y = ((gridYPos * Config::TILE_SIZE) / Camera::zoom) - Camera::yPos;
+	destRect.x = (gridXPos * (Config::TILE_SIZE / Camera::zoom)) - Camera::xPos;
+	destRect.y = (gridYPos * (Config::TILE_SIZE / Camera::zoom)) - Camera::yPos;
 	SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
 }

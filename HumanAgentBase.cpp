@@ -9,7 +9,13 @@ HumanAgentBase::HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* re
 	unsigned long initXPos, unsigned long initYPos)
 	: Entity(textureLoadType, ren, initXPos, initYPos)
 {
-	inventory = new Inventory();
+	health = 100;
+	MAX_HEALTH = 100;
+	attackDamage = 5;
+
+	moveTimerMax = 3;
+
+	inventory->isHuman = true;
 }
 
 HumanAgentBase::~HumanAgentBase()
@@ -20,6 +26,8 @@ HumanAgentBase::~HumanAgentBase()
 UpdateResult HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], ActionType actionType)
 {
 	reward = 0; // resetting reward
+	if (startVisibilityCount > 0) // slowly countdown temp visability blocking for hostile animals
+		startVisibilityCount--;
 
 	Entity::Update(level);
 
@@ -39,6 +47,19 @@ UpdateResult HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVE
 	updateResult.done = done;
 
 	return updateResult;
+}
+
+bool HumanAgentBase::TakeDamage(float amount)
+{
+	bool killed = Entity::TakeDamage(amount);
+	if (killed) 
+	{
+		reward += RewardType::DEATH;
+		Respawn();
+		// INSERT EPISODE RESET HERE
+	}
+
+	return killed;
 }
 
 bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
@@ -156,6 +177,22 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 	}
 }
 
+bool HumanAgentBase::IsHidingInBush()
+{
+	if (GetAttachedTile() != nullptr)
+	{
+		if (IsSneaking() && GetAttachedTile()->available && 
+			(GetAttachedTile()->GetResourceType() == ItemType::BERRY || GetAttachedTile()->GetResourceType() == ItemType::FIBER))
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
 bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) 
 {
 	std::array<int, 2> xy = DirectionTypeConverter::TypeToXY(directionType);
@@ -187,10 +224,35 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 
 			return true;
 		}
-		else if (thisTile->attachedEntity != NULL) // check if tile contains an entity that be be interacted with
+		else if (thisTile->attachedEntity != nullptr) // check if tile contains an entity that be be interacted with
 		{
-			// TODO
-			return false; // PLACEHOLDER
+			Entity* interactingEntity = thisTile->attachedEntity;
+			float damageAmount = attackDamage;
+			if (inventory->GetItemTypeAmount(ItemType::SPEAR))
+				damageAmount *= 4;
+
+			bool killed = interactingEntity->TakeDamage(damageAmount);
+			if (killed) 
+			{
+				std::map<ItemType, Item*>::iterator it;
+				std::map<ItemType, Item*> killedInventory = interactingEntity->GetInventory()->GetItems();
+				
+				for (it = killedInventory.begin(); it != killedInventory.end(); it++) 
+				{
+					if (it->second->currentAmount > 0) 
+					{
+						int leftover = inventory->AddItemToInventory(it->first, it->second->currentAmount);
+
+						if (it->first == ItemType::MEAT) 
+						{
+							reward += RewardType::PICKUP_MEAT * (it->second->currentAmount - leftover);
+							//printf("picked up meat! %d\n", it->second->currentAmount);
+						}
+					}
+				}
+			}
+
+			return true;
 		}
 		else 
 			return false;
@@ -198,6 +260,27 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 	}
 	else // tile is out of bounds.
 		return false;
+}
+
+void HumanAgentBase::Render() 
+{
+	bool hasSpear = inventory->GetItemTypeAmount(ItemType::SPEAR) == 1;
+	if (sneaking) 
+	{
+		if (hasSpear)
+			objTexture = TextureManager::LoadTextureByType(TextureLoadType::ENTITY_HUMAN_WITH_SPEAR_CROUCH);
+		else
+			objTexture = TextureManager::LoadTextureByType(TextureLoadType::ENTITY_HUMAN_CROUCH);
+	}
+	else 
+	{
+		if (hasSpear)
+			objTexture = TextureManager::LoadTextureByType(TextureLoadType::ENTITY_HUMAN_WITH_SPEAR);
+		else
+			objTexture = TextureManager::LoadTextureByType(TextureLoadType::ENTITY_HUMAN);
+	}
+
+	GameObject::Render();
 }
 
 

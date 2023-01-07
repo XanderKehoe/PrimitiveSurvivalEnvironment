@@ -1,19 +1,32 @@
 #pragma once
 #include "Entity.h"
-#include "Inventory.h"
 #include "AnimalType.h"
+#include "AnimalStateManager.h"
+#include "HumanAgentBase.h"
 
 class Animal : public Entity
 {
 public:
-	Animal(AnimalType animalType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
+	Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos);
 	~Animal();
 
-	bool IsHostile() { return isHostile; }
-private:
-	Inventory inventory;
+	AnimalType animalType;
 
-	bool isHostile = false;
-	int attackDamage = 0;
+	void Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], HumanAgentBase* humanAgent);
+	void Render() override;
+
+	bool TakeDamage(float amount) override;
+	bool IsHostile() { return isHostile; }
+
+	unsigned short GetSightRange() { return sightRange; }
+
+	bool IsWithinSightRange(int modifiedSightRange, Entity* entity);
+private:
+	class AnimalStateManager* stateManager;
+
+	bool isHostile;
+	unsigned short sightRange;
+
+	void FillInventory();
 };
 

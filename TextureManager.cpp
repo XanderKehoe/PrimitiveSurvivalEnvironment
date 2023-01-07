@@ -10,6 +10,15 @@ SDL_Texture* TextureManager::tileRockDemolished;
 SDL_Texture* TextureManager::tileTree;
 SDL_Texture* TextureManager::tileTreeStump;
 SDL_Texture* TextureManager::entityHuman;
+SDL_Texture* TextureManager::entityHumanCrouch;
+SDL_Texture* TextureManager::entityHumanWithSpear;
+SDL_Texture* TextureManager::entityHumanCrouchWithSpear;
+SDL_Texture* TextureManager::entityRabbit;
+SDL_Texture* TextureManager::entityDeer;
+SDL_Texture* TextureManager::entityElk;
+SDL_Texture* TextureManager::entityGoose;
+SDL_Texture* TextureManager::entityWolf;
+SDL_Texture* TextureManager::entityBear;
 
 void TextureManager::InitializeTextures(SDL_Renderer* ren)
 {
@@ -17,10 +26,19 @@ void TextureManager::InitializeTextures(SDL_Renderer* ren)
 	tileBushBerry = LoadTexture("Textures/GrassTileWithBushBerry.png", ren);
 	tileBushFiber = LoadTexture("Textures/GrassTileWithBushFiber.png", ren);
 	tileRock = LoadTexture("Textures/GrassTileWithRock.png", ren);
-	tileRockDemolished = LoadTexture("Textures/TempCliffTile.png", ren);
+	tileRockDemolished = LoadTexture("Textures/GrassTileWithRockDemolished.png", ren);
 	tileTree = LoadTexture("Textures/GrassTileWithTree.png", ren);
 	tileTreeStump = LoadTexture("Textures/GrassTileWithTreeStump.png", ren);
-	entityHuman = LoadTexture("Textures/HumanAgent.png", ren);
+	entityHuman = LoadTexture("Textures/HumanAgentNoSpear.png", ren);
+	entityHumanCrouch = LoadTexture("Textures/HumanAgentNoSpearCrouch.png", ren);
+	entityHumanWithSpear = LoadTexture("Textures/HumanAgentStanding.png", ren);
+	entityHumanCrouchWithSpear = LoadTexture("Textures/HumanAgentCrouching.png", ren);
+	entityRabbit = LoadTexture("Textures/Rabbit.png", ren);
+	entityDeer = LoadTexture("Textures/Deer.png", ren);
+	entityElk = LoadTexture("Textures/Elk.png", ren);
+	entityGoose = LoadTexture("Textures/Goose.png", ren);
+	entityWolf = LoadTexture("Textures/Wolf.png", ren);
+	entityBear = LoadTexture("Textures/Bear.png", ren);
 }
 
 SDL_Texture* TextureManager::LoadTexture(const char* texture, SDL_Renderer* ren)
@@ -28,6 +46,9 @@ SDL_Texture* TextureManager::LoadTexture(const char* texture, SDL_Renderer* ren)
 	SDL_Surface* tempSurface = IMG_Load(texture);
 	SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, tempSurface);
 	SDL_FreeSurface(tempSurface);
+
+	if (tex == NULL)
+		throw std::logic_error("Texture did not successfully import.");
 
 	return tex;
 }
@@ -67,6 +88,42 @@ SDL_Texture* TextureManager::LoadTextureByType(TextureLoadType textureLoadType)
 		case TextureLoadType::ENTITY_HUMAN: 
 		{
 			return entityHuman;
+		}
+		case TextureLoadType::ENTITY_HUMAN_CROUCH: 
+		{
+			return entityHumanCrouch;
+		}
+		case TextureLoadType::ENTITY_HUMAN_WITH_SPEAR:
+		{
+			return entityHumanWithSpear;
+		}
+		case TextureLoadType::ENTITY_HUMAN_WITH_SPEAR_CROUCH:
+		{
+			return entityHumanCrouchWithSpear;
+		}
+		case TextureLoadType::ENTITY_RABBIT:
+		{
+			return entityRabbit;
+		}
+		case TextureLoadType::ENTITY_DEER:
+		{
+			return entityDeer;
+		}
+		case TextureLoadType::ENTITY_ELK:
+		{
+			return entityElk;
+		}
+		case TextureLoadType::ENTITY_GOOSE:
+		{
+			return entityGoose;
+		}
+		case TextureLoadType::ENTITY_WOLF:
+		{
+			return entityWolf;
+		}
+		case TextureLoadType::ENTITY_BEAR:
+		{
+			return entityBear;
 		}
 
 		default:

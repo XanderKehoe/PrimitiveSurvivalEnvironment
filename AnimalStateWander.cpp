@@ -9,27 +9,36 @@ AnimalStateWander::~AnimalStateWander()
 {
 }
 
-void AnimalStateWander::EnterState(AnimalStateManager* manager, Entity* target)
+void AnimalStateWander::EnterState(AnimalStateManager* manager)
 {
 	GenerateWanderPath();
 }
 
-void AnimalStateWander::Update(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+void AnimalStateWander::Update(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], HumanAgentBase* humanAgent)
 {
 	FollowWanderPath(manager, level);
 
-	bool seeHuman = false; // PLACEHOLDER
+	bool seeHuman = false;
+	int modifiedSightRange = manager->animal->GetSightRange();
+	if (!humanAgent->IsHidingInBush()) 
+	{
+		if (humanAgent->IsSneaking())
+			modifiedSightRange /= 2;
+
+		if (manager->animal->IsWithinSightRange(modifiedSightRange, humanAgent))
+			seeHuman = true;
+	}
+
 	if (seeHuman)
 	{
+		printf("I see a human! %d %d %d\n", modifiedSightRange, humanAgent->GetGridXPos(), humanAgent->GetGridYPos());
 		if (manager->animal->IsHostile())
 		{
-			manager->ChangeState(manager->attackState);
-			// figure out best way to pass target info here
+			// manager->ChangeState(manager->attackState);
 		}
 		else 
 		{
-			manager->ChangeState(manager->fleeState);
-			// figure out best way to pass target info here
+			//manager->ChangeState(manager->fleeState);
 		}
 	}
 }
@@ -38,32 +47,56 @@ void AnimalStateWander::FollowWanderPath(AnimalStateManager* manager, Tile* leve
 {
 	if (wanderPathX == 0 && wanderPathY == 0) // Reached 'destination', generate a new path to follow
 	{
-		GenerateWanderPath();
-	}
-	else if (wanderPathX == 0) // only need to move in y direction
-	{
-		if (wanderPathY < 0) 
+		if (currentIdle == 0) 
 		{
-			manager->animal->Move(DirectionType::DOWN, false, level);
-			wanderPathY++;
-		}
-		else 
-		{
-			manager->animal->Move(DirectionType::UP, false, level);
-			wanderPathY--;
-		}
-	}
-	else if (wanderPathY == 0) // only need to move in x direction
-	{
-		if (wanderPathX < 0)
-		{
-			manager->animal->Move(DirectionType::RIGHT, false, level);
-			wanderPathX++;
+			GenerateWanderPath();
+			currentIdle = MAX_IDLE;
 		}
 		else
+			currentIdle--;
+	}
+
+	float randVal = (float) rand() / RAND_MAX;
+
+	if (manager->animal->CanMove())
+	{
+		if (wanderPathX == 0 || randVal < 0) // Move in Y dir
 		{
-			manager->animal->Move(DirectionType::LEFT, false, level);
-			wanderPathX--;
+			if (wanderPathY < 0)
+			{
+				bool success = manager->animal->Move(DirectionType::DOWN, false, level);
+				if (!success)
+					GenerateWanderPath();
+				else
+					wanderPathY++;
+			}
+			else
+			{
+				bool success = manager->animal->Move(DirectionType::UP, false, level);
+				if (!success)
+					GenerateWanderPath();
+				else
+					wanderPathY--;
+			}
+		}
+		else // move in X dir
+		{
+			if (wanderPathX < 0)
+			{
+				bool success = manager->animal->Move(DirectionType::RIGHT, false, level);
+				if (!success)
+					GenerateWanderPath();
+				else
+					wanderPathX++;
+			}
+			else
+			{
+				bool success = manager->animal->Move(DirectionType::LEFT, false, level);
+				if (!success)
+					GenerateWanderPath();
+				else
+					wanderPathX--;
+			}
 		}
 	}
 }

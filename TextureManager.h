@@ -15,6 +15,15 @@ private:
 	static SDL_Texture* tileTree;
 	static SDL_Texture* tileTreeStump;
 	static SDL_Texture* entityHuman;
+	static SDL_Texture* entityHumanWithSpear;
+	static SDL_Texture* entityHumanCrouch;
+	static SDL_Texture* entityHumanCrouchWithSpear;
+	static SDL_Texture* entityRabbit;
+	static SDL_Texture* entityDeer;
+	static SDL_Texture* entityElk;
+	static SDL_Texture* entityGoose;
+	static SDL_Texture* entityWolf;
+	static SDL_Texture* entityBear;
 
 	static SDL_Texture* LoadTexture(const char* fileName, SDL_Renderer* ren);
 };

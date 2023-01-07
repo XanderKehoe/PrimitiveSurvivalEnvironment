@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="Animal.cpp" />
     <ClCompile Include="AnimalStateAttack.cpp" />
+    <ClCompile Include="AnimalStateDead.cpp" />
     <ClCompile Include="AnimalStateFlee.cpp" />
     <ClCompile Include="AnimalStateManager.cpp" />
     <ClCompile Include="AnimalStateWander.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Animal.h" />
     <ClInclude Include="AnimalStateAttack.h" />
     <ClInclude Include="AnimalStateBase.h" />
+    <ClInclude Include="AnimalStateDead.h" />
     <ClInclude Include="AnimalStateFlee.h" />
     <ClInclude Include="AnimalStateManager.h" />
     <ClInclude Include="AnimalStateWander.h" />
@@ -222,13 +224,20 @@
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithBushFiber.png" />
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithRock.png" />
     <Image Include="..\..\..\..\..\..\Downloads\GrassTileWithTree.png" />
+    <Image Include="Textures\Bear.png" />
+    <Image Include="Textures\Deer.png" />
+    <Image Include="Textures\Elk.png" />
+    <Image Include="Textures\Goose.png" />
+    <Image Include="Textures\GrassTileWithRockDemolished.png" />
     <Image Include="Textures\GrassTileWithTreeStump.png" />
     <Image Include="Textures\HumanAgent.png" />
+    <Image Include="Textures\Rabbit.png" />
     <Image Include="Textures\TempAnimal.png" />
     <Image Include="Textures\TempCliffTile.png" />
     <Image Include="Textures\TempDoorTile.png" />
     <Image Include="Textures\TempWallTile.png" />
     <Image Include="Textures\TempWaterTile.png" />
+    <Image Include="Textures\Wolf.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

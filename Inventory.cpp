@@ -1,8 +1,10 @@
 #include "Inventory.h"
 #include <stdexcept>
 
-Inventory::Inventory()
+Inventory::Inventory(bool isHuman)
 {
+	this->isHuman = isHuman;
+
 	InitializeItemInInventory(ItemType::SACK, 1, 1);
 	InitializeItemInInventory(ItemType::SPEAR, 1, 1);
 	InitializeItemInInventory(ItemType::BOW, 1, 1);
@@ -30,7 +32,7 @@ int Inventory::AddItemToInventory(ItemType itemType, int amount)
 		int currentAmount = currentItem->currentAmount;
 		int maxAmount = currentItem->maxAmount;
 
-		if (currentAmount + amount > maxAmount) 
+		if (currentAmount + amount > maxAmount && isHuman) 
 		{
 			currentItem->currentAmount = maxAmount;
 			return currentAmount + amount - maxAmount;

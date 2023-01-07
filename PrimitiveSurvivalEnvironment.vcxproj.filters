@@ -120,6 +120,9 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Tile</Filter>
     </ClCompile>
+    <ClCompile Include="AnimalStateDead.cpp">
+      <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -209,6 +212,9 @@
     <ClInclude Include="AnimalType.h">
       <Filter>Header Files\GameObject\Entity\Animal</Filter>
     </ClInclude>
+    <ClInclude Include="AnimalStateDead.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\TempAnimal.png">
@@ -245,6 +251,27 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Textures\GrassTileWithTreeStump.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\Wolf.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\Deer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\Goose.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\Rabbit.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\Bear.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\Elk.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Textures\GrassTileWithRockDemolished.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

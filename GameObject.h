@@ -15,6 +15,8 @@ public:
 	virtual void Update(class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) = 0;
 	virtual void Render();
 
+	int GetGridXPos() { return gridXPos; }
+	int GetGridYPos() { return gridYPos; }
 protected:
 	int gridXPos = 0;
 	int gridYPos = 0;

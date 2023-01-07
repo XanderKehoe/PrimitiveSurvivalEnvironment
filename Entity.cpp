@@ -4,11 +4,13 @@
 #include <array>
 #include "Camera.h"
 
+Tile* attachedTile;
+
 Entity::Entity(TextureLoadType textureLoadType, SDL_Renderer* ren, 
 	unsigned long initXPos, unsigned long initYPos) 
 	: GameObject(textureLoadType, ren, initXPos, initYPos)
 {
-
+	inventory = new Inventory(false);
 }
 
 Entity::~Entity()
@@ -48,6 +50,7 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 				// no entity already occupying this tile, can move into this tile.
 				level[gridXPos + x][gridYPos + y]->attachedEntity = this; // set tile that we are moving into as 'occupied'
 				level[gridXPos][gridYPos]->attachedEntity = NULL; // set tile that we are moving out of as 'free'
+				attachedTile = level[gridXPos + x][gridYPos + y];
 
 				gridXPos += x;
 				gridYPos += y;
@@ -55,8 +58,8 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 				if (!OVERRIDE_MOVE_COOLDOWN)
 					moveCurrentCooldown = moveTimerMax;
 
-				if (Camera::IsCoordOutsideCamView(gridXPos * Config::TILE_SIZE, gridYPos * Config::TILE_SIZE, (Config::TILE_SIZE * 3))) // if agent is within 3 tiles of camera's view border, recenter the camera
-					Camera::Center(gridXPos * Config::TILE_SIZE, gridYPos * Config::TILE_SIZE);
+				if (isHuman && Camera::IsCoordOutsideCamView(gridXPos * Config::TILE_SIZE, gridYPos * Config::TILE_SIZE, (Config::TILE_SIZE * 3))) // if agent is within 3 tiles of camera's view border, recenter the camera
+					Camera::Center(gridXPos, gridYPos);
 
 				return true;
 			}
@@ -68,6 +71,30 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 	} 
 	else // movement would lead off the level.
 		return false;
+}
+
+bool Entity::TakeDamage(float amount)
+{
+	health -= amount;
+	if (health < 0) 
+	{
+		isDead = true;
+		attachedTile->attachedEntity = nullptr;
+		return true;
+	}
+	else
+		return false;
+}
+
+void Entity::Respawn() 
+{
+	health = MAX_HEALTH;
+	isDead = false;
+}
+
+void Entity::Render()
+{
+	GameObject::Render();
 }
 
 bool Entity::GridPosOutOfBounds(int gridX, int gridY) 

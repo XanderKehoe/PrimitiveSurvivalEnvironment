@@ -11,6 +11,7 @@
 //#include "Tile.h" // same here, put include in .cpp file and use forward declaration in header file (aka here)
 #include <iostream>
 #include <vector>
+#include <list>
 
 class Game
 {
@@ -39,4 +40,9 @@ private:
 	bool isRunning = false;
 	SDL_Window *window = nullptr;
 	SDL_Renderer* renderer = nullptr;
+
+	class HumanAgent* agent;
+	std::list<class Animal*> animalList;
+
+	void InitEntities();
 };

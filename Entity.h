@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "DirectionType.h"
+#include "Inventory.h"
 
 class Entity : public GameObject
 {
@@ -10,22 +11,31 @@ public:
 	~Entity();
 
 	virtual void Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]) override;
+	virtual void Render();
 
 	/*
 	Attempts to move the character by x/y respectively, accounts for movement cooldown and 'blocking' (tiles that entities can't enter) tile types.
 	*/
 	virtual bool Move(DirectionType directionType, bool isHuman, class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
-	static bool GridPosOutOfBounds(int gridX, int gridY);
-
+	virtual bool TakeDamage(float amount);
+	bool CanMove() { return moveCurrentCooldown == 0; }
+	Inventory* GetInventory() { return inventory; }
+	Tile* GetAttachedTile() { return attachedTile; }
+	void Respawn();
 protected:
-	unsigned short health = 100; // the health of the entity, entity dies if this reaches 0.
-	unsigned const short MAX_HEALTH = 100; // the max health of the entity, health will slowly regenerate over time up to a max of this value.
-	unsigned short moveTimerMax = 1; // how long entity has to wait to move again.
+	float health; // the health of the entity, entity dies if this reaches 0.
+	float MAX_HEALTH; // the max health of the entity, health will slowly regenerate over time up to a max of this value.
+	float attackDamage; // how much damage this entity can deal to another entity
+
+	bool isDead = false;
+
+	Inventory* inventory;
+
+	unsigned short moveTimerMax; // how long entity has to wait to move again.
 	unsigned short moveCurrentCooldown = 0; // if 0, entity can move
 
-	//Tile* currentTile = nullptr;
-
-	bool CanMove() { return moveCurrentCooldown == 0; }
+	static bool GridPosOutOfBounds(int gridX, int gridY);
 private:
 	static const bool OVERRIDE_MOVE_COOLDOWN = true;
+	Tile* attachedTile = nullptr;
 };

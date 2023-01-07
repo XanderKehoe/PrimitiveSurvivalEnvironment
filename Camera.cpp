@@ -36,13 +36,12 @@ void Camera::Move(int x, int y)
 	//std::cout << "Camera Pos Updated, new pos is: [" << xPos << "][" << yPos << "] max X/Y: [" << (LEVEL_WIDTH - SCREEN_WIDTH) << "][ " << (LEVEL_HEIGHT - SCREEN_HEIGHT) << "]" << std::endl;
 }
 
-void Camera::Center(int x, int y)
+void Camera::Center(int gridXPos, int gridYPos)
 {
-	// not super confident in the last section of this equation, if camera issues arrise in the future, this could be the issue.
-	xPos = x - ((SCREEN_WIDTH / 2) * zoom) - ((SCREEN_WIDTH / 2) * (zoom - 1));
-	yPos = y - ((SCREEN_HEIGHT / 2) * zoom) - ((SCREEN_HEIGHT / 2) * (zoom - 1));
+	xPos = (gridXPos * (Config::TILE_SIZE / zoom)) - (SCREEN_WIDTH / 2);
+	yPos = (gridYPos * (Config::TILE_SIZE / zoom)) - (SCREEN_HEIGHT / 2);
 
-	printf("\tnew xPos: %d yPos: %d\n", xPos, yPos);
+	//printf("\tnew xPos: %d yPos: %d\n", xPos, yPos);
 
 	CheckAndAdjustOutOfBounds();
 }
