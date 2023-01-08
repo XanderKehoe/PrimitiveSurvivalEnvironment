@@ -123,6 +123,12 @@
     <ClCompile Include="AnimalStateDead.cpp">
       <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
     </ClCompile>
+    <ClCompile Include="PathFinder.cpp">
+      <Filter>Source Files\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimalStateBase.cpp">
+      <Filter>Source Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -213,6 +219,15 @@
       <Filter>Header Files\GameObject\Entity\Animal</Filter>
     </ClInclude>
     <ClInclude Include="AnimalStateDead.h">
+      <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinder.h">
+      <Filter>Header Files\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2DFloat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimalEventType.h">
       <Filter>Header Files\GameObject\Entity\Animal\AnimalStateMachine</Filter>
     </ClInclude>
   </ItemGroup>

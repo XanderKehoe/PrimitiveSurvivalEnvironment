@@ -1,7 +1,7 @@
 #pragma once
 namespace Config 
 {
-	const int LEVEL_SIZE = 256;
+	const int LEVEL_SIZE = 128;
 	const int TILE_SIZE = 64;
 
 	const short NUM_RABBITS = 10;

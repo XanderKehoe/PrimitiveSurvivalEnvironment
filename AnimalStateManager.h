@@ -1,11 +1,12 @@
 #pragma once
 #include "Animal.h"
 #include "Tile.h"
+#include "AnimalEventType.h"
 
 class AnimalStateManager
 {
 public:
-	AnimalStateManager(Animal* animal);
+	AnimalStateManager(Animal* animal, HumanAgentBase* humanAgent);
 	~AnimalStateManager();
 
 	Animal* animal;
@@ -16,7 +17,8 @@ public:
 	class AnimalStateBase* attackState;
 	class AnimalStateBase* deadState;
 
-	void Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], HumanAgentBase* humanAgent);
+	void Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
 	void ChangeState(class AnimalStateBase* state);
+	void PostEvent(AnimalEventType eventType, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
 };
 

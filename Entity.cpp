@@ -20,14 +20,20 @@ Entity::~Entity()
 
 void Entity::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
+	if (health < MAX_HEALTH)
+		health++; // passive health regeneration
+
 	if (moveCurrentCooldown > 0)
 		moveCurrentCooldown--;
 }
 
 bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
-	if (!CanMove())
+	if (!CanMove()) 
+	{
+		printf("WARNING: return false on Move(), should check CanMove() before using Move()");
 		return false;
+	}
 
 	std::array<int, 2> xy = DirectionTypeConverter::TypeToXY(directionType);
 	int x = xy[0];
@@ -39,10 +45,7 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 		TileType tileType = level[gridXPos + x][gridYPos + y]->tileType;
 		//printf("tileType: %d\n", tileType);
 		// check if tile is available to move in
-		if (tileType == TileType::BUSH_BERRY ||
-			tileType == TileType::BUSH_FIBER ||
-			tileType == TileType::PLAIN ||
-			(tileType == TileType::DOOR && isHuman))
+		if (level[gridXPos + x][gridYPos + y]->IsWalkable(isHuman))
 		{
 			// check if any other entity is occupying the same space TODO
 			if (level[gridXPos + x][gridYPos + y]->attachedEntity == NULL)
@@ -73,7 +76,7 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 		return false;
 }
 
-bool Entity::TakeDamage(float amount)
+bool Entity::TakeDamage(float amount, bool fromBow, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
 	health -= amount;
 	if (health < 0) 

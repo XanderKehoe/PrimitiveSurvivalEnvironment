@@ -11,9 +11,10 @@ from ray.rllib.env.policy_client import PolicyClient
 # TODO test all of these functions
 global shm
 
-NUMBER_OF_BYTES_IN_INT = 4
-NUMBER_OF_STATES_PER_TILE = 2
+NUMBER_OF_BYTES_IN_INT_AND_FLOAT = 4
+NUMBER_OF_STATES_PER_TILE = 3
 NUMBER_OF_TILE_TYPES = 10
+NUMBER_OF_ENTITY_TYPES = 7
 SHARED_MEM_STR = "PSEMem"
 
 
@@ -30,15 +31,31 @@ def ReadStateRewardDoneFromBuffer():
     # print("buf before read: "+str(bytes(shm.buf)))
     r = ReadFloatFromBytes([shm.buf[4], shm.buf[5], shm.buf[6], shm.buf[7]])
     d = ReadIntFromBytes([shm.buf[8], shm.buf[9], shm.buf[10], shm.buf[11]])
-    numberOfStates = ReadIntFromBytes([shm.buf[12], shm.buf[13], shm.buf[14], shm.buf[15]])
-    # print("numberOfStates: "+str(numberOfStates))
+    numberOfIntStates = ReadIntFromBytes([shm.buf[12], shm.buf[13], shm.buf[14], shm.buf[15]])
+    numberOfFloatStates = ReadIntFromBytes([shm.buf[16], shm.buf[17], shm.buf[18], shm.buf[19]])
+    # print("numberOfIntStates: "+str(numberOfIntStates))
+    # print("numberOfFloatStates: " + str(numberOfFloatStates))
+
     s = []
-    for i in range(16, ((numberOfStates + NUMBER_OF_BYTES_IN_INT) * NUMBER_OF_BYTES_IN_INT), NUMBER_OF_BYTES_IN_INT): # not sure why + NUMBER_OF_BYTES_IN_INT is needed, but it works
+    index = 20
+    i = 0
+    for i in range(20, ((numberOfIntStates + NUMBER_OF_BYTES_IN_INT_AND_FLOAT * 2) * NUMBER_OF_BYTES_IN_INT_AND_FLOAT), NUMBER_OF_BYTES_IN_INT_AND_FLOAT): # not sure why + NUMBER_OF_BYTES_IN_INT_AND_FLOAT is needed, but it works
         s.append(ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]))
-    # print("len(s) = "+str(len(s)))
+        index += NUMBER_OF_BYTES_IN_INT_AND_FLOAT
+        # if ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]) > 1.0:
+            # print("i G>(int): "+str(i)+" | "+str(ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]])))
+
+    s = PreprocessStates(s)
+
+    for j in range(i + NUMBER_OF_BYTES_IN_INT_AND_FLOAT, ((numberOfFloatStates + NUMBER_OF_BYTES_IN_INT_AND_FLOAT) * NUMBER_OF_BYTES_IN_INT_AND_FLOAT), NUMBER_OF_BYTES_IN_INT_AND_FLOAT):
+        s.append(ReadFloatFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]))
+        index += NUMBER_OF_BYTES_IN_INT_AND_FLOAT
+        #if ReadFloatFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]) > 1.0:
+            # print("i G>(float): "+str(i))
 
     s = [float(x) for x in s]
     # s = np.asarray(s, dtype=np.float32)
+    print("len(s) = "+str(len(s)))
 
     return s, r, d
 
@@ -57,17 +74,26 @@ def GetOneHotEncoding(val: int, size: int):
 def PreprocessStates(s):
     ret = []
     for i in range(0, len(s), NUMBER_OF_STATES_PER_TILE):
+        # tileType
+        # print("\ti(0): "+str(i) + " | len(s) == "+str(len(s)))
         tileTypeOneHotList = GetOneHotEncoding(s[i], NUMBER_OF_TILE_TYPES)
         for x in range(len(tileTypeOneHotList)):
             ret.append(tileTypeOneHotList[x])
 
+        # print("\ti(1): "+str(i+1) + " | len(s) == "+str(len(s)))
         ret.append(s[i+1])  # availability
+
+        # print("\ti(2): " + str(i+2) + " | len(s) == " + str(len(s)))
+        # entityType
+        entityTypeOneHotList = GetOneHotEncoding(s[i+2], NUMBER_OF_ENTITY_TYPES)
+        for x in range(len(entityTypeOneHotList)):
+            ret.append(entityTypeOneHotList[x])
 
     return ret
 
 
 def ReadBuffer():
-    for i in range(0, len(shm.buf), NUMBER_OF_BYTES_IN_INT):
+    for i in range(0, len(shm.buf), NUMBER_OF_BYTES_IN_INT_AND_FLOAT):
         fourBytes = [shm.buf[i + 3], shm.buf[i + 2], shm.buf[i + 1], shm.buf[i]]
         byteBinaryStr = ""
         for byte in fourBytes:
@@ -159,28 +185,32 @@ if __name__ == "__main__":
 
     WaitForAvailability()
     states, _, _ = ReadStateRewardDoneFromBuffer()
-    states = PreprocessStates(states)
+    # print("len(states) == "+str(len(states)))
+    # ReadBuffer()
     ClearBuffer()
 
     info = {}  # not implemented
 
     rewards = 0.0
+    # print("before loop")
     while True:
         if args.off_policy:
             raise NotImplementedError("Off-Policy training is not implemented")
         else:
-            # print("type: "+str(type(states)))
-            # print("len: " + str(len(states)))
-            # print("states: " + str(states))
+            # print("Getting action...")
+            # print("\ttype: "+str(type(states)))
+            # print("\tlen: " + str(len(states)))
+            # print("\tstates: " + str(states))
             action = client.get_action(eid, states)
 
+        # print("got action: "+str(action))
         WriteSelectedAction(action)
         WaitForAvailability()
-
+        # print("Waiting for availability...")
         states, reward, done = ReadStateRewardDoneFromBuffer()
         ClearBuffer()
+        # print("StateRewardDone received")
 
-        states = PreprocessStates(states)
         # print("states: "+str(states))
         # print("len(states): " + str(len(states)))
 

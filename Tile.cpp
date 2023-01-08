@@ -59,8 +59,8 @@ bool Tile::HumanInteractionAvailable()
 {
 	if (available)
 		return true;
-
-	return false;
+	else
+		return false;
 }
 
 bool Tile::HumanInteract(class HumanAgentBase* humanAgent)
@@ -115,6 +115,20 @@ bool Tile::HumanInteract(class HumanAgentBase* humanAgent)
 		return false;
 }
 
+bool Tile::IsWalkable(bool isHuman)
+{
+	if ((tileType == TileType::BUSH_BERRY ||
+		tileType == TileType::BUSH_FIBER ||
+		tileType == TileType::PLAIN ||
+		(tileType == TileType::DOOR && isHuman)))
+		//&& attachedEntity == nullptr)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
 void Tile::Update() 
 {
 	if (!available)
@@ -128,10 +142,40 @@ void Tile::Update()
 
 void Tile::Render() 
 {
+	const bool PATH_FIND_DEBUG = true;
+	const bool FLEE_PATH_DEBUG = false;
+
 	destRect.h = Config::TILE_SIZE / Camera::zoom;
 	destRect.w = Config::TILE_SIZE / Camera::zoom;
 	destRect.x = ((gridXPos * Config::TILE_SIZE) / Camera::zoom) - Camera::xPos;
 	destRect.y = ((gridYPos * Config::TILE_SIZE) / Camera::zoom) - Camera::yPos;
+
+	if (visited && PATH_FIND_DEBUG) 
+	{
+		switch (cameFrom) 
+		{
+			case DirectionType::UP:
+				SDL_RenderCopy(renderer, TextureManager::LoadTextureByType(TextureLoadType::DEBUG_UP), &srcRect, &destRect);
+				break;
+			case DirectionType::DOWN:
+				SDL_RenderCopy(renderer, TextureManager::LoadTextureByType(TextureLoadType::DEBUG_DOWN), &srcRect, &destRect);
+				break;
+			case DirectionType::LEFT:
+				SDL_RenderCopy(renderer, TextureManager::LoadTextureByType(TextureLoadType::DEBUG_LEFT), &srcRect, &destRect);
+				break;
+			case DirectionType::RIGHT:
+				SDL_RenderCopy(renderer, TextureManager::LoadTextureByType(TextureLoadType::DEBUG_RIGHT), &srcRect, &destRect);
+				break;
+		}
+		
+		return;
+	}
+	else if (FLEE_PATH_DEBUG && debug) 
+	{
+		SDL_RenderCopy(renderer, TextureManager::LoadTextureByType(TextureLoadType::DEBUG), &srcRect, &destRect);
+		return;
+	}
+
 	if (!available && GetResourceType() != ItemType::NONE)
 		SDL_RenderCopy(renderer, tileDepletedTexture, &srcRect, &destRect);
 	else

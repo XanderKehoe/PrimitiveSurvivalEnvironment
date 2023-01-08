@@ -5,14 +5,10 @@
 //#include "PythonInterface.h"
 
 Game* game = nullptr;
-const bool TRAINING = false;
+const bool TRAINING = true;
 
 // TODO
-	// Implement animals
-		// Implement sight (factor in sneak and temp visability shield)
-		// Implement attack state
-		// Implement flee state
-	// Implement bow
+	// Implement new observations (and then test!)
 	// Implement traps
 	// Implement water and cliff generation
 	// Implement water, cliff, and wall texture loading
@@ -52,7 +48,7 @@ int main(int argc, char *argv[])
 			std::vector<int> agentNewStateInt = game->GetAgentObservationsInt();
 			std::vector<float> agentNewStateFloat = game->GetAgentObservationsFloat();
 
-			SharedMemoryManager::SendStateRewardDone(updateResult.reward, updateResult.done, agentNewStateInt);
+			SharedMemoryManager::SendStateRewardDone(updateResult.reward, updateResult.done, agentNewStateInt, agentNewStateFloat);
 
 			SharedMemoryManager::WaitForAvailability();
 

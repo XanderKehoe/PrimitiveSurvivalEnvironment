@@ -62,7 +62,7 @@ void SharedMemoryManager::ClearBuffer()
 	currentBufferCount = 0;
 }
 
-void SharedMemoryManager::SendStateRewardDone(float reward, int done, std::vector<int> currentState)
+void SharedMemoryManager::SendStateRewardDone(float reward, int done, std::vector<int> currentIntState, std::vector<float> currentFloatState)
 {
 	VerifyBufferIsClear();
 
@@ -73,17 +73,32 @@ void SharedMemoryManager::SendStateRewardDone(float reward, int done, std::vecto
 	AddIntToBuffer(done);
 
 	//printf("SMM: Adding State Size - %d\n", currentState.size());
-	AddIntToBuffer(currentState.size());
+	AddIntToBuffer(currentIntState.size());
 
-	int count = 0;
-	while (!currentState.empty()) 
+	AddIntToBuffer(currentFloatState.size());
+
+	int totalCount = 0;
+	int intCount = 0;
+	while (!currentIntState.empty()) 
 	{
 		//printf("\tback() -> %d\n", currentState.back());
-		AddIntToBuffer(currentState.back());
-		currentState.pop_back();
-		count++;
+		AddIntToBuffer(currentIntState.back());
+		currentIntState.pop_back();
+		totalCount++;
+		intCount++;
 	}
-	//printf("Count: %d\n", count);
+
+	int floatCount = 0;
+	while (!currentFloatState.empty())
+	{
+		//printf("\tback() -> %d\n", currentState.back());
+		AddFloatToBuffer(currentFloatState.back());
+		currentFloatState.pop_back();
+		totalCount++;
+		floatCount++;
+	}
+
+	// printf("totalCount: %d, intCount: %d, floatCount: %d\n", totalCount, intCount, floatCount);
 
 	// delete currentState; may or may not need this.
 

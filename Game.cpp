@@ -122,67 +122,82 @@ void Game::HandleEvents(bool allowPlayerControl)
 				{
 					case SDLK_DOWN:
 					{
-						agent->TakeAction(ActionType::MOVE_DOWN, level);
+						agent->TakeAction(ActionType::MOVE_DOWN, level, animalList);
 						break;
 					}
 					case SDLK_UP:
 					{
-						agent->TakeAction(ActionType::MOVE_UP, level);
+						agent->TakeAction(ActionType::MOVE_UP, level, animalList);
 						break;
 					}
 					case SDLK_LEFT:
 					{
-						agent->TakeAction(ActionType::MOVE_LEFT, level);
+						agent->TakeAction(ActionType::MOVE_LEFT, level, animalList);
 						break;
 					}
 					case SDLK_RIGHT:
 					{
-						agent->TakeAction(ActionType::MOVE_RIGHT, level);
+						agent->TakeAction(ActionType::MOVE_RIGHT, level, animalList);
 						break;
 					}
 					case SDLK_t:
 					{
-						agent->TakeAction(ActionType::INTERACT_UP, level);
+						agent->TakeAction(ActionType::INTERACT_UP, level, animalList);
 						break;
 					}
 					case SDLK_f:
 					{
-						agent->TakeAction(ActionType::INTERACT_LEFT, level);
+						agent->TakeAction(ActionType::INTERACT_LEFT, level, animalList);
 						break;
 					}
 					case SDLK_g:
 					{
-						agent->TakeAction(ActionType::INTERACT_DOWN, level);
+						agent->TakeAction(ActionType::INTERACT_DOWN, level, animalList);
 						break;
 					}
 					case SDLK_h:
 					{
-						agent->TakeAction(ActionType::INTERACT_RIGHT, level);
+						agent->TakeAction(ActionType::INTERACT_RIGHT, level, animalList);
 						break;
 					}
 					case SDLK_1:
 					{
-						agent->TakeAction(ActionType::CRAFT_SPEAR, level);
+						agent->TakeAction(ActionType::CRAFT_SPEAR, level, animalList);
 						break;
 					}
 					case SDLK_2:
 					{
-						agent->TakeAction(ActionType::CRAFT_AXE, level);
+						agent->TakeAction(ActionType::CRAFT_AXE, level, animalList);
 						break;
 					}
 					case SDLK_3:
 					{
-						agent->TakeAction(ActionType::CRAFT_HAMMER, level);
+						agent->TakeAction(ActionType::CRAFT_HAMMER, level, animalList);
 						break;
 					}
 					case SDLK_4:
 					{
-						agent->TakeAction(ActionType::CRAFT_SACK, level);
+						agent->TakeAction(ActionType::CRAFT_SACK, level, animalList);
+						break;
+					}
+					case SDLK_5:
+					{
+						agent->TakeAction(ActionType::CRAFT_BOW, level, animalList);
+						break;
+					}
+					case SDLK_6:
+					{
+						agent->TakeAction(ActionType::CRAFT_ARROW, level, animalList);
 						break;
 					}
 					case SDLK_F1:
 					{
-						agent->TakeAction(ActionType::TOGGLE_SNEAK, level);
+						agent->TakeAction(ActionType::TOGGLE_SNEAK, level, animalList);
+						break;
+					}
+					case SDLK_F2:
+					{
+						agent->TakeAction(ActionType::SHOOT_BOW, level, animalList);
 						break;
 					}
 				}
@@ -218,12 +233,12 @@ UpdateResult Game::Update(ActionType selectedAgentAction)
 {	
 	for (Animal* a : animalList) 
 	{
-		a->Update(level, agent);
+		a->Update(level);
 		
 		//printf("Animal | xPos: %d yPos: %d\n", a.GetGridXPos(), a.GetGridYPos());
 	}
 
-	UpdateResult updateResult = agent->Update(level, selectedAgentAction);
+	UpdateResult updateResult = agent->Update(level, selectedAgentAction, animalList);
 
 	for (unsigned int i = 0; i < Config::LEVEL_SIZE; ++i)
 	{
@@ -255,42 +270,42 @@ void Game::InitEntities()
 	//agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, distr(gen), distr(gen));
 
 	agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 20, 20);
-	Animal* testAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, 21, 20);
-	animalList.push_back(testAnimal);
+	//Animal* testAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, 21, 20);
+	//animalList.push_back(testAnimal);
 
 	for (int i = 0; i < Config::NUM_RABBITS; i++) 
 	{
-		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, distr(gen), distr(gen));
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
 
 	for (int i = 0; i < Config::NUM_DEER; i++)
 	{
-		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_DEER, renderer, distr(gen), distr(gen));
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_DEER, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
 
 	for (int i = 0; i < Config::NUM_ELK; i++)
 	{
-		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_ELK, renderer, distr(gen), distr(gen));
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_ELK, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
 
 	for (int i = 0; i < Config::NUM_GOOSE; i++)
 	{
-		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_GOOSE, renderer, distr(gen), distr(gen));
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_GOOSE, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
 
 	for (int i = 0; i < Config::NUM_WOLF; i++)
 	{
-		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_WOLF, renderer, distr(gen), distr(gen));
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_WOLF, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
 
 	for (int i = 0; i < Config::NUM_BEAR; i++)
 	{
-		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_BEAR, renderer, distr(gen), distr(gen));
+		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_BEAR, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
 }

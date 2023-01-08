@@ -25,5 +25,11 @@ private:
 	static SDL_Texture* entityWolf;
 	static SDL_Texture* entityBear;
 
+	static SDL_Texture* debugTexture;
+	static SDL_Texture* debugUp;
+	static SDL_Texture* debugDown;
+	static SDL_Texture* debugLeft;
+	static SDL_Texture* debugRight;
+
 	static SDL_Texture* LoadTexture(const char* fileName, SDL_Renderer* ren);
 };

@@ -93,7 +93,7 @@ def get_cli_args():
     parser.add_argument(
         "--stop-timesteps",
         type=int,
-        default=500000,
+        default=10000000,
         help="Number of timesteps to train.",
     )
     parser.add_argument(
@@ -171,8 +171,8 @@ if __name__ == "__main__":
         "env": None,
         # TODO: (sven) make these settings unnecessary and get the information
         #  about the env spaces from the client.
-        "observation_space": gym.spaces.Box(float("-inf"), float("inf"), (539,)), # TODO find dynamic way to set this value
-        "action_space": gym.spaces.Discrete(17), # TODO find dynamic way to set this value
+        "observation_space": gym.spaces.Box(float("-inf"), float("inf"), (3060,)), # TODO find dynamic way to set this value
+        "action_space": gym.spaces.Discrete(18), # TODO find dynamic way to set this value
         # Use the `PolicyServerInput` to generate experiences.
         "input": _input,
         # Use n worker processes to listen on different ports.
@@ -238,8 +238,8 @@ if __name__ == "__main__":
                 "rollout_fragment_length": 1000,
                 "train_batch_size": 4000,
                 "model": {
-                    "fcnet_hiddens": [256, 256],
-                    "fcnet_activation": "tanh",
+                    "fcnet_hiddens": [5120, 5120],
+                    "fcnet_activation": "relu",
                     # "conv_filters": null,
                     # "conv_activation": "relu",
                 }

@@ -1,7 +1,7 @@
 #include "Animal.h"
 #include "AnimalStateDead.h"
 
-Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos) : Entity( textureLoadType, ren, initXPos, initYPos)
+Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long int initXPos, unsigned long int initYPos, HumanAgentBase* humanAgent) : Entity( textureLoadType, ren, initXPos, initYPos)
 {
 	// Derive animal type from textureLoadType
 	switch (textureLoadType)
@@ -24,8 +24,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 		{
 			animalType = AnimalType::DEER;
 
-			health = 50;
-			MAX_HEALTH = 50;
+			health = 40;
+			MAX_HEALTH = 40;
 			isHostile = false;
 			attackDamage = 0;
 			sightRange = 6;
@@ -66,8 +66,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 		{
 			animalType = AnimalType::WOLF;
 
-			health = 75;
-			MAX_HEALTH = 75;
+			health = 70;
+			MAX_HEALTH = 70;
 			isHostile = true;
 			attackDamage = 15;
 			sightRange = 6;
@@ -95,18 +95,18 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			throw std::logic_error("Invalid load type for Animal constructor");
 	}
 
-	stateManager = new AnimalStateManager(this);
+	stateManager = new AnimalStateManager(this, humanAgent);
 }
 
 Animal::~Animal()
 {
 }
 
-void Animal::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], HumanAgentBase* humanAgent)
+void Animal::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
 	Entity::Update(level);
 
-	stateManager->Update(level, humanAgent);
+	stateManager->Update(level);
 }
 
 void Animal::Render()
@@ -118,12 +118,22 @@ void Animal::Render()
 	}
 }
 
-bool Animal::TakeDamage(float amount)
+int Animal::GetEntityType()
 {
+	return 1 + static_cast<int>(animalType);
+}
+
+bool Animal::TakeDamage(float amount, bool fromBow, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+{
+	//printf("Took Damage\n");
 	bool killed = Entity::TakeDamage(amount);
 	if (killed) 
 	{
 		stateManager->ChangeState(stateManager->deadState);
+	}
+	else if (fromBow) 
+	{
+		stateManager->PostEvent(AnimalEventType::TAKE_DAMAGE, level);
 	}
 
 	return killed;

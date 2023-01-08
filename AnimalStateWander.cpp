@@ -1,45 +1,66 @@
 #include "AnimalStateWander.h"
 #include <random>
+#include "PathFinder.h"
 
-AnimalStateWander::AnimalStateWander()
+AnimalStateWander::AnimalStateWander(AnimalStateManager* manager, HumanAgentBase* humanAgent)
 {
+	this->manager = manager;
+	this->humanAgent = humanAgent;
 }
 
 AnimalStateWander::~AnimalStateWander()
 {
 }
 
-void AnimalStateWander::EnterState(AnimalStateManager* manager)
+void AnimalStateWander::EnterState()
 {
 	GenerateWanderPath();
 }
 
-void AnimalStateWander::Update(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], HumanAgentBase* humanAgent)
+void AnimalStateWander::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
 	FollowWanderPath(manager, level);
 
-	bool seeHuman = false;
-	int modifiedSightRange = manager->animal->GetSightRange();
-	if (!humanAgent->IsHidingInBush()) 
+	if (CanSeeHuman(manager, humanAgent, false))
 	{
-		if (humanAgent->IsSneaking())
-			modifiedSightRange /= 2;
-
-		if (manager->animal->IsWithinSightRange(modifiedSightRange, humanAgent))
-			seeHuman = true;
+		HandleSeeHuman(manager, level, humanAgent);
 	}
+}
 
-	if (seeHuman)
+void AnimalStateWander::PostEvent(AnimalEventType eventType, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+{
+	switch (eventType) 
 	{
-		printf("I see a human! %d %d %d\n", modifiedSightRange, humanAgent->GetGridXPos(), humanAgent->GetGridYPos());
-		if (manager->animal->IsHostile())
+		case AnimalEventType::TAKE_DAMAGE: 
 		{
-			// manager->ChangeState(manager->attackState);
+			if (CanSeeHuman(manager, humanAgent, false)) 
+			{
+				HandleSeeHuman(manager, level, humanAgent);
+			}
+			else 
+			{
+				manager->ChangeState(manager->fleeState);
+			}
+			break;
 		}
-		else 
+	}
+}
+
+void AnimalStateWander::HandleSeeHuman(AnimalStateManager* manager, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], HumanAgentBase* humanAgent)
+{
+	if (manager->animal->IsHostile() && manager->animal->GetCurrentHealth() / manager->animal->GetMaxHealth() > HEALTH_FLEE_THRESHOLD)
+	{
+		std::vector<DirectionType> targetPath = PathFinder::GetPath(level, manager->animal->GetGridXPos(), manager->animal->GetGridYPos(), humanAgent->GetGridXPos(), humanAgent->GetGridYPos());
+		if (!targetPath.empty())
 		{
-			//manager->ChangeState(manager->fleeState);
+			manager->ChangeState(manager->attackState);
 		}
+		//else
+			//printf("Tried changing to attack state but no path...\n");
+	}
+	else
+	{
+		manager->ChangeState(manager->fleeState);
 	}
 }
 

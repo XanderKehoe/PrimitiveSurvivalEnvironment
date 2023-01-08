@@ -18,13 +18,21 @@ public:
 	unsigned int currentRespawnTime = 0; // When unavailable, this variable counts down to 0 and when it does, this tile becomes available for interaction again.
 	const unsigned int RESOURCE_RESPAWN_TIME = 600; // The value currentRespawnTime is set to when the available bool is set from true -> false.
 
+	bool visited = false; // used in path finding
+	DirectionType cameFrom = DirectionType::UP; // used for debugging in pathfinding
+	bool debug = false; 
+
 	bool HumanInteractionAvailable(); // is this tile interactable by humans?
 	bool HumanInteract(class HumanAgentBase* humanAgent); // attempts human interaction of this tile, returns true for success, returns false otherwise. // forward declaration required here
+
+	bool IsWalkable(bool isHuman);
 
 	void Update();
 	void Render();
 
 	ItemType GetResourceType();
+	int GetGridXPos() { return gridXPos; }
+	int GetGridYPos() { return gridYPos; }
 private:
 	SDL_Texture* tileTexture;
 	SDL_Texture* tileDepletedTexture = nullptr;

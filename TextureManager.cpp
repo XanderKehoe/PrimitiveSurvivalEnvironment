@@ -19,6 +19,11 @@ SDL_Texture* TextureManager::entityElk;
 SDL_Texture* TextureManager::entityGoose;
 SDL_Texture* TextureManager::entityWolf;
 SDL_Texture* TextureManager::entityBear;
+SDL_Texture* TextureManager::debugTexture;
+SDL_Texture* TextureManager::debugUp;
+SDL_Texture* TextureManager::debugDown;
+SDL_Texture* TextureManager::debugLeft;
+SDL_Texture* TextureManager::debugRight;
 
 void TextureManager::InitializeTextures(SDL_Renderer* ren)
 {
@@ -39,6 +44,11 @@ void TextureManager::InitializeTextures(SDL_Renderer* ren)
 	entityGoose = LoadTexture("Textures/Goose.png", ren);
 	entityWolf = LoadTexture("Textures/Wolf.png", ren);
 	entityBear = LoadTexture("Textures/Bear.png", ren);
+	debugTexture = LoadTexture("Textures/Debug.png", ren);
+	debugUp = LoadTexture("Textures/DebugUp.png", ren);
+	debugDown = LoadTexture("Textures/DebugDown.png", ren);
+	debugLeft = LoadTexture("Textures/DebugLeft.png", ren);
+	debugRight = LoadTexture("Textures/DebugRight.png", ren);
 }
 
 SDL_Texture* TextureManager::LoadTexture(const char* texture, SDL_Renderer* ren)
@@ -124,6 +134,26 @@ SDL_Texture* TextureManager::LoadTextureByType(TextureLoadType textureLoadType)
 		case TextureLoadType::ENTITY_BEAR:
 		{
 			return entityBear;
+		}
+		case TextureLoadType::DEBUG: 
+		{
+			return debugTexture;
+		}
+		case TextureLoadType::DEBUG_UP:
+		{
+			return debugUp;
+		}
+		case TextureLoadType::DEBUG_DOWN:
+		{
+			return debugDown;
+		}
+		case TextureLoadType::DEBUG_LEFT:
+		{
+			return debugLeft;
+		}
+		case TextureLoadType::DEBUG_RIGHT:
+		{
+			return debugRight;
 		}
 
 		default:

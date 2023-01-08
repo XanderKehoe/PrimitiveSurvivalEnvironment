@@ -107,6 +107,17 @@ void Inventory::PerformSackUpgrade()
 	}
 }
 
+void Inventory::ResetInventory()
+{
+	std::map<ItemType, Item*>::iterator it;
+
+	for (it = items.begin(); it != items.end(); it++)
+	{
+		it->second->currentAmount = 0;
+		it->second->maxAmount = it->second->maxAmount;
+	}
+}
+
 void Inventory::InitializeItemInInventory(ItemType itemType, int maxAmount, int maxAmountSackUpgrade)
 {
 	items.insert({ itemType, new Item(itemType, maxAmount, maxAmountSackUpgrade) });

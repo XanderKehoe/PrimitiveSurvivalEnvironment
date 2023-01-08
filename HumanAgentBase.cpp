@@ -4,6 +4,7 @@
 #include "Tile.h"
 #include "RewardType.h"
 #include "Crafting.h"
+#include "Animal.h"
 
 HumanAgentBase::HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* ren, 
 	unsigned long initXPos, unsigned long initYPos)
@@ -16,6 +17,9 @@ HumanAgentBase::HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* re
 	moveTimerMax = 3;
 
 	inventory->isHuman = true;
+
+	startGridX = initXPos;
+	startGridY = initYPos;
 }
 
 HumanAgentBase::~HumanAgentBase()
@@ -23,46 +27,75 @@ HumanAgentBase::~HumanAgentBase()
 
 }
 
-UpdateResult HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], ActionType actionType)
+UpdateResult HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], ActionType actionType, std::list<Animal*> animalList)
 {
-	reward = 0; // resetting reward
 	if (startVisibilityCount > 0) // slowly countdown temp visability blocking for hostile animals
 		startVisibilityCount--;
+	//else if (startVisibilityCount == 1)
+		//printf("Visibility block disables in 1 step\n");
+
+	if (currentBowCooldown > 0)
+		currentBowCooldown--;
+
+	ReduceHunger(0.25F);
 
 	Entity::Update(level);
 
-	this->TakeAction(actionType, level);
+	this->TakeAction(actionType, level, animalList);
 
-	bool done = false;
 	step++;
 	if (step > MAX_STEPS) 
 	{
 		done = true;
-		// In future, call reset function here
-		step = 0;
 	}
 
 	UpdateResult updateResult;
 	updateResult.reward = reward;
 	updateResult.done = done;
 
+	if (done) 
+	{
+		Respawn();
+	}
+
+	reward = 0; // resetting reward
+
 	return updateResult;
 }
 
-bool HumanAgentBase::TakeDamage(float amount)
+bool HumanAgentBase::TakeDamage(float amount, bool fromBow, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
+	reward += RewardType::TAKE_DAMAGE * (amount / MAX_HEALTH);
+
 	bool killed = Entity::TakeDamage(amount);
 	if (killed) 
 	{
 		reward += RewardType::DEATH;
-		Respawn();
-		// INSERT EPISODE RESET HERE
+		done = true;
 	}
 
 	return killed;
 }
 
-bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+void HumanAgentBase::Respawn() 
+{
+	Entity::Respawn();
+
+	hunger = MAX_HUNGER;
+	thirst = MAX_THIRST;
+	weariness = MAX_WEARINESS;
+	inventory->ResetInventory();
+
+	startVisibilityCount = START_VISIBILITY;
+
+	startGridX = gridXPos;
+	startGridY = gridYPos;
+
+	step = 0;
+	done = false;
+}
+
+bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], std::list<Animal*> animalList)
 {
 	bool actionWasValid;
 
@@ -116,44 +149,64 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 		case ActionType::CRAFT_SACK:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::SACK, inventory);
-			if (actionWasValid)
+			if (actionWasValid) 
+			{
+				reward += RewardType::CRAFT_TOOL;
 				inventory->PerformSackUpgrade();
+			}
 			break;
 		}
 		case ActionType::CRAFT_SPEAR:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::SPEAR, inventory);
+			if (actionWasValid)
+				reward += RewardType::CRAFT_TOOL;
 			break;
 		}
 		case ActionType::CRAFT_BOW:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::BOW, inventory);
+			if (actionWasValid)
+				reward += RewardType::CRAFT_TOOL;
 			break;
 		}
 		case ActionType::CRAFT_ARROW:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::ARROW, inventory);
+			if (actionWasValid)
+				reward += RewardType::CRAFT_ARROW;
 			break;
 		}
 		case ActionType::CRAFT_AXE:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::AXE, inventory);
+			if (actionWasValid)
+				reward += RewardType::CRAFT_TOOL;
 			break;
 		}
 		case ActionType::CRAFT_HAMMER:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::HAMMER, inventory);
+			if (actionWasValid)
+				reward += RewardType::CRAFT_TOOL;
 			break;
 		}
 		case ActionType::CRAFT_WALL:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::WALL, inventory);
+			if (actionWasValid)
+				reward += RewardType::CRAFT_WALL;
 			break;
 		}
 		case ActionType::TOGGLE_SNEAK: 
 		{
 			actionWasValid = true;
-			sneaking = !sneaking;
+			ToggleSneaking();
+			break;
+		}
+		case ActionType::SHOOT_BOW:
+		{
+			actionWasValid = ShootBow(animalList, level);
 			break;
 		}
 
@@ -226,6 +279,8 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 		}
 		else if (thisTile->attachedEntity != nullptr) // check if tile contains an entity that be be interacted with
 		{
+			startVisibilityCount = 0; // attacking an entity disabled start visibility
+
 			Entity* interactingEntity = thisTile->attachedEntity;
 			float damageAmount = attackDamage;
 			if (inventory->GetItemTypeAmount(ItemType::SPEAR))
@@ -262,6 +317,77 @@ bool HumanAgentBase::Interact(DirectionType directionType, Tile* level[Config::L
 		return false;
 }
 
+void HumanAgentBase::ReduceHunger(float amount)
+{
+	hunger -= amount;
+
+	if (hunger < MEAT_HUNGER_RESTORE_AMOUNT) 
+	{
+		if (inventory->GetItemTypeAmount(ItemType::MEAT) > 0) 
+		{
+			inventory->RemoveItemFromInventory(ItemType::MEAT, 1);
+			hunger += MEAT_HUNGER_RESTORE_AMOUNT;
+		}
+		else if (inventory->GetItemTypeAmount(ItemType::BERRY) > 0)
+		{
+			inventory->RemoveItemFromInventory(ItemType::BERRY, 1);
+			hunger += BERRY_HUNGER_RESTORE_AMOUNT;
+		}
+	}
+	
+	if (hunger <= 0) 
+	{
+		hunger = 0;
+		TakeDamage(2.5F);
+	}
+}
+
+void HumanAgentBase::ToggleSneaking()
+{
+	sneaking = !sneaking;
+	if (sneaking)
+		moveTimerMax = 6;
+	else
+		moveTimerMax = 3;
+}
+
+bool HumanAgentBase::ShootBow(std::list<Animal*> animalList, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+{
+	if (currentBowCooldown > 0)
+		return false; // cooldown is still active, need to wait.
+
+	if (inventory->GetItemTypeAmount(ItemType::BOW) == 0 || inventory->GetItemTypeAmount(ItemType::ARROW) == 0)
+		return false; // no bow and/or no arrows
+
+	int closestDistance = INT_MAX;
+	Animal* closestAnimal = nullptr;
+
+	for (Animal* a : animalList)
+	{
+		if (a->IsDead())
+			continue;
+
+		int distance = abs(gridXPos - a->GetGridXPos()) + abs(gridYPos - a->GetGridYPos());
+		if (distance < closestDistance) 
+		{
+			closestDistance = distance;
+			closestAnimal = a;
+		}
+	}
+
+	if (closestDistance > BOW_MAX_RANGE)
+		return false;
+	else 
+	{
+		// May need to implement something here to 'alert' animals they've taken damage, so they just don't wander around after being shot.
+		closestAnimal->TakeDamage(BOW_DAMAGE, true, level);
+		inventory->RemoveItemFromInventory(ItemType::ARROW, 1);
+		startVisibilityCount = 0; // turn off visibility block if damaging other entities.
+		return true;
+	}
+
+}
+
 void HumanAgentBase::Render() 
 {
 	bool hasSpear = inventory->GetItemTypeAmount(ItemType::SPEAR) == 1;
@@ -281,6 +407,12 @@ void HumanAgentBase::Render()
 	}
 
 	GameObject::Render();
+}
+
+int HumanAgentBase::GetEntityType()
+{
+	printf("ERROR, HumanAgentBase::GetEntityType() called, but shouldn't have...");
+	throw std::logic_error("Invalid Functionality");
 }
 
 
