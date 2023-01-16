@@ -18,7 +18,7 @@ public:
 	Attempts to move the character by x/y respectively, accounts for movement cooldown and 'blocking' (tiles that entities can't enter) tile types.
 	*/
 	virtual bool Move(DirectionType directionType, bool isHuman, class Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]);
-	bool CanMove() { return moveCurrentCooldown == 0; }
+	virtual bool CanMove() { return movesLeft > 0; }
 
 	virtual bool TakeDamage(float amount, bool fromBow = false, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE] = nullptr);
 	virtual void Respawn();
@@ -39,12 +39,11 @@ protected:
 
 	Inventory* inventory;
 
-	unsigned short moveTimerMax; // how long entity has to wait to move again.
-	unsigned short moveCurrentCooldown = 0; // if 0, entity can move
+	unsigned short movesLeft;
+	unsigned short MOVES_PER_UPDATE = 1;
 
 	static bool GridPosOutOfBounds(int gridX, int gridY);
 private:
 	bool isDead = false;
-	static const bool OVERRIDE_MOVE_COOLDOWN = false;
 	Tile* attachedTile = nullptr;
 };

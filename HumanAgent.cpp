@@ -18,7 +18,7 @@ HumanAgent::~HumanAgent()
 
 std::vector<float> HumanAgent::GetObservationsFloat(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
-    int numberOfNonTileObservations = 8;
+    int numberOfNonTileObservations = 12;
     int numberOfObservationsPerTile = 1;
     // Preprocessing these observations here as its simpler to do it here
     std::vector<float> ret(numberOfNonTileObservations + inventory->GetItems().size() + ((((OBS_VIEW_LENGTH * 2) + 1) * ((OBS_VIEW_LENGTH * 2) + 1)) * numberOfObservationsPerTile));
@@ -26,10 +26,14 @@ std::vector<float> HumanAgent::GetObservationsFloat(Tile* level[Config::LEVEL_SI
     ret.at(1) = hunger / MAX_HUNGER;
     ret.at(2) = thirst / MAX_THIRST;
     ret.at(3) = weariness / MAX_WEARINESS;
-    ret.at(4) = (float) moveCurrentCooldown / (float) moveTimerMax;
-    ret.at(5) = (float) currentBowCooldown / (float) BOW_COOLDOWN_MAX;
-    ret.at(6) = (float) (gridXPos) / (float) Config::LEVEL_SIZE;
-    ret.at(7) = (float) (gridYPos) / (float) Config::LEVEL_SIZE;
+    ret.at(4) = (float) currentBowCooldown / (float) BOW_COOLDOWN_MAX;
+    ret.at(5) = (float) (gridXPos) / (float) Config::LEVEL_SIZE;
+    ret.at(6) = (float) (gridYPos) / (float) Config::LEVEL_SIZE;
+    ret.at(7) = (float) startVisibilityCount / (float) START_VISIBILITY;
+    ret.at(8) = (float) sneaking;
+    ret.at(9) = (float) hearAnimal;
+    ret.at(10) = (float) hearHostileAnimal;
+    ret.at(11) = (float) hearPassiveAnimal;
     
     int index = numberOfNonTileObservations;
 
@@ -95,6 +99,7 @@ std::vector<int> HumanAgent::GetObservationsInt(Tile* level[Config::LEVEL_SIZE][
             int available;
             int entityType;
 
+            //printf("int obs ij [%d][%d]\n", i, j);
             if (!GridPosOutOfBounds(gridXPos + i, gridYPos + j))
             {
                 int tileGridXPos = gridXPos + i;
@@ -114,20 +119,29 @@ std::vector<int> HumanAgent::GetObservationsInt(Tile* level[Config::LEVEL_SIZE][
                 }
 
                 //thisTile->tileTexture = TextureManager::LoadTexture("Textures/TempWaterTile.png", renderer); // DEBUG to visualize observation tiles
+                //printf("\t tile was NOT out of bounds\n");
             }
             else // observation is out of bounds
             {
                 tileType = static_cast<int>(TileType::DNE);
                 available = 0;
                 entityType = 0;
+                //printf("\t tile was out of bounds.\n");
             }
 
             // update numberOfObservationsPerTile if adding anymore information per tile in the future
-            ret.at(index) = tileType;
-            ret.at(index + 1) = available;
-            ret.at(index + 2) = entityType;
+            ret.at(index) = tileType; //printf("\t\ttileType: %d\n", tileType);
+            ret.at(index + 1) = available; //printf("\t\tvailable: %d\n", available);
+            ret.at(index + 2) = entityType; //printf("\t\tentityType: %d\n", entityType);
 
-            index += 2;
+            index += numberOfObservationsPerTile;
+
+            /*
+            printf("\n");
+            for (int val : ret)
+                printf("val: %d\n", val);
+            printf("\n");
+            */
         }
     }
 

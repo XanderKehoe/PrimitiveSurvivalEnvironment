@@ -142,7 +142,7 @@ void Tile::Update()
 
 void Tile::Render() 
 {
-	const bool PATH_FIND_DEBUG = true;
+	const bool PATH_FIND_DEBUG = false;
 	const bool FLEE_PATH_DEBUG = false;
 
 	destRect.h = Config::TILE_SIZE / Camera::zoom;

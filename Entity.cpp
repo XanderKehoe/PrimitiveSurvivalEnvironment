@@ -21,10 +21,9 @@ Entity::~Entity()
 void Entity::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
 {
 	if (health < MAX_HEALTH)
-		health++; // passive health regeneration
+		health += 0.25F; // passive health regeneration
 
-	if (moveCurrentCooldown > 0)
-		moveCurrentCooldown--;
+	movesLeft = MOVES_PER_UPDATE;
 }
 
 bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
@@ -38,6 +37,8 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 	std::array<int, 2> xy = DirectionTypeConverter::TypeToXY(directionType);
 	int x = xy[0];
 	int y = xy[1];
+
+	movesLeft--;
 
 	// check if movement leads GameObject off level
 	if (!GridPosOutOfBounds(gridXPos + x, gridYPos + y))
@@ -57,9 +58,6 @@ bool Entity::Move(DirectionType directionType, bool isHuman, Tile* level[Config:
 
 				gridXPos += x;
 				gridYPos += y;
-
-				if (!OVERRIDE_MOVE_COOLDOWN)
-					moveCurrentCooldown = moveTimerMax;
 
 				if (isHuman && Camera::IsCoordOutsideCamView(gridXPos * Config::TILE_SIZE, gridYPos * Config::TILE_SIZE, (Config::TILE_SIZE * 3))) // if agent is within 3 tiles of camera's view border, recenter the camera
 					Camera::Center(gridXPos, gridYPos);

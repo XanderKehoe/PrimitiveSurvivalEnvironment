@@ -269,7 +269,9 @@ void Game::InitEntities()
 
 	//agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, distr(gen), distr(gen));
 
-	agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, 20, 20);
+	agent = new HumanAgent(TextureLoadType::ENTITY_HUMAN, renderer, Config::LEVEL_SIZE / 2, Config::LEVEL_SIZE / 2);
+	Camera::Center(agent->GetGridXPos(), agent->GetGridYPos());
+	
 	//Animal* testAnimal = new Animal(TextureLoadType::ENTITY_RABBIT, renderer, 21, 20);
 	//animalList.push_back(testAnimal);
 
@@ -308,6 +310,8 @@ void Game::InitEntities()
 		Animal* newAnimal = new Animal(TextureLoadType::ENTITY_BEAR, renderer, distr(gen), distr(gen), agent);
 		animalList.push_back(newAnimal);
 	}
+
+	Render();
 }
 
 void Game::Render()

@@ -14,8 +14,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			MAX_HEALTH = 20;
 			isHostile = false;
 			attackDamage = 0;
-			sightRange = 4;
-			moveTimerMax = 3;
+			sightRange = 2;
+			MOVES_PER_UPDATE = 1;
 
 			FillInventory();
 			break;
@@ -28,8 +28,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			MAX_HEALTH = 40;
 			isHostile = false;
 			attackDamage = 0;
-			sightRange = 6;
-			moveTimerMax = 2;
+			sightRange = 2;
+			MOVES_PER_UPDATE = 2;
 
 			FillInventory();
 			break;
@@ -42,8 +42,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			MAX_HEALTH = 150;
 			isHostile = false;
 			attackDamage = 0;
-			sightRange = 8;
-			moveTimerMax = 1;
+			sightRange = 3;
+			MOVES_PER_UPDATE = 3;
 
 			FillInventory();
 			break;
@@ -57,7 +57,7 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			isHostile = true;
 			attackDamage = 0;
 			sightRange = 4;
-			moveTimerMax = 3;
+			MOVES_PER_UPDATE = 2;
 
 			FillInventory();
 			break;
@@ -70,8 +70,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			MAX_HEALTH = 70;
 			isHostile = true;
 			attackDamage = 15;
-			sightRange = 6;
-			moveTimerMax = 1;
+			sightRange = 4;
+			MOVES_PER_UPDATE = 3;
 
 			FillInventory();
 			break;
@@ -84,8 +84,8 @@ Animal::Animal(TextureLoadType textureLoadType, SDL_Renderer* ren, unsigned long
 			MAX_HEALTH = 125;
 			isHostile = true;
 			attackDamage = 30;
-			sightRange = 6;
-			moveTimerMax = 2;
+			sightRange = 4;
+			MOVES_PER_UPDATE = 2;
 
 			FillInventory();
 			break;

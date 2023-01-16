@@ -39,23 +39,36 @@ def ReadStateRewardDoneFromBuffer():
     s = []
     index = 20
     i = 0
-    for i in range(20, ((numberOfIntStates + NUMBER_OF_BYTES_IN_INT_AND_FLOAT * 2) * NUMBER_OF_BYTES_IN_INT_AND_FLOAT), NUMBER_OF_BYTES_IN_INT_AND_FLOAT): # not sure why + NUMBER_OF_BYTES_IN_INT_AND_FLOAT is needed, but it works
-        s.append(ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]))
+    for i in range(20,
+                   20 + (numberOfIntStates * NUMBER_OF_BYTES_IN_INT_AND_FLOAT),
+                   NUMBER_OF_BYTES_IN_INT_AND_FLOAT):
+        byteArr = [shm.buf[i], shm.buf[i + 1], shm.buf[i + 2], shm.buf[i + 3]]
+        intFromBytes = ReadIntFromBytes(byteArr)
+        s.append(intFromBytes)
         index += NUMBER_OF_BYTES_IN_INT_AND_FLOAT
         # if ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]) > 1.0:
-            # print("i G>(int): "+str(i)+" | "+str(ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]])))
+        # print("i G>(int): "+str(i)+" | "+str(ReadIntFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]])))
 
     s = PreprocessStates(s)
+    # for k in range(20, len(s), 1):
+    #     if s[k] > 1:
+    #         print("Preproccessed state["+str(k)+"] > 1: "+str(s[k]))
 
-    for j in range(i + NUMBER_OF_BYTES_IN_INT_AND_FLOAT, ((numberOfFloatStates + NUMBER_OF_BYTES_IN_INT_AND_FLOAT) * NUMBER_OF_BYTES_IN_INT_AND_FLOAT), NUMBER_OF_BYTES_IN_INT_AND_FLOAT):
-        s.append(ReadFloatFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]))
+    for j in range(i + NUMBER_OF_BYTES_IN_INT_AND_FLOAT,
+                   i + NUMBER_OF_BYTES_IN_INT_AND_FLOAT + (numberOfFloatStates * NUMBER_OF_BYTES_IN_INT_AND_FLOAT),
+                   NUMBER_OF_BYTES_IN_INT_AND_FLOAT):
+        byteArr = [shm.buf[j], shm.buf[j + 1], shm.buf[j + 2], shm.buf[j + 3]]
+        floatFromBytes = ReadFloatFromBytes(byteArr)
+        s.append(floatFromBytes)
         index += NUMBER_OF_BYTES_IN_INT_AND_FLOAT
-        #if ReadFloatFromBytes([shm.buf[i], shm.buf[i+1], shm.buf[i+2], shm.buf[i+3]]) > 1.0:
-            # print("i G>(float): "+str(i))
+        if floatFromBytes > 1.0:
+            print("WARNING - float > 1: " + str(i))
 
     s = [float(x) for x in s]
     # s = np.asarray(s, dtype=np.float32)
-    print("len(s) = "+str(len(s)))
+    # print("len(s) = "+str(len(s)))
+
+    # ReadBuffer()
 
     return s, r, d
 
@@ -74,20 +87,27 @@ def GetOneHotEncoding(val: int, size: int):
 def PreprocessStates(s):
     ret = []
     for i in range(0, len(s), NUMBER_OF_STATES_PER_TILE):
-        # tileType
-        # print("\ti(0): "+str(i) + " | len(s) == "+str(len(s)))
-        tileTypeOneHotList = GetOneHotEncoding(s[i], NUMBER_OF_TILE_TYPES)
-        for x in range(len(tileTypeOneHotList)):
-            ret.append(tileTypeOneHotList[x])
-
-        # print("\ti(1): "+str(i+1) + " | len(s) == "+str(len(s)))
-        ret.append(s[i+1])  # availability
-
-        # print("\ti(2): " + str(i+2) + " | len(s) == " + str(len(s)))
+        # print("\ti(0): " + str(i) + " | len(s) == " + str(len(s)))
         # entityType
-        entityTypeOneHotList = GetOneHotEncoding(s[i+2], NUMBER_OF_ENTITY_TYPES)
+        if s[i] > NUMBER_OF_ENTITY_TYPES:
+            print("WARNING - PreprocessStates(): invalid entity type - "+str(s[i])+" | "+str(NUMBER_OF_ENTITY_TYPES))
+        entityTypeOneHotList = GetOneHotEncoding(s[i], NUMBER_OF_ENTITY_TYPES)
         for x in range(len(entityTypeOneHotList)):
             ret.append(entityTypeOneHotList[x])
+
+        # availability
+        # print("\ti(1): "+str(i+1) + " | len(s) == "+str(len(s)))
+        if s[i+1] > 1:
+            print("WARNING - PreprocessStates(): availability > 1 ["+str(s[i+1])+"] at index: "+str(i+1))
+        ret.append(s[i+1])  # availability
+
+        # tileType
+        # print("\ti(2): "+str(i+2) + " | len(s) == "+str(len(s)))
+        if s[i+2] > NUMBER_OF_TILE_TYPES:
+            print("WARNING - PreprocessStates(): invalid type type - "+str(s[i+2])+" | "+str(NUMBER_OF_TILE_TYPES))
+        tileTypeOneHotList = GetOneHotEncoding(s[i+2], NUMBER_OF_TILE_TYPES)
+        for x in range(len(tileTypeOneHotList)):
+            ret.append(tileTypeOneHotList[x])
 
     return ret
 
@@ -200,7 +220,7 @@ if __name__ == "__main__":
             # print("Getting action...")
             # print("\ttype: "+str(type(states)))
             # print("\tlen: " + str(len(states)))
-            # print("\tstates: " + str(states))
+            # ("\tstates: " + str(states))
             action = client.get_action(eid, states)
 
         # print("got action: "+str(action))

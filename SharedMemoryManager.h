@@ -15,6 +15,7 @@ public:
 	static void SetAvailability(int val);
 	static void ClearBuffer();
 	static void SendStateRewardDone(float reward, int done, std::vector<int> currentIntState, std::vector<float> currentFloatState); // Sends the current state, the reward, and any additional info from this time step.
+	static void SendTestData();
 	static ActionType ReadSelectedAction();
 	static void WaitForAvailability();
 private:

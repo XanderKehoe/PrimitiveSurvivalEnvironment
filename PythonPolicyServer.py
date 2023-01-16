@@ -74,7 +74,7 @@ def get_cli_args():
         choices=["APEX", "DQN", "IMPALA", "PPO", "R2D2"],
         help="The RLlib-registered algorithm to use.",
     )
-    parser.add_argument("--num-cpus", type=int, default=3)
+    parser.add_argument("--num-cpus", type=int, default=2)
     parser.add_argument(
         "--framework",
         choices=["tf", "tf2", "tfe", "torch"],
@@ -93,7 +93,7 @@ def get_cli_args():
     parser.add_argument(
         "--stop-timesteps",
         type=int,
-        default=10000000,
+        default=1000000000,
         help="Number of timesteps to train.",
     )
     parser.add_argument(
@@ -146,7 +146,7 @@ def get_cli_args():
 
 if __name__ == "__main__":
     args = get_cli_args()
-    ray.init()
+    ray.init(num_gpus=1, num_cpus=16)
 
     # `InputReader` generator (returns None if no input reader is needed on
     # the respective worker).
@@ -171,7 +171,7 @@ if __name__ == "__main__":
         "env": None,
         # TODO: (sven) make these settings unnecessary and get the information
         #  about the env spaces from the client.
-        "observation_space": gym.spaces.Box(float("-inf"), float("inf"), (3060,)), # TODO find dynamic way to set this value
+        "observation_space": gym.spaces.Box(float("-inf"), float("inf"), (955,)), # TODO find dynamic way to set this value
         "action_space": gym.spaces.Discrete(18), # TODO find dynamic way to set this value
         # Use the `PolicyServerInput` to generate experiences.
         "input": _input,
@@ -232,14 +232,14 @@ if __name__ == "__main__":
                 "clip_param": 0.3,
                 "vf_loss_coeff": 1.0,
                 "vf_clip_param": 5.0,
-                "entropy_coeff": 0.0,
+                "entropy_coeff": 0.005,
                 "num_sgd_iter": 30,
                 "sgd_minibatch_size": 128,
                 "rollout_fragment_length": 1000,
                 "train_batch_size": 4000,
                 "model": {
-                    "fcnet_hiddens": [5120, 5120],
-                    "fcnet_activation": "relu",
+                    "fcnet_hiddens": [1024, 1024],
+                    "fcnet_activation": "tanh",
                     # "conv_filters": null,
                     # "conv_activation": "relu",
                 }
@@ -296,7 +296,6 @@ if __name__ == "__main__":
 
     print("model: "+str(config["model"]))
 
-
     checkpoint_path = CHECKPOINT_FILE.format(args.run)
     # Attempt to restore from checkpoint, if possible.
     if not args.no_restore and os.path.exists(checkpoint_path):
@@ -333,7 +332,7 @@ if __name__ == "__main__":
     else:
         print("Ignoring restore even if previous checkpoint is provided...")
         stop = {
-            "training_iteration": args.stop_iters,
+            # "training_iteration": args.stop_iters,
             "timesteps_total": args.stop_timesteps,
             "episode_reward_mean": args.stop_reward,
         }
@@ -348,6 +347,6 @@ if __name__ == "__main__":
             run_config=air.RunConfig(
                 stop=stop,
                 verbose=2,
-                local_dir="results"
+                local_dir="results",
             )
         ).fit()

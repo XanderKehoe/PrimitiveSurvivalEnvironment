@@ -8,6 +8,9 @@ Game* game = nullptr;
 const bool TRAINING = true;
 
 // TODO
+	// Verify one-hot encoding in obs works, (saw some 4, 5 and 7 values)
+	// 'Querying server for new policy weights' occasionally occurs when receiving action or logging return to server, seems to be time based.
+		// it is our biggest bottleneck currently, find out if we can adjust this time.
 	// Implement new observations (and then test!)
 	// Implement traps
 	// Implement water and cliff generation
@@ -23,7 +26,6 @@ int main(int argc, char *argv[])
 
 	const int FPS = 1;
 	const int frameDelay = 1000 / FPS;
-	bool training = false;
 
 	Uint32 lastUpdateTime = SDL_GetTicks();
 	int timeSinceLastUpdate;
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 			std::vector<float> agentNewStateFloat = game->GetAgentObservationsFloat();
 
 			SharedMemoryManager::SendStateRewardDone(updateResult.reward, updateResult.done, agentNewStateInt, agentNewStateFloat);
+			//SharedMemoryManager::SendTestData();
 
 			SharedMemoryManager::WaitForAvailability();
 

@@ -133,6 +133,23 @@ vector<DirectionType> PathFinder::GetPath(Tile* level[Config::LEVEL_SIZE][Config
         }
     }
 
+    // Cleanup to prevent memory leaks
+    for (int i = 0; i < Config::LEVEL_SIZE; i++)
+    {
+        delete[] gScore[i];
+    }
+    delete[] gScore;
+    for (int i = 0; i < Config::LEVEL_SIZE; i++)
+    {
+        delete[] fScore[i];
+    }
+    delete[] fScore;
+    for (int i = 0; i < Config::LEVEL_SIZE; i++)
+    {
+        delete[] cameFrom[i];
+    }
+    delete[] cameFrom;
+
     // If we reach here, then no path was found (can check with retVec.empty())
     return vector<DirectionType>();
 }

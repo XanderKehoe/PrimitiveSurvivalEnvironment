@@ -56,24 +56,31 @@ void AnimalStateAttack::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZ
 
 	if (!targetPath.empty() && manager->animal->CanMove()) 
 	{
-		if (debug)
-			printf("\tAttack State: Have Path and can move\n");
-		DirectionType nextDirection = targetPath.back();
-		targetPath.pop_back();
+		while (!targetPath.empty() && manager->animal->CanMove())
+		{
+			if (debug)
+				printf("\tAttack State: Have Path and can move\n");
+			DirectionType nextDirection = targetPath.back();
+			targetPath.pop_back();
 
-		bool success = manager->animal->Move(nextDirection, false, level);
-		if (!success) 
-		{
-			if (debug)
-				printf("\t\tAttack State: Tried movement but was unsuccessful (target is in range?)\n");
-			if (abs(manager->animal->GetGridXPos() - targetGridXPos) == 1 || abs(manager->animal->GetGridYPos() - targetGridYPos))
-				humanAgent->TakeDamage(manager->animal->GetAttackDamage());
-			UpdatePath(manager, level, humanAgent);
-		}
-		else 
-		{
-			if (debug)
-				printf("\t\tAttack State: Moved\n");
+			bool success = manager->animal->Move(nextDirection, false, level);
+			if (!success)
+			{
+				if (debug)
+					printf("\t\tAttack State: Tried movement but was unsuccessful (target is in range?)\n");
+				if (abs(manager->animal->GetGridXPos() - targetGridXPos) == 1 || abs(manager->animal->GetGridYPos() - targetGridYPos)) 
+				{
+					bool killed = humanAgent->TakeDamage(manager->animal->GetAttackDamage());
+					printf("Agent died due to animal attack... %d\n", SDL_GetTicks());
+					break; // without break, animal will attack multiple times per update
+				}
+				UpdatePath(manager, level, humanAgent);
+			}
+			else
+			{
+				if (debug)
+					printf("\t\tAttack State: Moved\n");
+			}
 		}
 	}
 	else if (targetPath.empty()) 

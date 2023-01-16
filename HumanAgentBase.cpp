@@ -14,7 +14,7 @@ HumanAgentBase::HumanAgentBase(TextureLoadType textureLoadType, SDL_Renderer* re
 	MAX_HEALTH = 100;
 	attackDamage = 5;
 
-	moveTimerMax = 3;
+	MOVES_PER_UPDATE = 1;
 
 	inventory->isHuman = true;
 
@@ -37,15 +37,22 @@ UpdateResult HumanAgentBase::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVE
 	if (currentBowCooldown > 0)
 		currentBowCooldown--;
 
-	ReduceHunger(0.25F);
+	ReduceHunger(BASE_HUNGER_DRAIN);
 
 	Entity::Update(level);
 
-	this->TakeAction(actionType, level, animalList);
+	TakeAction(actionType, level, animalList);
+
+	CheckHearing(animalList);
+
+	if (!IsDead())
+		reward += RewardType::BEING_ALIVE;
 
 	step++;
 	if (step > MAX_STEPS) 
 	{
+		printf("MAX_STEPS reached, starting new episode");
+		reward += RewardType::SURVIVED_ENTIRE_EPISODE;
 		done = true;
 	}
 
@@ -95,6 +102,43 @@ void HumanAgentBase::Respawn()
 	done = false;
 }
 
+bool HumanAgentBase::Move(DirectionType directionType, bool isHuman, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])
+{
+	bool moved = Entity::Move(directionType, isHuman, level);
+
+	if (moved) 
+	{
+		ReduceHunger(MOVE_HUNGER_DRAIN);
+
+		if (sneaking)
+			movedWhileSneaking = true;
+	}
+	else if (sneaking)
+		movedWhileSneaking = false;
+
+	return moved;
+}
+
+bool HumanAgentBase::CanMove()
+{
+	if (movesLeft == 0)
+		return false;
+
+	if (!sneaking)
+		return true;
+	else 
+	{
+		if (!movedWhileSneaking) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+}
+
 bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE], std::list<Animal*> animalList)
 {
 	bool actionWasValid;
@@ -108,22 +152,34 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 		}
 		case ActionType::MOVE_DOWN: 
 		{
-			actionWasValid = Move(DirectionType::DOWN, true, level);
+			if (CanMove())
+				actionWasValid = Move(DirectionType::DOWN, true, level);
+			else
+				actionWasValid = false;
 			break;
 		}
 		case ActionType::MOVE_LEFT:
 		{
-			actionWasValid = Move(DirectionType::LEFT, true, level);
+			if (CanMove())
+				actionWasValid = Move(DirectionType::LEFT, true, level);
+			else
+				actionWasValid = false;
 			break;
 		}
 		case ActionType::MOVE_UP:
 		{
-			actionWasValid = Move(DirectionType::UP, true, level);
+			if (CanMove())
+				actionWasValid = Move(DirectionType::UP, true, level);
+			else
+				actionWasValid = false;
 			break;
 		}
 		case ActionType::MOVE_RIGHT:
 		{
-			actionWasValid = Move(DirectionType::RIGHT, true, level);
+			if (CanMove())
+				actionWasValid = Move(DirectionType::RIGHT, true, level);
+			else
+				actionWasValid = false;
 			break;
 		}
 		case ActionType::INTERACT_DOWN:
@@ -153,42 +209,58 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 			{
 				reward += RewardType::CRAFT_TOOL;
 				inventory->PerformSackUpgrade();
+				printf("\tSuccessfully Crafted Sack!\n");
 			}
 			break;
 		}
 		case ActionType::CRAFT_SPEAR:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::SPEAR, inventory);
-			if (actionWasValid)
+			if (actionWasValid) 
+			{
 				reward += RewardType::CRAFT_TOOL;
+				printf("\tSuccessfully Crafted Spear!\n");
+			}
 			break;
 		}
 		case ActionType::CRAFT_BOW:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::BOW, inventory);
-			if (actionWasValid)
+			if (actionWasValid) 
+			{
 				reward += RewardType::CRAFT_TOOL;
+				printf("\tSuccessfully Crafted Bow!\n");
+			}
 			break;
 		}
 		case ActionType::CRAFT_ARROW:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::ARROW, inventory);
-			if (actionWasValid)
+			if (actionWasValid) 
+			{
 				reward += RewardType::CRAFT_ARROW;
+				printf("\tSuccessfully Crafted Arrow!\n");
+			}
 			break;
 		}
 		case ActionType::CRAFT_AXE:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::AXE, inventory);
 			if (actionWasValid)
+			{
 				reward += RewardType::CRAFT_TOOL;
+				printf("\tSuccessfully Crafted Axe!\n");
+			}
 			break;
 		}
 		case ActionType::CRAFT_HAMMER:
 		{
 			actionWasValid = Crafting::CraftItem(ItemType::HAMMER, inventory);
-			if (actionWasValid)
+			if (actionWasValid) 
+			{
 				reward += RewardType::CRAFT_TOOL;
+				printf("\tSuccessfully Crafted Hammer!\n");
+			}
 			break;
 		}
 		case ActionType::CRAFT_WALL:
@@ -207,6 +279,10 @@ bool HumanAgentBase::TakeAction(ActionType action, Tile* level[Config::LEVEL_SIZ
 		case ActionType::SHOOT_BOW:
 		{
 			actionWasValid = ShootBow(animalList, level);
+			if (actionWasValid) 
+			{
+				printf("\tSuccessfully used the bow!\n");
+			}
 			break;
 		}
 
@@ -338,17 +414,58 @@ void HumanAgentBase::ReduceHunger(float amount)
 	if (hunger <= 0) 
 	{
 		hunger = 0;
-		TakeDamage(2.5F);
+		bool killed = TakeDamage(STARVATION_DAMAGE_AMOUNT);
+		if (killed) 
+		{
+			printf("Agent died due to starvation... %d\n", SDL_GetTicks());
+		}
+	}
+}
+
+void HumanAgentBase::CheckHearing(std::list<Animal*> animalList)
+{
+	// reset hearing
+	hearAnimal = false;
+	hearHostileAnimal = false;
+	hearPassiveAnimal = false;
+
+	for (Animal* a : animalList) 
+	{
+		if (a->IsDead())
+			continue;
+
+		int distance = abs(gridXPos - a->GetGridXPos()) + abs(gridYPos - a->GetGridYPos());
+		if (distance < SPECIFIC_HEARING_RANGE)
+		{
+			if (a->IsHostile()) 
+			{
+				//printf("Hear hostile animal\n");
+				hearAnimal = true;
+				hearHostileAnimal = true;
+			}
+			else 
+			{
+				//printf("Hear passive animal\n");
+				hearAnimal = true;
+				hearPassiveAnimal = true;
+			}
+		}
+		else if (distance < GENERAL_HEARING_RANGE) 
+		{
+			//printf("Hear some animal\n");
+			hearAnimal = true;
+		}
+
+		if (hearAnimal && hearHostileAnimal && hearPassiveAnimal)
+			break;
 	}
 }
 
 void HumanAgentBase::ToggleSneaking()
 {
 	sneaking = !sneaking;
-	if (sneaking)
-		moveTimerMax = 6;
-	else
-		moveTimerMax = 3;
+	if (!sneaking)
+		movedWhileSneaking = false;
 }
 
 bool HumanAgentBase::ShootBow(std::list<Animal*> animalList, Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE])

@@ -40,7 +40,6 @@ void AnimalStateFlee::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]
 			// can still see target, generate a new flee path
 			// printf("Still see human, run!! %d %d\n", PathFinder::Dist(animalX, animalY, humanX, humanY), (int)(manager->animal->GetSightRange() * 1.5));
 			UpdatePath(manager, level, humanAgent);
-			Update(level);
 		}
 	}
 	else if (!pathInitialized) 
@@ -48,7 +47,7 @@ void AnimalStateFlee::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]
 		UpdatePath(manager, level, humanAgent);
 		pathInitialized = true;
 	} 
-	else if (manager->animal->CanMove())
+	else while (manager->animal->CanMove() && !targetPath.empty())
 	{
 		DirectionType nextDirection = targetPath.back();
 		targetPath.pop_back();
@@ -57,6 +56,7 @@ void AnimalStateFlee::Update(Tile* level[Config::LEVEL_SIZE][Config::LEVEL_SIZE]
 		if (!success)
 		{
 			UpdatePath(manager, level, humanAgent);
+			break;
 		}
 	}
 }
@@ -70,6 +70,16 @@ void AnimalStateFlee::UpdatePath(AnimalStateManager* manager, Tile* level[Config
 	
 	Vector2DFloat humanCoords((float) humanAgent->GetGridXPos(), (float) humanAgent->GetGridYPos());
 	Vector2DFloat thisCoords((float) manager->animal->GetGridXPos(), (float) manager->animal->GetGridYPos());
+
+	if (abs(thisCoords.x() - humanCoords.x()) > Config::LEVEL_SIZE)
+		printf("WARNING - AnimalStateFlee::UpdatePath() Abnormally high X coord difference %f %f\n", thisCoords.x(), humanCoords.x());
+	if (abs(thisCoords.y() - humanCoords.y()) > Config::LEVEL_SIZE)
+		printf("WARNING - AnimalStateFlee::UpdatePath() Abnormally high Y coord difference %f %f\n", thisCoords.y(), humanCoords.y());
+	if (thisCoords.x() - humanCoords.x() == 0 && thisCoords.y() - humanCoords.y() == 0) 
+	{
+		printf("WARNING - AnimalStateFlee::UpdatePath() X/Y coords overlap, returning this function early...\n");
+		return;
+	}
 
 	Vector2DFloat unitVector((float) (thisCoords.x() - humanCoords.x()), (float) (thisCoords.y() - humanCoords.y()));
 	unitVector.normalize();

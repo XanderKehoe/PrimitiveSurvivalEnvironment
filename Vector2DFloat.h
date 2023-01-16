@@ -13,7 +13,21 @@ public:
 
     float length() const 
     {
-        return std::sqrt(x_ * x_ + y_ * y_);
+        float value = x_ * x_ + y_ * y_;
+
+        if (value == 0) 
+        {
+            printf("WARNING - Vector2DFloat::length() 0 Gaurdrail Hit\n");
+            return 0;
+        }
+
+        if (value > std::numeric_limits<float>::max()) 
+        {
+            printf("WARNING - Vector2DFloat::length() Overflow Gaurdrail Hit\n");
+            return std::numeric_limits<float>::max();
+        }
+
+        return std::sqrt(value);
     }
 
     void normalize() 

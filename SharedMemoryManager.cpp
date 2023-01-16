@@ -77,6 +77,18 @@ void SharedMemoryManager::SendStateRewardDone(float reward, int done, std::vecto
 
 	AddIntToBuffer(currentFloatState.size());
 
+	
+	/*printf("Printing Copy of int states...\n");
+	std::vector<int> intStateCpy(currentIntState);
+	//std::reverse(intStateCpy.begin(), intStateCpy.end());
+	int tmpCount = 0;
+	while (!intStateCpy.empty()) 
+	{
+		printf("\ti[%d]: %d\n", tmpCount, intStateCpy.back());
+		intStateCpy.pop_back();
+		tmpCount++;
+	}*/
+
 	int totalCount = 0;
 	int intCount = 0;
 	while (!currentIntState.empty()) 
@@ -91,6 +103,8 @@ void SharedMemoryManager::SendStateRewardDone(float reward, int done, std::vecto
 	int floatCount = 0;
 	while (!currentFloatState.empty())
 	{
+		if (currentFloatState.back() > 1)
+			printf("WARNING - float state > 1: %d", floatCount);
 		//printf("\tback() -> %d\n", currentState.back());
 		AddFloatToBuffer(currentFloatState.back());
 		currentFloatState.pop_back();
@@ -98,11 +112,71 @@ void SharedMemoryManager::SendStateRewardDone(float reward, int done, std::vecto
 		floatCount++;
 	}
 
-	// printf("totalCount: %d, intCount: %d, floatCount: %d\n", totalCount, intCount, floatCount);
+	//printf("totalCount: %d, intCount: %d, floatCount: %d\n", totalCount, intCount, floatCount);
 
 	// delete currentState; may or may not need this.
 
 	SetAvailability(ENV_AVAILABILITY);
+}
+
+void SharedMemoryManager::SendTestData() 
+{
+	std::vector<int> intVec = { 7, 1, 5 };
+	std::vector<float> floatVec = { 0.15F, 0.25F, 0.35F, 0.45F, 0.55F};
+
+	VerifyBufferIsClear();
+
+	//printf("SMM: Adding Reward - %f\n", reward);
+	AddFloatToBuffer(0.5F);
+
+	//printf("SMM: Adding done - %d\n, done);
+	AddIntToBuffer(0);
+
+	//printf("SMM: Adding State Size - %d\n", currentState.size());
+	AddIntToBuffer(intVec.size());
+
+	AddIntToBuffer(floatVec.size());
+
+	printf("Printing Copy of int states...\n");
+	std::vector<int> intStateCpy(intVec);
+	//std::reverse(intStateCpy.begin(), intStateCpy.end());
+	int tmpCount = 0;
+	while (!intStateCpy.empty())
+	{
+		printf("\ti[%d]: %d\n", tmpCount, intStateCpy.back());
+		intStateCpy.pop_back();
+		tmpCount++;
+	}
+
+	int totalCount = 0;
+	int intCount = 0;
+	while (!intVec.empty())
+	{
+		//printf("\tback() -> %d\n", currentState.back());
+		AddIntToBuffer(intVec.back());
+		intVec.pop_back();
+		totalCount++;
+		intCount++;
+	}
+
+	int floatCount = 0;
+	while (!floatVec.empty())
+	{
+		if (floatVec.back() > 1)
+			printf("WARNING - float state > 1: %d", floatCount);
+		//printf("\tback() -> %d\n", currentState.back());
+		AddFloatToBuffer(floatVec.back());
+		floatVec.pop_back();
+		totalCount++;
+		floatCount++;
+	}
+
+	printf("totalCount: %d, intCount: %d, floatCount: %d\n", totalCount, intCount, floatCount);
+
+	// delete currentState; may or may not need this.
+
+	SetAvailability(ENV_AVAILABILITY);
+
 }
 
 void SharedMemoryManager::WaitForAvailability() 
