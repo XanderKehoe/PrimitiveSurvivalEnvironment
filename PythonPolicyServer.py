@@ -13,6 +13,14 @@ from ray.rllib.examples.custom_metrics_and_callbacks import MyCallbacks
 from ray.tune.logger import pretty_print
 from ray.tune.schedulers import ASHAScheduler
 
+import torch
+
+print("CUDA VER: "+str(torch.version.cuda))
+print("CUDA AVAIL: "+str(torch.cuda.is_available()))
+print("CUDA DEV COUNT: "+str(torch.cuda.device_count()))
+
+# print("RAY GPU IDS: "+str(ray.get_gpu_ids()))
+
 SERVER_ADDRESS = "localhost"
 # In this example, the user can run the policy server with
 # n workers, opening up listen ports 9900 - 990n (n = num_workers - 1)
@@ -78,7 +86,7 @@ def get_cli_args():
     parser.add_argument(
         "--framework",
         choices=["tf", "tf2", "tfe", "torch"],
-        default="tf",
+        default="torch",
         help="The DL framework specifier.",
     )
     parser.add_argument(
@@ -146,7 +154,7 @@ def get_cli_args():
 
 if __name__ == "__main__":
     args = get_cli_args()
-    ray.init(num_gpus=1, num_cpus=16)
+    ray.init()
 
     # `InputReader` generator (returns None if no input reader is needed on
     # the respective worker).
@@ -177,7 +185,7 @@ if __name__ == "__main__":
         "input": _input,
         # Use n worker processes to listen on different ports.
         "num_workers": args.num_workers,
-        # Disable OPE, since the rollouts are coming from online clients.
+        "num_gpus": 1,
         "off_policy_estimation_methods": {},
         # Create a "chatty" client/server or not.
         "callbacks": MyCallbacks if args.callbacks_verbose else None,
@@ -225,7 +233,7 @@ if __name__ == "__main__":
                     [0, 5e-5],  # 0? lr_start
                     [args.stop_timesteps, 0.0000000001],  # lr_time, lr_end
                 ],
-                "gamma": 0.995,
+                "gamma": 0.999,
                 "lambda": 0.99,
                 "kl_target": 0.01,
                 "kl_coeff": 0.2,
@@ -235,14 +243,14 @@ if __name__ == "__main__":
                 "entropy_coeff": 0.005,
                 "num_sgd_iter": 30,
                 "sgd_minibatch_size": 128,
-                "rollout_fragment_length": 1000,
-                "train_batch_size": 4000,
+                "rollout_fragment_length": 10000,
+                "train_batch_size": 10000,
                 "model": {
                     "fcnet_hiddens": [1024, 1024],
                     "fcnet_activation": "tanh",
                     # "conv_filters": null,
                     # "conv_activation": "relu",
-                }
+                },
             }
         )
 
@@ -341,7 +349,7 @@ if __name__ == "__main__":
             args.run,
             tune_config=tune.TuneConfig(
                 # num_samples=args.num_samples,
-                scheduler=scheduler
+                scheduler=scheduler,
             ),
             param_space=config,
             run_config=air.RunConfig(

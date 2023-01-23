@@ -1,16 +1,2 @@
-﻿  Animal.cpp
-  AnimalStateAttack.cpp
-  AnimalStateBase.cpp
-  AnimalStateDead.cpp
-  AnimalStateFlee.cpp
-  AnimalStateManager.cpp
-  AnimalStateWander.cpp
-  Entity.cpp
-  Game.cpp
-  HumanAgent.cpp
-  HumanAgentBase.cpp
-  LevelGenerator.cpp
-  PathFinder.cpp
-  Tile.cpp
-  Generating Code...
+﻿  HumanAgentBase.cpp
   PrimitiveSurvivalEnvironment.vcxproj -> C:\Users\Xander\Documents\Coding\Visual Studio Projects\C++\Other\PrimitiveSurvivalEnvironment\Debug\PrimitiveSurvivalEnvironment.exe
